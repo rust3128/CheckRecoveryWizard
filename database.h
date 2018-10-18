@@ -15,12 +15,27 @@
 #define DATABASE_HOSTNAME "OptionsHost"
 #define DATABASE_SQL "./SQL//database.sql"
 
+static bool scriptExecute(QString script)
+{
+    bool result = false;
+    QSqlDatabase dblite = QSqlDatabase::database("options");
+    QSqlQuery q = QSqlQuery(dblite);
+
+    if(!q.exec(script)) {
+        qCritical(logCritical()) << "Ошибка выполнения запроса:"<<endl<< script <<
+                                    "Причина:" << q.lastError().text();
+        result = false;
+    } else {
+        result = true;
+    }
+    return result;
+}
 
 static bool createDatabase()
 {
     bool result = false;
     qInfo(logInfo()) << "Создаем структуру таблиц базы данных.";
-    QString allFile;
+    QString allFile, strSQL;
 
     QFile file(DATABASE_SQL);
     if(file.open(QIODevice::ReadOnly | QIODevice::Text)){
@@ -29,10 +44,13 @@ static bool createDatabase()
         allFile = in.readAll();
         QStringList temp = allFile.split(";");
         for(int i=0;i<temp.size();++i){
-            qInfo(logInfo()) << temp.at(i);
+            strSQL = temp.at(i).simplified();
+            if(strSQL.size()==0) continue;
+            result=scriptExecute(strSQL);
+//            qInfo(logInfo()) << strSQL;
         }
 
-        result = true;
+
     } else {
         qInfo(logInfo()) << "Не возможно открыть SQL файл.";
         result = false;

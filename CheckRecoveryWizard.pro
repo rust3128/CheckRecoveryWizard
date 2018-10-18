@@ -25,10 +25,21 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    loggingcategories.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    database.h \
+    loggingcategories.h
 
 FORMS += \
         mainwindow.ui
+
+DISTFILES += \
+    SQL/database.sql
+
+RESOURCES += \
+    resource.qrc
+
+
