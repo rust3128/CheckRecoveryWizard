@@ -4,5 +4,8 @@
         <file>Icons/logo.png</file>
         <file>Icons/logo128.png</file>
         <file>Icons/list.png</file>
+        <file>Icons/add.png</file>
+        <file>Icons/edit.png</file>
+        <file>Icons/remove.png</file>
     </qresource>
 </RCC>

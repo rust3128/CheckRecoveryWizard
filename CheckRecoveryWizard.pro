@@ -26,15 +26,21 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    loggingcategories.cpp
+    loggingcategories.cpp \
+    ConnectionDialog/connectiondialog.cpp \
+    EditConnDialog/editconndialog.cpp
 
 HEADERS += \
         mainwindow.h \
     database.h \
-    loggingcategories.h
+    loggingcategories.h \
+    ConnectionDialog/connectiondialog.h \
+    EditConnDialog/editconndialog.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    ConnectionDialog/connectiondialog.ui \
+    EditConnDialog/editconndialog.ui
 
 DISTFILES += \
     SQL/database.sql

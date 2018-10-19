@@ -18,6 +18,8 @@ public:
 private slots:
     void on_actionExit_triggered();
 
+    void on_actionClientsList_triggered();
+
 private:
     Ui::MainWindow *ui;
 };
