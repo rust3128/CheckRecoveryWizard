@@ -7,5 +7,6 @@
         <file>Icons/add.png</file>
         <file>Icons/edit.png</file>
         <file>Icons/remove.png</file>
+        <file>Icons/new.png</file>
     </qresource>
 </RCC>

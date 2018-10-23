@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "RecoveryWizard/recoverywizard.h"
 
 namespace Ui {
 class MainWindow;
@@ -15,13 +16,18 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+public slots:
+    void slotShowWiz();                 //отображение мастера
+    void slotHideWiz();                 //Скрытие мастера
+
 private slots:
     void on_actionExit_triggered();
-
     void on_actionClientsList_triggered();
+    void on_action_triggered();
 
 private:
     Ui::MainWindow *ui;
+    RecoveryWizard *recWiz;
 };
 
 #endif // MAINWINDOW_H
