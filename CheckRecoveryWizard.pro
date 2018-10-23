@@ -1,7 +1,7 @@
 #-------------------------------------------------
 #
 # Project created by QtCreator 2018-10-18T12:08:56
-#
+# Rust comm
 #-------------------------------------------------
 
 QT       += core gui sql
@@ -28,19 +28,29 @@ SOURCES += \
         mainwindow.cpp \
     loggingcategories.cpp \
     ConnectionDialog/connectiondialog.cpp \
-    EditConnDialog/editconndialog.cpp
+    EditConnDialog/editconndialog.cpp \
+    RecoveryWizard/recoverywizard.cpp \
+    RecoveryWizard/connectionspage.cpp \
+    RecoveryWizard/terminalspage.cpp
 
 HEADERS += \
         mainwindow.h \
     database.h \
     loggingcategories.h \
     ConnectionDialog/connectiondialog.h \
-    EditConnDialog/editconndialog.h
+    EditConnDialog/editconndialog.h \
+    RecoveryWizard/recoverywizard.h \
+    RecoveryWizard/pagelist.h \
+    RecoveryWizard/connectionspage.h \
+    RecoveryWizard/terminalspage.h
 
 FORMS += \
         mainwindow.ui \
     ConnectionDialog/connectiondialog.ui \
-    EditConnDialog/editconndialog.ui
+    EditConnDialog/editconndialog.ui \
+    RecoveryWizard/recoverywizard.ui \
+    RecoveryWizard/connectionspage.ui \
+    RecoveryWizard/terminalspage.ui
 
 DISTFILES += \
     SQL/database.sql
