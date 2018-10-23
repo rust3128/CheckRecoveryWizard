@@ -17,13 +17,16 @@
    <string>Подключение к центрально базе</string>
   </property>
   <property name="subTitle">
-   <string>Выберите из списка клиента </string>
+   <string>Выберите клиента  из списка</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
     <widget class="QListView" name="listView">
      <property name="editTriggers">
       <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
      </property>
      <property name="selectionBehavior">
       <enum>QAbstractItemView::SelectRows</enum>

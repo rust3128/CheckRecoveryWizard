@@ -28,6 +28,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
     RecoveryWizard *recWiz;
+private:
+    void createUI();
 };
 
 #endif // MAINWINDOW_H

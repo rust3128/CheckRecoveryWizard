@@ -10,7 +10,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    createUI();
     slotHideWiz();
+
 
 }
 
@@ -19,14 +21,22 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::createUI()
+{
+    ui->tableWidget->resizeColumnsToContents();
+    ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
+    ui->tableWidget->verticalHeader()->setDefaultSectionSize(ui->tableWidget->verticalHeader()->minimumSectionSize());
+}
 void MainWindow::slotShowWiz()
 {
     ui->splitter->show();
+    ui->action->setEnabled(false);
 }
 
 void MainWindow::slotHideWiz()
 {
     ui->splitter->hide();
+    ui->action->setEnabled(true);
 }
 
 void MainWindow::on_actionExit_triggered()
@@ -52,3 +62,5 @@ void MainWindow::on_action_triggered()
     slotShowWiz();
 
 }
+
+

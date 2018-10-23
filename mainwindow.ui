@@ -21,34 +21,76 @@
    <bool>true</bool>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QGridLayout" name="gridLayout">
+   <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="0">
      <widget class="QSplitter" name="splitter">
-      <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
-      </property>
-      <property name="midLineWidth">
-       <number>0</number>
-      </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <property name="handleWidth">
-       <number>6</number>
-      </property>
-      <widget class="QWidget" name="verticalLayoutWidget">
+      <widget class="QFrame" name="verticalFrame">
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
        <layout class="QVBoxLayout" name="verticalLayout"/>
       </widget>
-      <widget class="QPlainTextEdit" name="plainTextEdit">
-       <property name="font">
-        <font>
-         <family>Monospace</family>
-         <pointsize>10</pointsize>
-        </font>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="title">
+        <string>Сводная информация по чеку</string>
        </property>
-       <property name="readOnly">
-        <bool>false</bool>
-       </property>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <widget class="QTableWidget" name="tableWidget">
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="alternatingRowColors">
+           <bool>true</bool>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
+          <property name="rowCount">
+           <number>12</number>
+          </property>
+          <property name="columnCount">
+           <number>2</number>
+          </property>
+          <attribute name="horizontalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="verticalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <column/>
+          <column/>
+          <item row="0" column="0">
+           <property name="text">
+            <string>Фирма</string>
+           </property>
+          </item>
+          <item row="1" column="0">
+           <property name="text">
+            <string>Терминал</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
@@ -60,7 +102,7 @@
      <x>0</x>
      <y>0</y>
      <width>876</width>
-     <height>23</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
