@@ -10,12 +10,25 @@ ConnectionsPage::ConnectionsPage(QWidget *parent) :
 
     createModel();
     createUI();
+
+    this->registerField("connID", ui->listView);
+
+
+
 }
 
 ConnectionsPage::~ConnectionsPage()
 {
     delete ui;
 }
+
+bool ConnectionsPage::validatePage()
+{
+    this->setField("connID", modelConnections->data(modelConnections->index(ui->listView->currentIndex().row(),0)).toInt());
+    return true;
+}
+
+
 
 void ConnectionsPage::createModel()
 {
@@ -25,7 +38,7 @@ void ConnectionsPage::createModel()
     modelConnections->setTable("connections");
 
     if(!modelConnections->select()) qCritical(logCritical()) << "Class:"
-                                                            << metaObject()->className() << "Ошибка при создании модели."
+                                                            << metaObject()->className() << "Ошибка при создании модели подключений."
                                                             << modelConnections->lastError().text();
 
 }

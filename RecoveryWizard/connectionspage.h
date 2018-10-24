@@ -13,9 +13,13 @@ class ConnectionsPage : public QWizardPage
 {
     Q_OBJECT
 
+
 public:
     explicit ConnectionsPage(QWidget *parent = 0);
     ~ConnectionsPage();
+
+protected:
+    bool validatePage();
 
 private:
     Ui::ConnectionsPage *ui;
@@ -23,6 +27,7 @@ private:
 private:
     void createModel();
     void createUI();
+
 };
 
 #endif // CONNECTIONSPAGE_H
