@@ -31,7 +31,8 @@ SOURCES += \
     EditConnDialog/editconndialog.cpp \
     RecoveryWizard/recoverywizard.cpp \
     RecoveryWizard/connectionspage.cpp \
-    RecoveryWizard/terminalspage.cpp
+    RecoveryWizard/terminalspage.cpp \
+    RecoveryWizard/shiftspage.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -42,7 +43,8 @@ HEADERS += \
     RecoveryWizard/recoverywizard.h \
     RecoveryWizard/pagelist.h \
     RecoveryWizard/connectionspage.h \
-    RecoveryWizard/terminalspage.h
+    RecoveryWizard/terminalspage.h \
+    RecoveryWizard/shiftspage.h
 
 FORMS += \
         mainwindow.ui \
@@ -50,7 +52,8 @@ FORMS += \
     EditConnDialog/editconndialog.ui \
     RecoveryWizard/recoverywizard.ui \
     RecoveryWizard/connectionspage.ui \
-    RecoveryWizard/terminalspage.ui
+    RecoveryWizard/terminalspage.ui \
+    RecoveryWizard/shiftspage.ui
 
 DISTFILES += \
     SQL/database.sql

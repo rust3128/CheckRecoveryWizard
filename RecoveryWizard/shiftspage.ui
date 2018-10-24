@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ShiftsPage</class>
+ <widget class="QWizardPage" name="ShiftsPage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>486</width>
+    <height>429</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>WizardPage</string>
+  </property>
+  <property name="title">
+   <string>Выбор смены</string>
+  </property>
+  <property name="subTitle">
+   <string>Укажите смену или выберите ее из списка</string>
+  </property>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

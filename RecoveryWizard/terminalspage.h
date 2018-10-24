@@ -21,8 +21,13 @@ signals:
     void sendInfo(int, QString);
 protected:
     void initializePage();
+    bool validatePage();
 private:
     Ui::TerminalsPage *ui;
+    QSqlQueryModel *modelTerminals;
+private:
+    void createModelTerminals();
+    void createUI();
 };
 
 #endif // TERMINALSPAGE_H

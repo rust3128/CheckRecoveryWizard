@@ -15,8 +15,10 @@ RecoveryWizard::RecoveryWizard(QWidget *parent) :
     ui->setupUi(this);
     connPage = new ConnectionsPage();
     termPage = new TerminalsPage();
+    shifPage = new ShiftsPage();
     this->setPage(CONNECTIONS_PAGE, connPage);
     this->setPage(TERMINALS_PAGE, termPage);
+    this->setPage(SHIFTS_PAGE, shifPage);
 
     disconnect( button( QWizard::CancelButton ), &QAbstractButton::clicked, this, &QDialog::reject );
     connect(button(QWizard::CancelButton),&QAbstractButton::clicked,this,&RecoveryWizard::cancelWizard);

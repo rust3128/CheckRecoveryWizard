@@ -4,6 +4,7 @@
 enum {
     CONNECTIONS_PAGE,
     TERMINALS_PAGE,
+    SHIFTS_PAGE,
     FINAL_PAGE
 };
 

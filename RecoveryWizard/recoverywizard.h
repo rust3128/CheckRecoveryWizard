@@ -3,6 +3,7 @@
 
 #include "connectionspage.h"
 #include "terminalspage.h"
+#include "shiftspage.h"
 #include <QWizard>
 
 namespace Ui {
@@ -29,6 +30,7 @@ private:
     Ui::RecoveryWizard *ui;
     TerminalsPage *termPage;
     ConnectionsPage *connPage;
+    ShiftsPage *shifPage;
     int infoRow;
     QString infoText;
 };
