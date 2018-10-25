@@ -22,12 +22,16 @@ signals:
 protected:
     void initializePage();
     bool validatePage();
+private slots:
+    void on_lineEditTerminal_textChanged(const QString &term);
+
 private:
     Ui::TerminalsPage *ui;
+    int idx;
     QSqlQueryModel *modelTerminals;
 private:
     void createModelTerminals();
-    void createUI();
+
 };
 
 #endif // TERMINALSPAGE_H

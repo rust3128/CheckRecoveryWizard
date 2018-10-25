@@ -22,6 +22,7 @@ RecoveryWizard::RecoveryWizard(QWidget *parent) :
 
     disconnect( button( QWizard::CancelButton ), &QAbstractButton::clicked, this, &QDialog::reject );
     connect(button(QWizard::CancelButton),&QAbstractButton::clicked,this,&RecoveryWizard::cancelWizard);
+    connect(connPage,&ConnectionsPage::sendInfo,this,&RecoveryWizard::slotGetPageData);
     connect(termPage,&TerminalsPage::sendInfo,this,&RecoveryWizard::slotGetPageData);
 }
 
@@ -43,13 +44,14 @@ void RecoveryWizard::cancelWizard()
 
 void RecoveryWizard::on_RecoveryWizard_currentIdChanged(int id)
 {
-    switch (id) {
-    case TERMINALS_PAGE:
-        emit signalSendCheckInfo(infoRow,infoText);
-        break;
-    default:
-        break;
-    }
+//    switch (id) {
+//    case TERMINALS_PAGE:
+//        emit signalSendCheckInfo(infoRow,infoText);
+//        break;
+//    default:
+//        break;
+//    }
+    emit signalSendCheckInfo(infoRow,infoText);
 }
 
 void RecoveryWizard::slotGetPageData(int row, QString info)

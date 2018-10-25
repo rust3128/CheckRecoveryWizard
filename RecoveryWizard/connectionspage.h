@@ -4,6 +4,7 @@
 #include <QWizardPage>
 #include <QSqlTableModel>
 #include <QSqlError>
+#include <QSqlQuery>
 
 namespace Ui {
 class ConnectionsPage;
@@ -18,6 +19,9 @@ public:
     explicit ConnectionsPage(QWidget *parent = 0);
     ~ConnectionsPage();
 
+
+signals:
+    void sendInfo(int, QString);
 protected:
     bool validatePage();
 
