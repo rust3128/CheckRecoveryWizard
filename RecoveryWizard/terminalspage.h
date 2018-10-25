@@ -19,11 +19,14 @@ public:
     ~TerminalsPage();
 signals:
     void sendInfo(int, QString);
+    void signalSendCheckData(QString, QVariant);
 protected:
     void initializePage();
     bool validatePage();
 private slots:
     void on_lineEditTerminal_textChanged(const QString &term);
+    void on_toolButtonSelectTerminal_clicked();
+    void getSelectedTerminal(int termID);
 
 private:
     Ui::TerminalsPage *ui;

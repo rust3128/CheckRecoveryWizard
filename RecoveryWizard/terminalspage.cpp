@@ -1,6 +1,7 @@
 #include "terminalspage.h"
 #include "ui_terminalspage.h"
 #include "loggingcategories.h"
+#include "SelectTerminalDialog/selectterminaldialog.h"
 
 
 #include <QMessageBox>
@@ -49,7 +50,8 @@ bool TerminalsPage::validatePage()
         ui->labelOnlineStatus->setStyleSheet("color: rgb(0, 170, 0);font: 75 14pt 'Noto Sans'");
         ui->labelOnlineStatus->setText("АЗС на связи!");
         setField("terminalID",ui->lineEditTerminal->text().trimmed());
-
+        emit sendInfo(1,ui->lineEditTerminal->text().trimmed());
+        emit signalSendCheckData("TERMINAL_ID",ui->lineEditTerminal->text().toInt());
         return true;
     } else {
         qInfo(logInfo()) << "Проверка доступности. Сервер: " << modelTerminals->data(modelTerminals->index(idx,2)).toString() <<  "FireBird НЕ доступен.";
@@ -58,9 +60,6 @@ bool TerminalsPage::validatePage()
         return false;
     }
 
-
-    emit sendInfo(1,field("terminalID").toString());
-    return true;
 }
 
 void TerminalsPage::createModelTerminals()
@@ -79,6 +78,7 @@ void TerminalsPage::createModelTerminals()
 void TerminalsPage::on_lineEditTerminal_textChanged(const QString &term)
 {
     QString strTermInfo = "Не верный номер терминала!";
+    ui->labelOnlineStatus->clear();
     if(term.length()<4 || term.length()>5)
     {
         ui->labelTerminalName->setText(strTermInfo);
@@ -104,4 +104,16 @@ void TerminalsPage::on_lineEditTerminal_textChanged(const QString &term)
         ui->labelTerminalName->setText(strTermInfo);
     }
 
+}
+
+void TerminalsPage::on_toolButtonSelectTerminal_clicked()
+{
+    SelectTerminalDialog *selectTermDlg = new SelectTerminalDialog(modelTerminals);
+    connect(selectTermDlg,&SelectTerminalDialog::sendTerminalID,this,&TerminalsPage::getSelectedTerminal);
+    selectTermDlg->exec();
+}
+
+void TerminalsPage::getSelectedTerminal(int termID)
+{
+    ui->lineEditTerminal->setText(QString::number(termID));
 }

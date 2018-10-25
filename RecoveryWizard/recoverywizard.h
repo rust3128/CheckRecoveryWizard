@@ -19,9 +19,9 @@ signals:
     void signalSendCheckInfo(int,QString);
 private slots:
     void cancelWizard();
-    void on_RecoveryWizard_currentIdChanged(int id);
+    void on_RecoveryWizard_currentIdChanged();
     void slotGetPageData(int row, QString info);
-
+    void slotSetLostCheckData(QString key, QVariant data);
 public:
     explicit RecoveryWizard(QWidget *parent = 0);
     ~RecoveryWizard();
@@ -33,6 +33,9 @@ private:
     ShiftsPage *shifPage;
     int infoRow;
     QString infoText;
+    QHash<QString, QVariant> lostCheckFuel;
+private:
+    void initLostCheckFuel();
 };
 
 #endif // RECOVERYWIZARD_H
