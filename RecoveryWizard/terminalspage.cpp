@@ -13,7 +13,7 @@ TerminalsPage::TerminalsPage(QWidget *parent) :
     ui(new Ui::TerminalsPage)
 {
     ui->setupUi(this);
-    registerField("terminalID",ui->lineEditTerminal);
+    registerField("terminalID*",ui->lineEditTerminal);
     ui->lineEditTerminal->setValidator(new QIntValidator(0,65536,ui->lineEditTerminal));
 }
 
@@ -38,7 +38,6 @@ void TerminalsPage::initializePage()
 bool TerminalsPage::validatePage()
 {
     if(ui->lineEditTerminal->text().trimmed().size()< 4){
-        ui->labelTerminalName->setText("Не верный номер терминала.");
         ui->labelTerminalName->setStyleSheet("color: red;");
         return false;
     }

@@ -40,6 +40,9 @@
        <layout class="QGridLayout" name="gridLayout">
         <item row="0" column="0">
          <widget class="QTableWidget" name="tableWidget">
+          <property name="styleSheet">
+           <string notr="true">alternate-background-color: rgb(255, 255, 127);</string>
+          </property>
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
@@ -59,10 +62,10 @@
            <number>2</number>
           </property>
           <attribute name="horizontalHeaderVisible">
-           <bool>false</bool>
+           <bool>true</bool>
           </attribute>
           <attribute name="verticalHeaderVisible">
-           <bool>false</bool>
+           <bool>true</bool>
           </attribute>
           <row/>
           <row/>
@@ -88,6 +91,21 @@
             <string>Терминал</string>
            </property>
           </item>
+          <item row="2" column="0">
+           <property name="text">
+            <string>Смена</string>
+           </property>
+          </item>
+          <item row="3" column="0">
+           <property name="text">
+            <string>Дата, время чека</string>
+           </property>
+          </item>
+          <item row="4" column="0">
+           <property name="text">
+            <string>№ чека</string>
+           </property>
+          </item>
          </widget>
         </item>
        </layout>
@@ -102,7 +120,7 @@
      <x>0</x>
      <y>0</y>
      <width>876</width>
-     <height>21</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
