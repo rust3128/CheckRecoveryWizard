@@ -1,6 +1,7 @@
 #include "shiftspage.h"
 #include "ui_shiftspage.h"
 #include "loggingcategories.h"
+#include "pagelist.h"
 #include "SelectShiftDialog/selectshiftdialog.h"
 
 ShiftsPage::ShiftsPage(QWidget *parent) :
@@ -21,6 +22,52 @@ ShiftsPage::~ShiftsPage()
 void ShiftsPage::initializePage()
 {
     createModelShifts();
+}
+
+bool ShiftsPage::validatePage()
+{
+    QString strSQL;
+    QSqlDatabase dbcenter = QSqlDatabase::database("central");
+    QSqlQuery *q = new QSqlQuery(dbcenter);
+    if(ui->radioButtonFuel->isChecked() || ui->radioButtonFuelArticles->isChecked()){
+        strSQL=QString("SELECT COUNT(*) FROM saleorders s "
+                       "WHERE s.terminal_id=%1 AND s.shift_id=%2 AND s.num_check=%3")
+                .arg(field("terminalID").toInt())
+                .arg(field("shiftID").toInt())
+                .arg(field("numCheck").toInt());
+    } else {
+        strSQL=QString("SELECT COUNT(*) FROM asales s "
+                       "WHERE s.terminal_id=%1 AND s.shift_id=%2 AND s.numbercheck=%3")
+                .arg(field("terminalID").toInt())
+                .arg(field("shiftID").toInt())
+                .arg(field("numCheck").toInt());
+    }
+    qInfo(logInfo()) << "Str SQL " << strSQL;
+    if(!q->exec(strSQL)) {
+        qCritical(logCritical()) <<  QString("Class: %1 Metod: %2. Не возможно получить информации о наличии чека.")
+                                             .arg(this->metaObject()->className())
+                                             .arg(Q_FUNC_INFO);
+        ui->labelDublicateNumCheck->setText("Не возможно получить информации о наличии чека.");
+        return false;
+    }
+    q->next();
+    if(q->value(0) != 0){
+        ui->labelDublicateNumCheck->setText(QString("Чек с № %1 уже есть в базе данных АЗС.")
+                                            .arg(ui->lineEditNumCheck->text()));
+        return false;
+    }
+    qInfo(logInfo()) << "SHIFT NUM OK" << m_shiftNumOK;
+    return m_shiftNumOK;
+}
+
+int ShiftsPage::nextId()
+{
+    if(ui->radioButtonFuel->isChecked() || ui->radioButtonFuelArticles->isChecked()){
+        return FUELDATA_PAGE;
+    } else {
+        return ARTICLES_DATA_PAGE;
+    }
+
 }
 
 void ShiftsPage::createUI()
@@ -64,11 +111,12 @@ void ShiftsPage::on_lineEditShiftID_textChanged(const QString &arg1)
                     "\nНачало смены: "+modelShifts->data(modelShifts->index(i,2)).toDateTime().toString("dd.MM.yyyy hh.mm") +
                     "\nZ-отчет № "+modelShifts->data(modelShifts->index(i,1)).toString());
 //            shiftDate = modelShifts->data(modelShifts->index(i,2)).toDate();
-
+            m_shiftNumOK=true;
             return;
         }
     }
     ui->labelShiftData->setText("Не верный номер смены.");
+    m_shiftNumOK=false;
 }
 
 void ShiftsPage::on_toolButton_clicked()

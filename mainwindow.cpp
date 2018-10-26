@@ -25,9 +25,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::createUI()
 {
+    ui->tableWidget->setHorizontalHeaderItem(0, new QTableWidgetItem("Параметр"));
+    ui->tableWidget->setHorizontalHeaderItem(1, new QTableWidgetItem("Значение"));
     ui->tableWidget->resizeColumnsToContents();
     ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
     ui->tableWidget->verticalHeader()->setDefaultSectionSize(ui->tableWidget->verticalHeader()->minimumSectionSize());
+    ui->tableWidget->setEnabled(false);
 }
 void MainWindow::slotShowWiz()
 {

@@ -4,6 +4,7 @@
 #include <QWizardPage>
 #include <QSqlQueryModel>
 #include <QSqlError>
+#include <QSqlQuery>
 
 namespace Ui {
 class ShiftsPage;
@@ -19,6 +20,8 @@ public:
 
 protected:
     void initializePage();
+    bool validatePage();
+    int nextId();
 private slots:
     void on_lineEditShiftID_textChanged(const QString &arg1);
     void on_toolButton_clicked();
@@ -27,6 +30,7 @@ private slots:
 private:
     Ui::ShiftsPage *ui;
     QSqlQueryModel *modelShifts;
+    bool m_shiftNumOK;
 private:
     void createUI();
     void createModelShifts();
