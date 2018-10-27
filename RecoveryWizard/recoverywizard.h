@@ -4,6 +4,7 @@
 #include "connectionspage.h"
 #include "terminalspage.h"
 #include "shiftspage.h"
+#include "fuelpage.h"
 #include <QWizard>
 
 namespace Ui {
@@ -31,6 +32,7 @@ private:
     TerminalsPage *termPage;
     ConnectionsPage *connPage;
     ShiftsPage *shifPage;
+    FuelPage *fuelPage;
     int infoRow;
     QString infoText;
     QHash<QString, QVariant> lostCheckFuel;

@@ -33,18 +33,20 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="2">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+   <item row="4" column="0" colspan="3">
+    <widget class="QLabel" name="labelDublicateNumCheck">
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
      </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 0, 0);</string>
      </property>
-    </spacer>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
    </item>
    <item row="5" column="1">
     <spacer name="verticalSpacer">
@@ -58,6 +60,40 @@
       </size>
      </property>
     </spacer>
+   </item>
+   <item row="1" column="2">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="3" column="0" colspan="3">
+    <widget class="QLabel" name="labelShiftData">
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+     <property name="margin">
+      <number>1</number>
+     </property>
+    </widget>
    </item>
    <item row="1" column="0" colspan="2">
     <layout class="QFormLayout" name="formLayout">
@@ -114,15 +150,25 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
+     <item row="3" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
         <string>№ чека</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
+     <item row="3" column="1">
       <widget class="QLineEdit" name="lineEditNumCheck"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="LabelPoss">
+       <property name="text">
+        <string>Касса:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QComboBox" name="comboBoxPoss"/>
      </item>
     </layout>
    </item>
@@ -157,42 +203,6 @@
        </widget>
       </item>
      </layout>
-    </widget>
-   </item>
-   <item row="3" column="0" colspan="3">
-    <widget class="QLabel" name="labelShiftData">
-     <property name="font">
-      <font>
-       <pointsize>12</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-     <property name="margin">
-      <number>1</number>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0" colspan="3">
-    <widget class="QLabel" name="labelDublicateNumCheck">
-     <property name="font">
-      <font>
-       <pointsize>12</pointsize>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">color: rgb(255, 0, 0);</string>
-     </property>
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
     </widget>
    </item>
   </layout>

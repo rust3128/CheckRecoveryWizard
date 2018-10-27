@@ -30,10 +30,12 @@ private slots:
 private:
     Ui::ShiftsPage *ui;
     QSqlQueryModel *modelShifts;
+    QSqlQueryModel *modelPoss;
     bool m_shiftNumOK;
 private:
     void createUI();
     void createModelShifts();
+    void createModelPoss();
 };
 
 #endif // SHIFTSPAGE_H

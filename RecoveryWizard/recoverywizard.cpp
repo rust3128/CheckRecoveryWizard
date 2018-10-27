@@ -20,9 +20,12 @@ RecoveryWizard::RecoveryWizard(QWidget *parent) :
     connPage = new ConnectionsPage();
     termPage = new TerminalsPage();
     shifPage = new ShiftsPage();
+    fuelPage = new FuelPage();
+
     this->setPage(CONNECTIONS_PAGE, connPage);
     this->setPage(TERMINALS_PAGE, termPage);
     this->setPage(SHIFTS_PAGE, shifPage);
+    this->setPage(FUELDATA_PAGE, fuelPage);
 
     disconnect( button( QWizard::CancelButton ), &QAbstractButton::clicked, this, &QDialog::reject );
     connect(button(QWizard::CancelButton),&QAbstractButton::clicked,this,&RecoveryWizard::cancelWizard);

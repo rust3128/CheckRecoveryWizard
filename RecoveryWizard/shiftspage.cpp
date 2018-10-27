@@ -11,7 +11,7 @@ ShiftsPage::ShiftsPage(QWidget *parent) :
     ui->setupUi(this);
     this->registerField("shiftID*",ui->lineEditShiftID);
     this->registerField("numCheck*", ui->lineEditNumCheck);
-    createUI();
+
 }
 
 ShiftsPage::~ShiftsPage()
@@ -21,7 +21,10 @@ ShiftsPage::~ShiftsPage()
 
 void ShiftsPage::initializePage()
 {
+
     createModelShifts();
+    createModelPoss();
+    createUI();
 }
 
 bool ShiftsPage::validatePage()
@@ -42,7 +45,7 @@ bool ShiftsPage::validatePage()
                 .arg(field("shiftID").toInt())
                 .arg(field("numCheck").toInt());
     }
-    qInfo(logInfo()) << "Str SQL " << strSQL;
+
     if(!q->exec(strSQL)) {
         qCritical(logCritical()) <<  QString("Class: %1 Metod: %2. Не возможно получить информации о наличии чека.")
                                              .arg(this->metaObject()->className())
@@ -56,7 +59,6 @@ bool ShiftsPage::validatePage()
                                             .arg(ui->lineEditNumCheck->text()));
         return false;
     }
-    qInfo(logInfo()) << "SHIFT NUM OK" << m_shiftNumOK;
     return m_shiftNumOK;
 }
 
@@ -77,6 +79,9 @@ void ShiftsPage::createUI()
     ui->dateTimeEdit->setDateTime(QDateTime::currentDateTime());
     ui->labelShiftData->clear();
     ui->labelDublicateNumCheck->clear();
+
+    ui->comboBoxPoss->setModel(modelPoss);
+    ui->comboBoxPoss->setModelColumn(1);
 }
 
 void ShiftsPage::createModelShifts()
@@ -96,6 +101,21 @@ void ShiftsPage::createModelShifts()
     }
     while(modelShifts->canFetchMore())
         modelShifts->fetchMore();
+}
+
+void ShiftsPage::createModelPoss()
+{
+    QSqlDatabase dbcenter = QSqlDatabase::database("central");
+    QString strSQL = QString("SELECT p.pos_id, p.name FROM poss p where p.terminal_id=%1")
+            .arg(field("terminalID").toInt());
+    modelPoss = new QSqlQueryModel();
+    modelPoss->setQuery(strSQL,dbcenter);
+    if(modelPoss->rowCount()==0){
+        qCritical(logCritical()) <<  QString("Class: %1 Metod: %2. Не возможно создать модель смен.")
+                                             .arg(this->metaObject()->className())
+                                             .arg(Q_FUNC_INFO);
+        return;
+    }
 }
 
 void ShiftsPage::on_lineEditShiftID_textChanged(const QString &arg1)
