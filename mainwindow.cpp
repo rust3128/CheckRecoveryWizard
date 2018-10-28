@@ -72,6 +72,7 @@ void MainWindow::slotCheckInfoUpdate(int row, QString value)
 {
     QTableWidgetItem *item = new QTableWidgetItem();
     item->setText(value);
+    qInfo(logInfo()) << "Row" << row << "value " << value;
     ui->tableWidget->setItem(row,1,item);
 }
 

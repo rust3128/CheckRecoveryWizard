@@ -2,6 +2,7 @@
 #define FUELPAGE_H
 
 #include <QWizardPage>
+#include <QVariant>
 
 namespace Ui {
 class FuelPage;
@@ -15,8 +16,16 @@ public:
     explicit FuelPage(QWidget *parent = 0);
     ~FuelPage();
 
+signals:
+    void sendInfo(int, QString);
+    void signalSendCheckData(QString, QVariant);
+
+protected:
+    void initializePage();
 private:
     Ui::FuelPage *ui;
+private:
+    void sendDataTo();
 };
 
 #endif // FUELPAGE_H

@@ -17,7 +17,9 @@ class ShiftsPage : public QWizardPage
 public:
     explicit ShiftsPage(QWidget *parent = 0);
     ~ShiftsPage();
-
+signals:
+    void sendInfo(int, QString);
+    void signalSendCheckData(QString, QVariant);
 protected:
     void initializePage();
     bool validatePage();
@@ -25,7 +27,10 @@ protected:
 private slots:
     void on_lineEditShiftID_textChanged(const QString &arg1);
     void on_toolButton_clicked();
-    void slotGetTerminals(int terminalID);
+    void slotGetShifts(int shiftID);
+//    void on_comboBoxPoss_activated(int idx);
+
+    void on_comboBoxPoss_currentIndexChanged(int idx);
 
 private:
     Ui::ShiftsPage *ui;
@@ -36,6 +41,7 @@ private:
     void createUI();
     void createModelShifts();
     void createModelPoss();
+    void sendDataTo();
 };
 
 #endif // SHIFTSPAGE_H

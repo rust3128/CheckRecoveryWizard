@@ -8,10 +8,7 @@ ConnectionsPage::ConnectionsPage(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    createModel();
-    createUI();
-
-    this->registerField("connID", ui->listView);
+    this->registerField("connName", ui->listView);
 
 
 
@@ -24,13 +21,15 @@ ConnectionsPage::~ConnectionsPage()
 
 bool ConnectionsPage::validatePage()
 {
-    this->setField("connID", modelConnections->data(modelConnections->index(ui->listView->currentIndex().row(),0)).toInt());
+
+
+
 
     QSqlDatabase dblite = QSqlDatabase::database("options");
     QSqlQuery *q = new QSqlQuery(dblite);
 
     q->prepare("SELECT * FROM connections WHERE conn_id=:connID");
-    q->bindValue(":connID",field("connID").toInt());
+    q->bindValue(":connID",modelConnections->data(modelConnections->index(ui->listView->currentIndex().row(),0)).toInt());
     if(!q->exec()) qCritical(logCritical()) << "Class:"
                                            << metaObject()->className() << "Ошибка при получении параметров подключения."
                                            << q->lastError().text();
@@ -54,10 +53,16 @@ bool ConnectionsPage::validatePage()
     } else {
 
     ui->labelInfo->clear();
-    emit sendInfo(0,q->value("conn_name").toString());
 
+    this->setField("connName", modelConnections->data(modelConnections->index(ui->listView->currentIndex().row(),1)).toString());
     return true;
     }
+}
+
+void ConnectionsPage::initializePage()
+{
+    createModel();
+    createUI();
 }
 
 

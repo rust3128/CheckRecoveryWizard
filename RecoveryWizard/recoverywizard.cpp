@@ -19,19 +19,26 @@ RecoveryWizard::RecoveryWizard(QWidget *parent) :
 
     connPage = new ConnectionsPage();
     termPage = new TerminalsPage();
-    shifPage = new ShiftsPage();
+    shiftPage = new ShiftsPage();
     fuelPage = new FuelPage();
 
     this->setPage(CONNECTIONS_PAGE, connPage);
     this->setPage(TERMINALS_PAGE, termPage);
-    this->setPage(SHIFTS_PAGE, shifPage);
+    this->setPage(SHIFTS_PAGE, shiftPage);
     this->setPage(FUELDATA_PAGE, fuelPage);
 
     disconnect( button( QWizard::CancelButton ), &QAbstractButton::clicked, this, &QDialog::reject );
     connect(button(QWizard::CancelButton),&QAbstractButton::clicked,this,&RecoveryWizard::cancelWizard);
-    connect(connPage,&ConnectionsPage::sendInfo,this,&RecoveryWizard::slotGetPageData);
+
     connect(termPage,&TerminalsPage::sendInfo,this,&RecoveryWizard::slotGetPageData);
-    connect(termPage,&TerminalsPage::signalSendCheckData,this,&RecoveryWizard::slotSetLostCheckData);
+
+
+    connect(shiftPage,&ShiftsPage::sendInfo,this,&RecoveryWizard::slotGetPageData);
+    connect(shiftPage,&ShiftsPage::signalSendCheckData,this,&RecoveryWizard::slotSetLostCheckData);
+
+    connect(fuelPage,&FuelPage::sendInfo,this,&RecoveryWizard::slotGetPageData);
+    connect(fuelPage,&FuelPage::signalSendCheckData,this,&RecoveryWizard::slotSetLostCheckData);
+
 }
 
 RecoveryWizard::~RecoveryWizard()
@@ -98,6 +105,7 @@ void RecoveryWizard::on_RecoveryWizard_currentIdChanged()
 //    default:
 //        break;
 //    }
+    qInfo(logInfo()) << "Current ID changed:ROW" << infoRow << "Text" << infoText;
     emit signalSendCheckInfo(infoRow,infoText);
 }
 
@@ -105,6 +113,8 @@ void RecoveryWizard::slotGetPageData(int row, QString info)
 {
     infoRow=row;
     infoText=info;
+
+
 }
 
 void RecoveryWizard::slotSetLostCheckData(QString key, QVariant data)
@@ -112,15 +122,15 @@ void RecoveryWizard::slotSetLostCheckData(QString key, QVariant data)
     if(lostCheckFuel.contains(key)){
         lostCheckFuel[key] = data;
     } else {
-        qCritical(logCritical()) <<  QString("Class: %1 Metod: %2. Не верный ключ ХЕШ данных для процедуры.")
+        qCritical(logCritical()) <<  QString("Class: %1 Metod: %2. Не верный ключ ХЕШ данных для процедуры: "+key+".")
                                      .arg(this->metaObject()->className())
                                      .arg(Q_FUNC_INFO);
     }
-    QHashIterator<QString, QVariant> i(lostCheckFuel);
-    while (i.hasNext()) {
-        i.next();
-        qInfo(logInfo()) << i.key() << ": " << i.value();
-    }
+//    QHashIterator<QString, QVariant> i(lostCheckFuel);
+//    while (i.hasNext()) {
+//        i.next();
+//        qInfo(logInfo()) << i.key() << ": " << i.value();
+//    }
 
 }
 

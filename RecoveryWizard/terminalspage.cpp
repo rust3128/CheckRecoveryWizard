@@ -29,10 +29,16 @@ void TerminalsPage::initializePage()
 //    this->setTitle("Выбрана база c ID="+field("connID").toString());
 
 //
+    sendDataInto();
     ui->labelTerminalName->clear();
     ui->labelOnlineStatus->clear();
     createModelTerminals();
 
+}
+
+void TerminalsPage::sendDataInto()
+{
+    emit sendInfo(0,field("connName").toString());
 }
 
 bool TerminalsPage::validatePage()
@@ -49,8 +55,8 @@ bool TerminalsPage::validatePage()
         ui->labelOnlineStatus->setStyleSheet("color: rgb(0, 170, 0);font: 75 14pt 'Noto Sans'");
         ui->labelOnlineStatus->setText("АЗС на связи!");
         setField("terminalID",ui->lineEditTerminal->text().trimmed());
-        emit sendInfo(1,ui->lineEditTerminal->text().trimmed());
-        emit signalSendCheckData("TERMINAL_ID",ui->lineEditTerminal->text().toInt());
+//        emit sendInfo(1,ui->lineEditTerminal->text().trimmed());
+//        emit signalSendCheckData("TERMINAL_ID",ui->lineEditTerminal->text().toInt());
         return true;
     } else {
         qInfo(logInfo()) << "Проверка доступности. Сервер: " << modelTerminals->data(modelTerminals->index(idx,2)).toString() <<  "FireBird НЕ доступен.";
@@ -70,6 +76,8 @@ void TerminalsPage::createModelTerminals()
                              "WHERE t.TERMINALTYPE=3 and t.ISACTIVE='T' and c.CONNECT_ID=2 "
                              "ORDER BY t.TERMINAL_ID",dbcenter);
 }
+
+
 
 
 

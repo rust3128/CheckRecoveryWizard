@@ -31,7 +31,7 @@ private:
     Ui::RecoveryWizard *ui;
     TerminalsPage *termPage;
     ConnectionsPage *connPage;
-    ShiftsPage *shifPage;
+    ShiftsPage *shiftPage;
     FuelPage *fuelPage;
     int infoRow;
     QString infoText;

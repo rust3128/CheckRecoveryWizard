@@ -101,10 +101,15 @@
           </item>
           <item row="3" column="0">
            <property name="text">
-            <string>Дата, время чека</string>
+            <string>Касса</string>
            </property>
           </item>
           <item row="4" column="0">
+           <property name="text">
+            <string>Дата, время чека</string>
+           </property>
+          </item>
+          <item row="5" column="0">
            <property name="text">
             <string>№ чека</string>
            </property>
