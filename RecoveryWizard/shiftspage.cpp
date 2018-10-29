@@ -12,7 +12,7 @@ ShiftsPage::ShiftsPage(QWidget *parent) :
     this->registerField("shiftID*",ui->lineEditShiftID);
     this->registerField("numCheck*", ui->lineEditNumCheck);
     this->registerField("checkDate",ui->dateTimeEdit);
-    this->registerField("posID",ui->comboBoxPoss);
+    this->registerField("posID",ui->comboBoxPoss,"currentID", SIGNAL(currentIndexChadged(int)));
 
 }
 
@@ -37,6 +37,7 @@ void ShiftsPage::sendDataTo()
 
 bool ShiftsPage::validatePage()
 {
+    qInfo(logInfo) << "Called  ShiftsPage::validatePage()";
     QString strSQL;
     QSqlDatabase dbcenter = QSqlDatabase::database("central");
     QSqlQuery *q = new QSqlQuery(dbcenter);
@@ -119,6 +120,8 @@ void ShiftsPage::createModelShifts()
 void ShiftsPage::createModelPoss()
 {
     QSqlDatabase dbcenter = QSqlDatabase::database("central");
+    qInfo(logInfo) << "Called  ShiftsPage::createModelPoss"
+                      "()";
     QString strSQL = QString("SELECT p.pos_id, p.name FROM poss p where p.terminal_id=%1")
             .arg(field("terminalID").toInt());
     this->modelPoss = new QSqlQueryModel(this);
@@ -127,7 +130,7 @@ void ShiftsPage::createModelPoss()
         qCritical(logCritical()) <<  QString("Class: %1 Metod: %2. Не возможно создать модель смен.")
                                              .arg(this->metaObject()->className())
                                              .arg(Q_FUNC_INFO);
-        return;
+
     }
 }
 
@@ -168,19 +171,20 @@ void ShiftsPage::slotGetShifts(int shiftID)
 }
 
 
-//void ShiftsPage::on_comboBoxPoss_activated(int idx)
-//{
-//    QModelIndex indexModel=modelPoss->index(idx,0,QModelIndex());
-//    int possID = modelPoss->data(indexModel, Qt::DisplayRole).toInt();
-//    qInfo(logInfo) << "POS ID current" << possID;
-//    this->setField("posID",possID);
-
-//}
-
-void ShiftsPage::on_comboBoxPoss_currentIndexChanged(int idx)
+void ShiftsPage::on_comboBoxPoss_activated(int idx)
 {
-        QModelIndex indexModel=modelPoss->index(idx,0,QModelIndex());
-        int possID = modelPoss->data(indexModel, Qt::DisplayRole).toInt();
-        qInfo(logInfo) << "POS ID current" << possID;
-        this->setField("posID",possID);
+    QModelIndex indexModel=modelPoss->index(idx,0,QModelIndex());
+    int possID = modelPoss->data(indexModel, Qt::DisplayRole).toInt();
+    qInfo(logInfo) << "POS ID current" << possID;
+    this->setField("posID",possID);
+
+
 }
+
+//void ShiftsPage::on_comboBoxPoss_currentIndexChanged(int idx)
+//{
+//        QModelIndex indexModel=modelPoss->index(idx,0,QModelIndex());
+//        int possID = modelPoss->data(indexModel, Qt::DisplayRole).toInt();
+//        qInfo(logInfo) << "POS ID current" << possID;
+//        this->setField("posID",possID);
+//}

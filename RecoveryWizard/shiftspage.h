@@ -28,9 +28,9 @@ private slots:
     void on_lineEditShiftID_textChanged(const QString &arg1);
     void on_toolButton_clicked();
     void slotGetShifts(int shiftID);
-//    void on_comboBoxPoss_activated(int idx);
+    void on_comboBoxPoss_activated(int idx);
 
-    void on_comboBoxPoss_currentIndexChanged(int idx);
+//    void on_comboBoxPoss_currentIndexChanged(int idx);
 
 private:
     Ui::ShiftsPage *ui;
