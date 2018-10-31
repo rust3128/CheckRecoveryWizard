@@ -5,6 +5,7 @@
 #include "terminalspage.h"
 #include "shiftspage.h"
 #include "fuelpage.h"
+
 #include <QWizard>
 
 namespace Ui {
@@ -18,9 +19,10 @@ class RecoveryWizard : public QWizard
 signals:
     void signalHideWiz();
     void signalSendCheckInfo(int,QString);
+
 private slots:
     void cancelWizard();
-    void on_RecoveryWizard_currentIdChanged();
+//    void on_RecoveryWizard_currentIdChanged(int id);
     void slotGetPageData(int row, QString info);
     void slotSetLostCheckData(QString key, QVariant data);
 public:
@@ -33,9 +35,9 @@ private:
     ConnectionsPage *connPage;
     ShiftsPage *shiftPage;
     FuelPage *fuelPage;
-    int infoRow;
-    QString infoText;
+
     QHash<QString, QVariant> lostCheckFuel;
+
 private:
     void initLostCheckFuel();
 };

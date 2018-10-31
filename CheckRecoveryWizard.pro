@@ -32,9 +32,9 @@ SOURCES += \
     RecoveryWizard/recoverywizard.cpp \
     RecoveryWizard/connectionspage.cpp \
     RecoveryWizard/terminalspage.cpp \
-    RecoveryWizard/shiftspage.cpp \
     SelectTerminalDialog/selectterminaldialog.cpp \
     SelectShiftDialog/selectshiftdialog.cpp \
+    RecoveryWizard/shiftspage.cpp \
     RecoveryWizard/fuelpage.cpp
 
 HEADERS += \
@@ -47,9 +47,9 @@ HEADERS += \
     RecoveryWizard/pagelist.h \
     RecoveryWizard/connectionspage.h \
     RecoveryWizard/terminalspage.h \
-    RecoveryWizard/shiftspage.h \
     SelectTerminalDialog/selectterminaldialog.h \
     SelectShiftDialog/selectshiftdialog.h \
+    RecoveryWizard/shiftspage.h \
     RecoveryWizard/fuelpage.h
 
 FORMS += \
@@ -59,9 +59,9 @@ FORMS += \
     RecoveryWizard/recoverywizard.ui \
     RecoveryWizard/connectionspage.ui \
     RecoveryWizard/terminalspage.ui \
-    RecoveryWizard/shiftspage.ui \
     SelectTerminalDialog/selectterminaldialog.ui \
     SelectShiftDialog/selectshiftdialog.ui \
+    RecoveryWizard/shiftspage.ui \
     RecoveryWizard/fuelpage.ui
 
 DISTFILES += \

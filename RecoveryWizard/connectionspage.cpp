@@ -8,7 +8,7 @@ ConnectionsPage::ConnectionsPage(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    this->registerField("connName", ui->listView);
+
 
 
 
@@ -21,10 +21,6 @@ ConnectionsPage::~ConnectionsPage()
 
 bool ConnectionsPage::validatePage()
 {
-
-
-
-
     QSqlDatabase dblite = QSqlDatabase::database("options");
     QSqlQuery *q = new QSqlQuery(dblite);
 
@@ -54,7 +50,8 @@ bool ConnectionsPage::validatePage()
 
     ui->labelInfo->clear();
 
-    this->setField("connName", modelConnections->data(modelConnections->index(ui->listView->currentIndex().row(),1)).toString());
+//    this->setField("connName", modelConnections->data(modelConnections->index(ui->listView->currentIndex().row(),1)).toString());
+    emit sendInfo(0, modelConnections->data(modelConnections->index(ui->listView->currentIndex().row(),1)).toString());
     return true;
     }
 }

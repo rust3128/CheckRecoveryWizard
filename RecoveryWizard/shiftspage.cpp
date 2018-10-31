@@ -11,8 +11,6 @@ ShiftsPage::ShiftsPage(QWidget *parent) :
     ui->setupUi(this);
     this->registerField("shiftID*",ui->lineEditShiftID);
     this->registerField("numCheck*", ui->lineEditNumCheck);
-    this->registerField("checkDate",ui->dateTimeEdit);
-    this->registerField("posID",ui->comboBoxPoss,"currentID", SIGNAL(currentIndexChadged(int)));
 
 }
 
@@ -23,21 +21,15 @@ ShiftsPage::~ShiftsPage()
 
 void ShiftsPage::initializePage()
 {
-    sendDataTo();
     createModelShifts();
     createModelPoss();
     createUI();
-    qInfo(logInfo) << "Called  ShiftsPage::initializePage()";
 }
-void ShiftsPage::sendDataTo()
-{
-    emit sendInfo(1, field("terminalID").toString());
-    emit signalSendCheckData("TERMINAL_ID", field("terminalID").toInt());
-}
+
 
 bool ShiftsPage::validatePage()
 {
-    qInfo(logInfo) << "Called  ShiftsPage::validatePage()";
+
     QString strSQL;
     QSqlDatabase dbcenter = QSqlDatabase::database("central");
     QSqlQuery *q = new QSqlQuery(dbcenter);
@@ -67,10 +59,26 @@ bool ShiftsPage::validatePage()
         ui->labelDublicateNumCheck->setText(QString("Чек с № %1 уже есть в базе данных АЗС.")
                                             .arg(ui->lineEditNumCheck->text()));
         return false;
+    } else {
+        ui->labelDublicateNumCheck->clear();
     }
+    if(possID<0){
+        ui->labelPossInfo->setText("Не выбран номер кассы.");
+        return false;
+    }
+
     setField("shiftID",ui->lineEditShiftID->text().toInt());
-    setField("numCheck",ui->lineEditNumCheck->text().toInt());
-    setField("checkDate",ui->dateTimeEdit->date());
+    emit sendInfo(2,ui->lineEditShiftID->text().trimmed());
+    emit signalSendCheckData("SHIFT_ID",ui->lineEditShiftID->text().toInt());
+
+    emit sendInfo(3,QString::number(possID));
+    emit signalSendCheckData("POS_ID",possID);
+
+    emit sendInfo(4,ui->dateTimeEdit->text());
+    emit signalSendCheckData("DAT",ui->dateTimeEdit->dateTime().toString("yyyy/MM/dd hh:mm:ss"));
+
+    emit sendInfo(5,ui->lineEditNumCheck->text());
+    emit signalSendCheckData("NUM_CHECK",ui->lineEditNumCheck->text().toInt());
 
     return m_shiftNumOK;
 }
@@ -92,10 +100,13 @@ void ShiftsPage::createUI()
     ui->dateTimeEdit->setDateTime(QDateTime::currentDateTime());
     ui->labelShiftData->clear();
     ui->labelDublicateNumCheck->clear();
+    ui->labelPossInfo->clear();
 
+    possID=-1;
     ui->comboBoxPoss->setModel(this->modelPoss);
     ui->comboBoxPoss->setModelColumn(1);
-    ui->comboBoxPoss->setCurrentIndex(-1);
+    ui->comboBoxPoss->setCurrentIndex(possID);
+
 }
 
 void ShiftsPage::createModelShifts()
@@ -120,8 +131,6 @@ void ShiftsPage::createModelShifts()
 void ShiftsPage::createModelPoss()
 {
     QSqlDatabase dbcenter = QSqlDatabase::database("central");
-    qInfo(logInfo) << "Called  ShiftsPage::createModelPoss"
-                      "()";
     QString strSQL = QString("SELECT p.pos_id, p.name FROM poss p where p.terminal_id=%1")
             .arg(field("terminalID").toInt());
     this->modelPoss = new QSqlQueryModel(this);
@@ -132,6 +141,7 @@ void ShiftsPage::createModelPoss()
                                              .arg(Q_FUNC_INFO);
 
     }
+    qInfo(logInfo()) << "Индекс при создали моделей касс "<< ui->comboBoxPoss->currentIndex();
 }
 
 
@@ -148,7 +158,7 @@ void ShiftsPage::on_lineEditShiftID_textChanged(const QString &arg1)
             ui->labelShiftData->setText("Смена № "+modelShifts->data(modelShifts->index(i,0)).toString() +
                     "\nНачало смены: "+modelShifts->data(modelShifts->index(i,2)).toDateTime().toString("dd.MM.yyyy hh.mm") +
                     "\nZ-отчет № "+modelShifts->data(modelShifts->index(i,1)).toString());
-//            shiftDate = modelShifts->data(modelShifts->index(i,2)).toDate();
+            ui->dateTimeEdit->setDate(modelShifts->data(modelShifts->index(i,2)).toDate());
             m_shiftNumOK=true;
             return;
         }
@@ -174,17 +184,6 @@ void ShiftsPage::slotGetShifts(int shiftID)
 void ShiftsPage::on_comboBoxPoss_activated(int idx)
 {
     QModelIndex indexModel=modelPoss->index(idx,0,QModelIndex());
-    int possID = modelPoss->data(indexModel, Qt::DisplayRole).toInt();
-    qInfo(logInfo) << "POS ID current" << possID;
-    this->setField("posID",possID);
-
-
+    possID = modelPoss->data(indexModel, Qt::DisplayRole).toInt();
+    ui->labelPossInfo->clear();
 }
-
-//void ShiftsPage::on_comboBoxPoss_currentIndexChanged(int idx)
-//{
-//        QModelIndex indexModel=modelPoss->index(idx,0,QModelIndex());
-//        int possID = modelPoss->data(indexModel, Qt::DisplayRole).toInt();
-//        qInfo(logInfo) << "POS ID current" << possID;
-//        this->setField("posID",possID);
-//}

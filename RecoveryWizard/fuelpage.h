@@ -25,7 +25,7 @@ protected:
 private:
     Ui::FuelPage *ui;
 private:
-    void sendDataTo();
+
 };
 
 #endif // FUELPAGE_H

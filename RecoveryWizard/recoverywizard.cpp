@@ -27,17 +27,20 @@ RecoveryWizard::RecoveryWizard(QWidget *parent) :
     this->setPage(SHIFTS_PAGE, shiftPage);
     this->setPage(FUELDATA_PAGE, fuelPage);
 
+
     disconnect( button( QWizard::CancelButton ), &QAbstractButton::clicked, this, &QDialog::reject );
     connect(button(QWizard::CancelButton),&QAbstractButton::clicked,this,&RecoveryWizard::cancelWizard);
 
-    connect(termPage,&TerminalsPage::sendInfo,this,&RecoveryWizard::slotGetPageData);
 
+    connect(connPage,&ConnectionsPage::sendInfo,this,&RecoveryWizard::slotGetPageData);
+
+    connect(termPage,&TerminalsPage::sendInfo,this,&RecoveryWizard::slotGetPageData);
+    connect(termPage,&TerminalsPage::signalSendCheckData,this,&RecoveryWizard::slotSetLostCheckData);
 
     connect(shiftPage,&ShiftsPage::sendInfo,this,&RecoveryWizard::slotGetPageData);
     connect(shiftPage,&ShiftsPage::signalSendCheckData,this,&RecoveryWizard::slotSetLostCheckData);
 
     connect(fuelPage,&FuelPage::sendInfo,this,&RecoveryWizard::slotGetPageData);
-    connect(fuelPage,&FuelPage::signalSendCheckData,this,&RecoveryWizard::slotSetLostCheckData);
 
 }
 
@@ -96,25 +99,27 @@ void RecoveryWizard::cancelWizard()
 
 }
 
-void RecoveryWizard::on_RecoveryWizard_currentIdChanged()
-{
+//void RecoveryWizard::on_RecoveryWizard_currentIdChanged(int id)
+//{
+
 //    switch (id) {
+//    case CONNECTIONS_PAGE:
+////        qInfo(logInfo()) << Q_FUNC_INFO << "case CONNECTIONS_PAGE:" << "Current ID changed:ROW" << infoRow << "Text" << infoText;
+//        break;
 //    case TERMINALS_PAGE:
-//        emit signalSendCheckInfo(infoRow,infoText);
+////        qInfo(logInfo()) << Q_FUNC_INFO << "case TERMINALS_PAGE:" << "Current ID changed:ROW" << infoRow << "Text" << infoText;
+////        emit signalSendCheckInfo(infoRow,infoText);
 //        break;
 //    default:
 //        break;
 //    }
-    qInfo(logInfo()) << "Current ID changed:ROW" << infoRow << "Text" << infoText;
-    emit signalSendCheckInfo(infoRow,infoText);
-}
+
+
+//}
 
 void RecoveryWizard::slotGetPageData(int row, QString info)
 {
-    infoRow=row;
-    infoText=info;
-
-
+    emit signalSendCheckInfo(row,info);
 }
 
 void RecoveryWizard::slotSetLostCheckData(QString key, QVariant data)
@@ -126,6 +131,8 @@ void RecoveryWizard::slotSetLostCheckData(QString key, QVariant data)
                                      .arg(this->metaObject()->className())
                                      .arg(Q_FUNC_INFO);
     }
+
+    qInfo(logInfo()) << "LostChek set: " << lostCheckFuel[key];
 //    QHashIterator<QString, QVariant> i(lostCheckFuel);
 //    while (i.hasNext()) {
 //        i.next();

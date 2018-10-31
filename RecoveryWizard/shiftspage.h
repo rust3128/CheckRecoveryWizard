@@ -37,11 +37,12 @@ private:
     QSqlQueryModel *modelShifts;
     QSqlQueryModel *modelPoss;
     bool m_shiftNumOK;
+    int possID;
 private:
     void createUI();
     void createModelShifts();
     void createModelPoss();
-    void sendDataTo();
+
 };
 
 #endif // SHIFTSPAGE_H

@@ -30,7 +30,7 @@ void MainWindow::createUI()
     ui->tableWidget->resizeColumnsToContents();
     ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
     ui->tableWidget->verticalHeader()->setDefaultSectionSize(ui->tableWidget->verticalHeader()->minimumSectionSize());
-    ui->tableWidget->setEnabled(false);
+//    ui->tableWidget->setEnabled(false);
 }
 void MainWindow::slotShowWiz()
 {
@@ -70,9 +70,19 @@ void MainWindow::on_action_triggered()
 }
 void MainWindow::slotCheckInfoUpdate(int row, QString value)
 {
+    int col = 1;
+    QBrush br = QBrush(Qt::green);
     QTableWidgetItem *item = new QTableWidgetItem();
+    if(row == 6) {
+        ui->tableWidget->setSpan(row,0,1,2);
+        item->setTextAlignment(Qt::AlignJustify);
+        item->setTextAlignment(Qt::AlignHCenter);
+        col = 0;
+        br = QBrush(Qt::blue);
+    }
     item->setText(value);
-    qInfo(logInfo()) << "Row" << row << "value " << value;
-    ui->tableWidget->setItem(row,1,item);
+    qInfo(logInfo()) << Q_FUNC_INFO << "Row" << row << "value " << value;
+    item->setBackground(br);
+    ui->tableWidget->setItem(row,col,item);
 }
 

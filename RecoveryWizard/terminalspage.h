@@ -19,7 +19,7 @@ public:
     ~TerminalsPage();
 signals:
     void sendInfo(int, QString);
-//    void signalSendCheckData(QString, QVariant);
+    void signalSendCheckData(QString, QVariant);
 protected:
     void initializePage();
     bool validatePage();
@@ -34,7 +34,7 @@ private:
     QSqlQueryModel *modelTerminals;
 private:
     void createModelTerminals();
-    void sendDataInto();
+
 
 };
 

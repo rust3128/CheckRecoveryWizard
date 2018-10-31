@@ -21,7 +21,7 @@ public:
 
 
 signals:
-//    void sendInfo(int, QString);
+    void sendInfo(int, QString);
 protected:
     bool validatePage();
     void initializePage();
