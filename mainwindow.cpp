@@ -75,10 +75,10 @@ void MainWindow::slotCheckInfoUpdate(int row, QString value)
     QTableWidgetItem *item = new QTableWidgetItem();
     if(row == 6) {
         ui->tableWidget->setSpan(row,0,1,2);
-        item->setTextAlignment(Qt::AlignJustify);
+        item->setTextAlignment(Qt::AlignVCenter);
         item->setTextAlignment(Qt::AlignHCenter);
         col = 0;
-        br = QBrush(Qt::blue);
+        br = QBrush(QColor(0,255,255));
     }
     item->setText(value);
     qInfo(logInfo()) << Q_FUNC_INFO << "Row" << row << "value " << value;

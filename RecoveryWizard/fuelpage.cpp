@@ -19,7 +19,7 @@ FuelPage::~FuelPage()
 
 void FuelPage::initializePage()
 {
-    emit sendInfo(6,"Параметры топлива");
+    emit sendInfo(6,"Параметры топливного чека");
 }
 
 
