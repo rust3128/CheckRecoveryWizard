@@ -9,6 +9,7 @@ FuelPage::FuelPage(QWidget *parent) :
     ui(new Ui::FuelPage)
 {
     ui->setupUi(this);
+    this->registerField("give*", ui->lineEditGive);
 
 }
 
@@ -20,12 +21,18 @@ FuelPage::~FuelPage()
 void FuelPage::initializePage()
 {
     emit sendInfo(6,"Параметры топливного чека");
-    this->registerField("give*", ui->lineEditGive);
+
     createModelFuels();
     createModelPaytypes();
     modelTrk = new QSqlQueryModel();
 
     createUI();
+}
+
+bool FuelPage::validatePage()
+{
+
+    return true;
 }
 
 void FuelPage::createUI()
@@ -135,10 +142,12 @@ void FuelPage::on_lineEditGive_textChanged(const QString &arg1)
 {
     ui->lineEditSum->setStyleSheet("background-color: #aaff7f;");
     ui->lineEditSum->setText(QString::number(ui->lineEditPrice->text().toDouble()*arg1.toDouble(),'f',2));
+
 }
 
 void FuelPage::on_lineEditPrice_textChanged(const QString &arg1)
 {
     ui->lineEditSum->setStyleSheet("background-color: #aaff7f;");
-    ui->lineEditSum->setText(QString::number(ui->lineEditPrice->text().toDouble()*arg1.toDouble(),'f',2));
+    ui->lineEditSum->setText(QString::number(ui->lineEditGive->text().toDouble()*arg1.toDouble(),'f',2));
+
 }
