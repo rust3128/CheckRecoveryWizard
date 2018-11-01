@@ -71,7 +71,7 @@ void MainWindow::on_action_triggered()
 void MainWindow::slotCheckInfoUpdate(int row, QString value)
 {
     int col = 1;
-    QBrush br = QBrush(Qt::green);
+    QBrush br = QBrush(QColor("#aaff7f"));
     QTableWidgetItem *item = new QTableWidgetItem();
     if(row == 6) {
         ui->tableWidget->setSpan(row,0,1,2);
