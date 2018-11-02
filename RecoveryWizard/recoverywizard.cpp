@@ -42,6 +42,10 @@ RecoveryWizard::RecoveryWizard(QWidget *parent) :
 
     connect(fuelPage,&FuelPage::sendInfo,this,&RecoveryWizard::slotGetPageData);
 
+    connect(fuelPage,&FuelPage::signalSendCheckData,this,&RecoveryWizard::slotSetLostCheckData);
+
+//    connect(fuelPage,&FuelPage::signalSendCheckData,this,&RecoveryWizard::slotGetPageData);
+
 }
 
 RecoveryWizard::~RecoveryWizard()

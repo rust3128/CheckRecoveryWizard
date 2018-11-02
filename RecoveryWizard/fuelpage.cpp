@@ -10,6 +10,9 @@ FuelPage::FuelPage(QWidget *parent) :
 {
     ui->setupUi(this);
     this->registerField("give*", ui->lineEditGive);
+    this->registerField("fuelID*", ui->comboBoxFuels, "currentIndex", SIGNAL(activated(int)));
+    this->registerField("trkID*", ui->comboBoxTRK, "currentIndex", SIGNAL(activated(int)));
+    this->registerField("paytypeID*", ui->comboBoxPaytype, "currentIndex", SIGNAL(activated(int)));
 
 }
 
@@ -31,6 +34,34 @@ void FuelPage::initializePage()
 
 bool FuelPage::validatePage()
 {
+
+    emit sendInfo(7,modelFuels->data(modelFuels->index(field("fuelID").toInt(),2)).toString());
+    emit signalSendCheckData("FUEL_ID",modelFuels->data(modelFuels->index(field("fuelID").toInt(),1)).toInt());
+    emit signalSendCheckData("TANK_ID",modelFuels->data(modelFuels->index(field("fuelID").toInt(),0)).toInt());
+
+    emit sendInfo(8,modelTrk->data(modelTrk->index(field("trkID").toInt(),0)).toString());
+    emit sendInfo(9,modelTrk->data(modelTrk->index(field("trkID").toInt(),1)).toString());
+    emit signalSendCheckData("DISPENSER_ID",modelTrk->data(modelTrk->index(field("trkID").toInt(),0)).toInt());
+    emit signalSendCheckData("TRK_ID",modelTrk->data(modelTrk->index(field("trkID").toInt(),1)).toInt());
+
+    emit sendInfo(10,modelPaytypes->data(modelPaytypes->index(field("paytypeID").toInt(),1)).toString());
+    emit signalSendCheckData("PAYTYPE_ID",modelPaytypes->data(modelPaytypes->index(field("paytypeID").toInt(),0)).toInt());
+
+    if(showClients) {
+        signalSendCheckData("INFO_CODE",ui->lineEditClientCode->text().toInt());
+        signalSendCheckData("INFO_TEXT",ui->lineEditClientInfo->text().trimmed());
+    }
+    emit sendInfo(11, ui->lineEditGive->text().trimmed());
+    emit signalSendCheckData("GIVE",ui->lineEditGive->text().toDouble());
+
+    emit sendInfo(12, ui->lineEditPrice->text().trimmed());
+    emit signalSendCheckData("PRICE", ui->lineEditPrice->text().toDouble());
+
+    emit sendInfo(13,ui->lineEditSum->text().trimmed());
+    emit signalSendCheckData("SUM",ui->lineEditSum->text().toDouble());
+
+    emit sendInfo(14,ui->lineEditDiscount->text().trimmed());
+    emit signalSendCheckData("DISCOUNTSUMMA",ui->lineEditDiscount->text().toDouble());
 
     return true;
 }
@@ -112,7 +143,6 @@ void FuelPage::setPrice(int tankID)
 }
 
 
-
 void FuelPage::on_comboBoxFuels_activated(int idx)
 {
     int tankID = modelFuels->data(modelFuels->index(idx,0)).toInt();
@@ -132,10 +162,11 @@ void FuelPage::on_comboBoxPaytype_activated(int idx)
 {
     QString dllName = modelPaytypes->data(modelPaytypes->index(idx,2)).toString();
     if(dllName.toLower() == "unipos" || dllName.toLower() == "clientsdb" ) {
-        showClientsInfo(true);
+        showClients =true;
     } else {
-        showClientsInfo(false);
+        showClients =false;
     }
+    showClientsInfo(showClients);
 }
 
 void FuelPage::on_lineEditGive_textChanged(const QString &arg1)

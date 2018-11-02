@@ -14,6 +14,7 @@ class FuelPage : public QWizardPage
 {
     Q_OBJECT
 
+
 public:
     explicit FuelPage(QWidget *parent = 0);
     ~FuelPage();
@@ -41,6 +42,7 @@ private:
     QSqlQueryModel *modelFuels;
     QSqlQueryModel *modelTrk;
     QSqlQueryModel *modelPaytypes;
+    bool showClients;
 private:
     void createUI();
     void createModelFuels();
@@ -48,7 +50,6 @@ private:
     void createModelPaytypes();
     void showClientsInfo(bool sh);
     void setPrice(int tankID);
-private:
 
 };
 
