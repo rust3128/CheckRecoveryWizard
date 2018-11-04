@@ -11,6 +11,9 @@ ShiftsPage::ShiftsPage(QWidget *parent) :
     ui->setupUi(this);
     this->registerField("shiftID*",ui->lineEditShiftID);
     this->registerField("numCheck*", ui->lineEditNumCheck);
+    this->registerField("checkFuel", ui->radioButtonFuel);
+    this->registerField("checkFuelArticles",ui->radioButtonFuelArticles);
+    this->registerField("checkArticles",ui->radioButtonArticles);
 
 }
 
@@ -67,6 +70,26 @@ bool ShiftsPage::validatePage()
         return false;
     }
 
+    if(ui->radioButtonFuel->isChecked()){
+        this->setField("checkFuel",true);
+    } else {
+        this->setField("checkFuel",false);
+    }
+
+    if(ui->radioButtonFuelArticles->isChecked()){
+        this->setField("chekFuelArticles",true);
+    } else {
+        this->setField("chekFuelArticles",false);
+    }
+
+    if(ui->radioButtonArticles->isChecked()){
+        this->setField("checkArticles",true);
+    } else {
+        this->setField("checkArticles",false);
+    }
+
+    qInfo(logInfo()) << "Select Fuel?" << field("checkFuel").toBool();
+
     setField("shiftID",ui->lineEditShiftID->text().toInt());
     emit sendInfo(2,ui->lineEditShiftID->text().trimmed());
     emit signalSendCheckData("SHIFT_ID",ui->lineEditShiftID->text().toInt());
@@ -83,7 +106,7 @@ bool ShiftsPage::validatePage()
     return m_shiftNumOK;
 }
 
-int ShiftsPage::nextId()
+int ShiftsPage::nextId() const
 {
     if(ui->radioButtonFuel->isChecked() || ui->radioButtonFuelArticles->isChecked()){
         return FUELDATA_PAGE;

@@ -5,6 +5,8 @@
 #include "terminalspage.h"
 #include "shiftspage.h"
 #include "fuelpage.h"
+#include "finalpage.h"
+#include "articlepage.h"
 
 #include <QWizard>
 
@@ -35,6 +37,8 @@ private:
     ConnectionsPage *connPage;
     ShiftsPage *shiftPage;
     FuelPage *fuelPage;
+    FinalPage *finalPage;
+    ArticlePage *articlePage;
 
     QHash<QString, QVariant> lostCheckFuel;
 

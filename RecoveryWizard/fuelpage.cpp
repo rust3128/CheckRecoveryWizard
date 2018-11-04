@@ -1,6 +1,7 @@
 #include "fuelpage.h"
 #include "ui_fuelpage.h"
 #include "loggingcategories.h"
+#include "pagelist.h"
 
 
 
@@ -32,6 +33,17 @@ void FuelPage::initializePage()
     createUI();
 }
 
+int FuelPage::nextId() const
+{
+
+//    qInfo(logInfo()) << Q_FUNC_INFO  << "Select Fuel" << field("checkFuel").toBool();
+    if(field("checkFuel").toBool()) {
+        return FINAL_PAGE;
+    } else {
+        return ARTICLES_DATA_PAGE;
+    }
+}
+
 bool FuelPage::validatePage()
 {
 
@@ -58,13 +70,15 @@ bool FuelPage::validatePage()
     emit signalSendCheckData("PRICE", ui->lineEditPrice->text().toDouble());
 
     emit sendInfo(13,ui->lineEditSum->text().trimmed());
-    emit signalSendCheckData("SUM",ui->lineEditSum->text().toDouble());
+    emit signalSendCheckData("SUMMA",ui->lineEditSum->text().toDouble());
 
     emit sendInfo(14,ui->lineEditDiscount->text().trimmed());
     emit signalSendCheckData("DISCOUNTSUMMA",ui->lineEditDiscount->text().toDouble());
 
     return true;
 }
+
+
 
 void FuelPage::createUI()
 {

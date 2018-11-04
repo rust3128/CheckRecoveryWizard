@@ -26,6 +26,7 @@ signals:
 protected:
     void initializePage();
     bool validatePage();
+    int nextId() const;
 private slots:
     void on_comboBoxFuels_activated(int idx);
 

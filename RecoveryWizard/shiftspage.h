@@ -23,7 +23,7 @@ signals:
 protected:
     void initializePage();
     bool validatePage();
-    int nextId();
+    int nextId() const;
 private slots:
     void on_lineEditShiftID_textChanged(const QString &arg1);
     void on_toolButton_clicked();
