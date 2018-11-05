@@ -19,7 +19,7 @@ public:
 public slots:
     void slotShowWiz();                 //отображение мастера
     void slotHideWiz();                 //Скрытие мастера
-    void slotCheckInfoUpdate(int row, QString value);
+    void slotCheckInfoUpdate(QString name, QString value, bool isSpan);
 
 private slots:
     void on_actionExit_triggered();

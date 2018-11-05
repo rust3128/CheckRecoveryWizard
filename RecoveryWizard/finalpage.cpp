@@ -38,7 +38,4 @@ bool FinalPage::validatePage()
     return true;
 }
 
-void FinalPage::on_pushButtonView_clicked()
-{
-    emit signalViewSql();
-}
+

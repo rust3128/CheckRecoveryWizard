@@ -8,10 +8,6 @@ ConnectionsPage::ConnectionsPage(QWidget *parent) :
 {
     ui->setupUi(this);
 
-
-
-
-
 }
 
 ConnectionsPage::~ConnectionsPage()
@@ -51,7 +47,7 @@ bool ConnectionsPage::validatePage()
     ui->labelInfo->clear();
 
 //    this->setField("connName", modelConnections->data(modelConnections->index(ui->listView->currentIndex().row(),1)).toString());
-    emit sendInfo(0, modelConnections->data(modelConnections->index(ui->listView->currentIndex().row(),1)).toString());
+    emit sendInfo("Организация", modelConnections->data(modelConnections->index(ui->listView->currentIndex().row(),1)).toString(),false);
     return true;
     }
 }

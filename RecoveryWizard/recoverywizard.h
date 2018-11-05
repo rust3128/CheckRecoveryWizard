@@ -20,11 +20,11 @@ class RecoveryWizard : public QWizard
 
 signals:
     void signalHideWiz();
-    void signalSendCheckInfo(int,QString);
+    void signalSendCheckInfo(QString,QString,bool);
 
 private slots:
     void cancelWizard();
-    void slotGetPageData(int row, QString info);
+    void slotGetPageData(QString name, QString info, bool isSpan);
     void slotSetLostCheckData(QString key, QVariant data);
     void slotViewSql();
 public:

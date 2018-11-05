@@ -65,10 +65,10 @@
            <enum>QAbstractItemView::SelectRows</enum>
           </property>
           <property name="rowCount">
-           <number>18</number>
+           <number>0</number>
           </property>
           <property name="columnCount">
-           <number>2</number>
+           <number>0</number>
           </property>
           <attribute name="horizontalHeaderVisible">
            <bool>false</bool>
@@ -76,96 +76,6 @@
           <attribute name="verticalHeaderVisible">
            <bool>false</bool>
           </attribute>
-          <row/>
-          <row/>
-          <row/>
-          <row/>
-          <row/>
-          <row/>
-          <row/>
-          <row/>
-          <row/>
-          <row/>
-          <row/>
-          <row/>
-          <row/>
-          <row/>
-          <row/>
-          <row/>
-          <row/>
-          <row/>
-          <column/>
-          <column/>
-          <item row="0" column="0">
-           <property name="text">
-            <string>Фирма</string>
-           </property>
-          </item>
-          <item row="1" column="0">
-           <property name="text">
-            <string>Терминал</string>
-           </property>
-          </item>
-          <item row="2" column="0">
-           <property name="text">
-            <string>Смена</string>
-           </property>
-          </item>
-          <item row="3" column="0">
-           <property name="text">
-            <string>Касса</string>
-           </property>
-          </item>
-          <item row="4" column="0">
-           <property name="text">
-            <string>Дата, время чека</string>
-           </property>
-          </item>
-          <item row="5" column="0">
-           <property name="text">
-            <string>№ чека</string>
-           </property>
-          </item>
-          <item row="7" column="0">
-           <property name="text">
-            <string>Топливо</string>
-           </property>
-          </item>
-          <item row="8" column="0">
-           <property name="text">
-            <string>ТРК</string>
-           </property>
-          </item>
-          <item row="9" column="0">
-           <property name="text">
-            <string>Кран</string>
-           </property>
-          </item>
-          <item row="10" column="0">
-           <property name="text">
-            <string>Вид Оплаты</string>
-           </property>
-          </item>
-          <item row="11" column="0">
-           <property name="text">
-            <string>Получено</string>
-           </property>
-          </item>
-          <item row="12" column="0">
-           <property name="text">
-            <string>Цена</string>
-           </property>
-          </item>
-          <item row="13" column="0">
-           <property name="text">
-            <string>Сумма</string>
-           </property>
-          </item>
-          <item row="14" column="0">
-           <property name="text">
-            <string>Скидка</string>
-           </property>
-          </item>
          </widget>
         </item>
        </layout>
@@ -180,7 +90,7 @@
      <x>0</x>
      <y>0</y>
      <width>1009</width>
-     <height>23</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">

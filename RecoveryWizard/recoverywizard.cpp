@@ -129,9 +129,9 @@ void RecoveryWizard::cancelWizard()
 
 //}
 
-void RecoveryWizard::slotGetPageData(int row, QString info)
+void RecoveryWizard::slotGetPageData(QString name, QString info, bool isSpan)
 {
-    emit signalSendCheckInfo(row,info);
+    emit signalSendCheckInfo(name, info, isSpan);
 }
 
 void RecoveryWizard::slotSetLostCheckData(QString key, QVariant data)

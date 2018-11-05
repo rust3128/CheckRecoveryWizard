@@ -19,7 +19,6 @@ protected:
 signals:
     void signalViewSql();
 private slots:
-    void on_pushButtonView_clicked();
 
 private:
     Ui::FinalPage *ui;

@@ -36,6 +36,7 @@ void MainWindow::slotShowWiz()
 {
     ui->splitter->show();
     ui->action->setEnabled(false);
+    ui->tableWidget->clear();
 }
 
 void MainWindow::slotHideWiz()
@@ -68,21 +69,32 @@ void MainWindow::on_action_triggered()
     slotShowWiz();
 
 }
-void MainWindow::slotCheckInfoUpdate(int row, QString value)
+void MainWindow::slotCheckInfoUpdate(QString name, QString value, bool isSpan)
 {
+    int row = ui->tableWidget->rowCount();
     int col = 1;
     QBrush br = QBrush(QColor("#aaff7f"));
-    QTableWidgetItem *item = new QTableWidgetItem();
-    if(row == 6) {
+    ui->tableWidget->insertRow(ui->tableWidget->rowCount());
+
+    if(isSpan) {
+        QTableWidgetItem *item = new QTableWidgetItem();
         ui->tableWidget->setSpan(row,0,1,2);
         item->setTextAlignment(Qt::AlignVCenter);
         item->setTextAlignment(Qt::AlignHCenter);
         col = 0;
         br = QBrush(QColor(0,255,255));
+        item->setText(value);
+        ui->tableWidget->setItem(row,col,item);
+        item->setBackground(br);
     }
-    item->setText(value);
-    qInfo(logInfo()) << Q_FUNC_INFO << "Row" << row << "value " << value;
-    item->setBackground(br);
-    ui->tableWidget->setItem(row,col,item);
+    QTableWidgetItem *itemName = new QTableWidgetItem();
+    QTableWidgetItem *itemValue = new QTableWidgetItem();
+    itemName->setText(name);
+    itemValue->setText(value);
+//    qInfo(logInfo()) << Q_FUNC_INFO << "Row" << row << "value " << value;
+    itemValue->setBackground(br);
+    ui->tableWidget->setItem(row,0,itemName);
+    ui->tableWidget->setItem(row,col,itemValue);
+
 }
 
