@@ -37,7 +37,9 @@ SOURCES += \
     RecoveryWizard/shiftspage.cpp \
     RecoveryWizard/fuelpage.cpp \
     RecoveryWizard/finalpage.cpp \
-    RecoveryWizard/articlepage.cpp
+    RecoveryWizard/articlepage.cpp \
+    viewscriptdialog.cpp \
+    SQLHighlighter.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -54,7 +56,9 @@ HEADERS += \
     RecoveryWizard/shiftspage.h \
     RecoveryWizard/fuelpage.h \
     RecoveryWizard/finalpage.h \
-    RecoveryWizard/articlepage.h
+    RecoveryWizard/articlepage.h \
+    viewscriptdialog.h \
+    SQLHighlighter.h
 
 FORMS += \
         mainwindow.ui \
@@ -68,7 +72,8 @@ FORMS += \
     RecoveryWizard/shiftspage.ui \
     RecoveryWizard/fuelpage.ui \
     RecoveryWizard/finalpage.ui \
-    RecoveryWizard/articlepage.ui
+    RecoveryWizard/articlepage.ui \
+    viewscriptdialog.ui
 
 DISTFILES += \
     SQL/database.sql

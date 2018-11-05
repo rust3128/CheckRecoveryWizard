@@ -2,6 +2,7 @@
 #include "ui_recoverywizard.h"
 #include "pagelist.h"
 #include "loggingcategories.h"
+#include "viewscriptdialog.h"
 
 
 #include <QAbstractButton>
@@ -49,6 +50,7 @@ RecoveryWizard::RecoveryWizard(QWidget *parent) :
     connect(fuelPage,&FuelPage::signalSendCheckData,this,&RecoveryWizard::slotSetLostCheckData);
 
 //    connect(fuelPage,&FuelPage::signalSendCheckData,this,&RecoveryWizard::slotGetPageData);
+    connect(finalPage,&FinalPage::signalViewSql,this,&RecoveryWizard::slotViewSql);
 
 }
 
@@ -95,6 +97,8 @@ void RecoveryWizard::initLostCheckFuel()
     lostCheckFuel.insert("GOV_NUMBER","");
     lostCheckFuel.insert("BONUSCARD","");
 }
+
+
 void RecoveryWizard::cancelWizard()
 {
     if( QMessageBox::question( this, "Завершить восстановление",
@@ -149,3 +153,62 @@ void RecoveryWizard::slotSetLostCheckData(QString key, QVariant data)
 
 }
 
+void RecoveryWizard::slotViewSql()
+{
+    generateScript();
+    ViewScriptDialog *viewScript = new ViewScriptDialog(script);
+    viewScript->exec();
+}
+
+void RecoveryWizard::generateScript()
+{
+    script.clear();
+//    endScript.clear();
+
+    script << "CREATE OR ALTER PROCEDURE TMP_LOST_CHECK ";
+    script << "AS ";
+    script << "DECLARE VARIABLE CHECK_ID T_INT;";
+    script << "BEGIN ";
+    script << "CHECK_ID = GEN_ID(GEN_MPOSCHECKS, 1);";
+    script << "EXECUTE PROCEDURE APPEND_FSALE(";
+    script << QString("/*TERMINAL_ID - терминал*/                           %1,").arg(lostCheckFuel.value("TERMINAL_ID").toString());
+    script << QString("/*SHIFT_ID - № смены*/                               %1,").arg(lostCheckFuel.value("SHIFT_ID").toString());
+    script << QString("/*DISPENSER_ID - номер колонки*/                     %1,").arg(lostCheckFuel.value("DISPENSER_ID").toString());
+    script << QString("/*TRK_ID - номер пистолета*/                         %1,").arg(lostCheckFuel.value("TRK_ID").toString());
+    script << QString("/*TANK_ID - номер резервуара */                      %1,").arg(lostCheckFuel.value("TANK_ID").toString());
+    script << QString("/*FUEL_ID - код топлива */                           %1,").arg(lostCheckFuel.value("FUEL_ID").toString());
+    script << QString("/*GIVE - залито */                                   %1,").arg(lostCheckFuel.value("GIVE").toString());
+    script << QString("/*ORDERED - заказано */                              %1,").arg(lostCheckFuel.value("ORDERED").toString());
+    script << QString("/*SUMMA - сумма */                                   %1,").arg(lostCheckFuel.value("SUMMA").toString());
+    script << QString("/*CASH - не трогать */                               %1,").arg(lostCheckFuel.value("CASH").toString());
+    script << QString("/*DISCOUNTSUMMA - сумма скидки НЕ отрицательна */    %1,").arg(lostCheckFuel.value("DISCOUNTSUMMA").toString());
+    script << QString("/*PAYTYPE_ID - вид оплаты*/                          %1,").arg(lostCheckFuel.value("PAYTYPE_ID").toString());
+    script << QString("/*NUM_CHECK - номер чека */                          %1,").arg(lostCheckFuel.value("NUM_CHECK").toString());
+    script << QString("/*NUM_CHECK_RETURN - номер чека возврата*/           %1,").arg(lostCheckFuel.value("NUM_CHECK_RETURN").toString());
+    script << QString("/*TRANSACTION_ID - номер транзакции*/                %1,").arg(lostCheckFuel.value("TRANSACTION_ID").toString());
+    script << QString("/*SEC - врем€ заправки в секундах*/                  %1,").arg(lostCheckFuel.value("SEC").toString());
+    script << QString("/*ISLAST - не трогать */                            '%1',").arg(lostCheckFuel.value("ISLAST").toString());
+    script << QString("/*INFO_CODE - код клиента*/                          %1,").arg(lostCheckFuel.value("INFO_CODE").toString());
+    script << QString("/*INFO_TEXT - название клиента (номер карты)*/      '%1',").arg(lostCheckFuel.value("INFO_TEXT").toString());
+    script << QString("/*POS_ID - не трогать*/                              %1,").arg(lostCheckFuel.value("POS_ID").toString());
+    script << QString("/*ZNUMBER - № Z-отчета*/                             %1,").arg(lostCheckFuel.value("ZNUMBER").toString());
+    script << QString("/*OPERATOR_ID - код оператора*/                      %1,").arg(lostCheckFuel.value("OPERATOR_ID").toString());
+    script << QString("/*SALEORDER_ID - не трогать */                       %1,").arg(lostCheckFuel.value("SALEORDER_ID").toString());
+    script << QString("/*PRICE - цена*/                                     %1,").arg(lostCheckFuel.value("PRICE").toString());
+    script << QString("/*ISBEFOREPAY - предоплата*/                        '%1',").arg(lostCheckFuel.value("ISBEFOREPAY").toString());
+    script << QString("/*POSTRANSACTION_ID*/                                %1,").arg(lostCheckFuel.value("POSTRANSACTION_ID").toString());
+    script << QString("/*POSTRETURN_ID*/                                    %1,").arg(lostCheckFuel.value("POSTRNRETURN_ID").toString());
+    script << QString("/*SHARE_ID*/                                         %1,").arg(lostCheckFuel.value("SHARE_ID").toString());
+    script << QString("/*MPOSCHECK_ID*/                                     %1,").arg(lostCheckFuel.value("MPOSCHECK_ID").toString());
+    script << QString("/*PAYTYPE_ID2 - вид оплаты*/                         %1,").arg(lostCheckFuel.value("PAYTYPE_ID2").toString());
+    script << QString("/*SUMMA2 - сумма */                                  %1,").arg(lostCheckFuel.value("SUMMA2").toString());
+    script << QString("/*DISCOUNTSUMMA2 - сумма скидки не отрицательная*/   %1,").arg(lostCheckFuel.value("DISCOUNTSUMMA2").toString());
+    script << QString("/*DAT - дата/времz продажи*/                        '%1',").arg(lostCheckFuel.value("DAT").toString());
+    script << QString("/*GOV_NUMBER*/                                      '%1',").arg(lostCheckFuel.value("GOV_NUMBER").toString());
+    script << QString("/*BONUSCARD*/                                       '%1');").arg(lostCheckFuel.value("BONUSCARD").toString());
+    script << "END;";
+
+    script << "EXECUTE PROCEDURE TMP_LOST_CHECK;";
+    script << "DROP PROCEDURE TMP_LOST_CHECK;";
+    script << "COMMIT WORK;";
+}

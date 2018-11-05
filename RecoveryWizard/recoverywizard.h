@@ -24,9 +24,9 @@ signals:
 
 private slots:
     void cancelWizard();
-//    void on_RecoveryWizard_currentIdChanged(int id);
     void slotGetPageData(int row, QString info);
     void slotSetLostCheckData(QString key, QVariant data);
+    void slotViewSql();
 public:
     explicit RecoveryWizard(QWidget *parent = 0);
     ~RecoveryWizard();
@@ -41,9 +41,12 @@ private:
     ArticlePage *articlePage;
 
     QHash<QString, QVariant> lostCheckFuel;
+    QStringList script;
+//    QStringList endScript;
 
 private:
     void initLostCheckFuel();
+    void generateScript();
 };
 
 #endif // RECOVERYWIZARD_H

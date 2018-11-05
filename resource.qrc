@@ -8,5 +8,9 @@
         <file>Icons/edit.png</file>
         <file>Icons/remove.png</file>
         <file>Icons/new.png</file>
+        <file>Icons/checked.png</file>
+        <file>Icons/unchecked.png</file>
+        <file>Icons/unchecked-checkbox.png</file>
+        <file>Icons/checked-checkbox.png</file>
     </qresource>
 </RCC>
