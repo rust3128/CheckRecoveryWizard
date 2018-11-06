@@ -22,8 +22,10 @@
     <widget class="QTextEdit" name="sqlEdit">
      <property name="font">
       <font>
-       <family>Courier</family>
-       <pointsize>12</pointsize>
+       <family>Open Sans Condensed</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="autoFormatting">

@@ -24,7 +24,7 @@ FuelPage::~FuelPage()
 
 void FuelPage::initializePage()
 {
-    emit sendInfo(6,"Параметры топливного чека");
+    emit sendInfo("","Параметры топливного чека",true);
 
     createModelFuels();
     createModelPaytypes();
@@ -47,32 +47,32 @@ int FuelPage::nextId() const
 bool FuelPage::validatePage()
 {
 
-    emit sendInfo(7,modelFuels->data(modelFuels->index(field("fuelID").toInt(),2)).toString());
+    emit sendInfo("Топливо",modelFuels->data(modelFuels->index(field("fuelID").toInt(),2)).toString(),false);
     emit signalSendCheckData("FUEL_ID",modelFuels->data(modelFuels->index(field("fuelID").toInt(),1)).toInt());
     emit signalSendCheckData("TANK_ID",modelFuels->data(modelFuels->index(field("fuelID").toInt(),0)).toInt());
 
-    emit sendInfo(8,modelTrk->data(modelTrk->index(field("trkID").toInt(),0)).toString());
-    emit sendInfo(9,modelTrk->data(modelTrk->index(field("trkID").toInt(),1)).toString());
+    emit sendInfo("Колонка",modelTrk->data(modelTrk->index(field("trkID").toInt(),0)).toString(),false);
+    emit sendInfo("Пистолет",modelTrk->data(modelTrk->index(field("trkID").toInt(),1)).toString(),false);
     emit signalSendCheckData("DISPENSER_ID",modelTrk->data(modelTrk->index(field("trkID").toInt(),0)).toInt());
     emit signalSendCheckData("TRK_ID",modelTrk->data(modelTrk->index(field("trkID").toInt(),1)).toInt());
 
-    emit sendInfo(10,modelPaytypes->data(modelPaytypes->index(field("paytypeID").toInt(),1)).toString());
+    emit sendInfo("Вид оплаты",modelPaytypes->data(modelPaytypes->index(field("paytypeID").toInt(),1)).toString(),false);
     emit signalSendCheckData("PAYTYPE_ID",modelPaytypes->data(modelPaytypes->index(field("paytypeID").toInt(),0)).toInt());
 
     if(showClients) {
         signalSendCheckData("INFO_CODE",ui->lineEditClientCode->text().toInt());
         signalSendCheckData("INFO_TEXT",ui->lineEditClientInfo->text().trimmed());
     }
-    emit sendInfo(11, ui->lineEditGive->text().trimmed());
+    emit sendInfo("Сумма", ui->lineEditGive->text().trimmed(),false);
     emit signalSendCheckData("GIVE",ui->lineEditGive->text().toDouble());
 
-    emit sendInfo(12, ui->lineEditPrice->text().trimmed());
+    emit sendInfo("Цена", ui->lineEditPrice->text().trimmed(),false);
     emit signalSendCheckData("PRICE", ui->lineEditPrice->text().toDouble());
 
-    emit sendInfo(13,ui->lineEditSum->text().trimmed());
+    emit sendInfo("Сумма",ui->lineEditSum->text().trimmed(),false);
     emit signalSendCheckData("SUMMA",ui->lineEditSum->text().toDouble());
 
-    emit sendInfo(14,ui->lineEditDiscount->text().trimmed());
+    emit sendInfo("Скидка",ui->lineEditDiscount->text().trimmed(),false);
     emit signalSendCheckData("DISCOUNTSUMMA",ui->lineEditDiscount->text().toDouble());
 
     return true;

@@ -25,18 +25,19 @@ MainWindow::~MainWindow()
 
 void MainWindow::createUI()
 {
+    ui->tableWidget->insertColumn(0);
+    ui->tableWidget->insertColumn(1);
     ui->tableWidget->setHorizontalHeaderItem(0, new QTableWidgetItem("Параметр"));
     ui->tableWidget->setHorizontalHeaderItem(1, new QTableWidgetItem("Значение"));
-    ui->tableWidget->resizeColumnsToContents();
-    ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
-    ui->tableWidget->verticalHeader()->setDefaultSectionSize(ui->tableWidget->verticalHeader()->minimumSectionSize());
+
+
 //    ui->tableWidget->setEnabled(false);
 }
 void MainWindow::slotShowWiz()
 {
     ui->splitter->show();
     ui->action->setEnabled(false);
-    ui->tableWidget->clear();
+
 }
 
 void MainWindow::slotHideWiz()
@@ -61,40 +62,39 @@ void MainWindow::on_actionClientsList_triggered()
 
 void MainWindow::on_action_triggered()
 {
+    ui->tableWidget->clear();
     recWiz = new RecoveryWizard();
     connect(recWiz, &RecoveryWizard::signalHideWiz,this,&MainWindow::slotHideWiz);
     connect(recWiz, &RecoveryWizard::signalSendCheckInfo,this,&MainWindow::slotCheckInfoUpdate);
     ui->verticalLayout->addWidget(recWiz);
     recWiz->show();
+
     slotShowWiz();
 
 }
 void MainWindow::slotCheckInfoUpdate(QString name, QString value, bool isSpan)
 {
     int row = ui->tableWidget->rowCount();
-    int col = 1;
-    QBrush br = QBrush(QColor("#aaff7f"));
     ui->tableWidget->insertRow(ui->tableWidget->rowCount());
 
-    if(isSpan) {
-        QTableWidgetItem *item = new QTableWidgetItem();
-        ui->tableWidget->setSpan(row,0,1,2);
-        item->setTextAlignment(Qt::AlignVCenter);
-        item->setTextAlignment(Qt::AlignHCenter);
-        col = 0;
-        br = QBrush(QColor(0,255,255));
-        item->setText(value);
-        ui->tableWidget->setItem(row,col,item);
-        item->setBackground(br);
-    }
-    QTableWidgetItem *itemName = new QTableWidgetItem();
-    QTableWidgetItem *itemValue = new QTableWidgetItem();
-    itemName->setText(name);
-    itemValue->setText(value);
-//    qInfo(logInfo()) << Q_FUNC_INFO << "Row" << row << "value " << value;
-    itemValue->setBackground(br);
-    ui->tableWidget->setItem(row,0,itemName);
-    ui->tableWidget->setItem(row,col,itemValue);
 
+    QTableWidgetItem *itemName = new QTableWidgetItem(name);
+    QTableWidgetItem *itemValue = new QTableWidgetItem(value);
+
+    if(isSpan) {
+        itemValue->setTextAlignment(Qt::AlignVCenter);
+        itemValue->setTextAlignment(Qt::AlignHCenter);
+        itemValue->setBackgroundColor(QColor(0,255,255));
+        ui->tableWidget->setSpan(row,0,1,2);
+        ui->tableWidget->setItem(row,0,itemValue);
+    } else {
+        itemValue->setBackgroundColor(QColor("#aaff7f"));
+        ui->tableWidget->setItem(row,0,itemName);
+        ui->tableWidget->setItem(row,1,itemValue);
+    }
+
+    ui->tableWidget->resizeColumnsToContents();
+    ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
+    ui->tableWidget->verticalHeader()->setDefaultSectionSize(ui->tableWidget->verticalHeader()->minimumSectionSize());
 }
 

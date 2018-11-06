@@ -1,13 +1,16 @@
 #include "recoverywizard.h"
 #include "ui_recoverywizard.h"
 #include "pagelist.h"
+#include "passconv.h"
 #include "loggingcategories.h"
 #include "viewscriptdialog.h"
+#include "lostcheckexecute.h"
 
 
 #include <QAbstractButton>
 #include <QMessageBox>
-
+#include <QPushButton>
+#include <QThread>
 
 
 RecoveryWizard::RecoveryWizard(QWidget *parent) :
@@ -31,6 +34,10 @@ RecoveryWizard::RecoveryWizard(QWidget *parent) :
     this->setPage(FUELDATA_PAGE, fuelPage);
     this->setPage(FINAL_PAGE, finalPage);
     this->setPage(ARTICLES_DATA_PAGE, articlePage);
+
+//    QPushButton butFinish = this->findChild<QPushButton>("qt_wizard_finish");
+//    QObject::connect(butFinish,SIGNAL(clicked()),this,SLOT(slotExecuteSql()));
+    connect(this->button(QWizard::FinishButton),&QAbstractButton::clicked,this,&RecoveryWizard::slotExecuteSql);
 
 
     disconnect( button( QWizard::CancelButton ), &QAbstractButton::clicked, this, &QDialog::reject );
@@ -160,6 +167,8 @@ void RecoveryWizard::slotViewSql()
     viewScript->exec();
 }
 
+
+
 void RecoveryWizard::generateScript()
 {
     script.clear();
@@ -206,9 +215,49 @@ void RecoveryWizard::generateScript()
     script << QString("/*DAT - дата/времz продажи*/                        '%1',").arg(lostCheckFuel.value("DAT").toString());
     script << QString("/*GOV_NUMBER*/                                      '%1',").arg(lostCheckFuel.value("GOV_NUMBER").toString());
     script << QString("/*BONUSCARD*/                                       '%1');").arg(lostCheckFuel.value("BONUSCARD").toString());
-    script << "END;";
+    script << "END ";
 
-    script << "EXECUTE PROCEDURE TMP_LOST_CHECK;";
-    script << "DROP PROCEDURE TMP_LOST_CHECK;";
-    script << "COMMIT WORK;";
+//    script << "EXECUTE PROCEDURE TMP_LOST_CHECK;";
+//    script << "DROP PROCEDURE TMP_LOST_CHECK;";
+//    script << "COMMIT WORK;";
+}
+
+void RecoveryWizard::slotExecuteSql()
+{
+    qInfo(logInfo()) << "Начинаем выполнять скрипт";
+
+    QHash<QString,QString> connAzs;
+
+    QSqlDatabase dbCenter = QSqlDatabase::database("central");
+    QSqlQuery *q = new QSqlQuery(dbCenter);
+    q->prepare("SELECT c.SERVER_NAME, c.DB_NAME, c.CON_PASSWORD FROM CONNECTIONS c WHERE c.TERMINAL_ID=:term_id AND c.CONNECT_ID=2");
+    q->bindValue(":term_id",lostCheckFuel.value("TERMINAL_ID"));
+
+    if(!q->exec()){
+        QString errSQL = QString("%1 Не возможно получить данные о подключении к АЗС.\nПричина: %2")
+                .arg(Q_FUNC_INFO)
+                .arg(q->lastError().text());
+        QMessageBox::critical(this,"Ошибка",errSQL);
+        qCritical(logCritical()) << errSQL;
+        return;
+    }
+    q->next();
+    connAzs.insert("SERVER_NAME",q->value("SERVER_NAME").toString());
+    connAzs.insert("DB_NAME",q->value("DB_NAME").toString());
+    connAzs.insert("PASSWORD",passConv(q->value("CON_PASSWORD").toString()));
+
+
+    LostCheckExecute *lsExec = new LostCheckExecute();
+    QThread *thread = new QThread(this);
+    lsExec->setScript(script);
+    lsExec->setTerminalID(lostCheckFuel.value("TERMINAL_ID").toInt());
+    lsExec->setConnData(connAzs);
+
+
+    lsExec->moveToThread(thread);
+    connect(thread,&QThread::started,lsExec,&LostCheckExecute::slotScriptExecute);
+    connect(lsExec,&LostCheckExecute::finished,thread,&QThread::quit);
+
+    thread->start();
+
 }

@@ -9,11 +9,18 @@ ViewScriptDialog::ViewScriptDialog(QStringList script, QWidget *parent) :
 {
     ui->setupUi(this);
 
+#if defined(Q_OS_LINUX)
+    ui->sqlEdit->setFont(QFont("Source Code Pro"));
+#endif
+
+
+
 //    SQLHighlighter* highlighter =
       new SQLHighlighter(ui->sqlEdit->document());
 //    highlighter->setDocument(ui->sqlEdit->document());
 
     ui->sqlEdit->append(script.join("\n"));
+
 }
 
 ViewScriptDialog::~ViewScriptDialog()

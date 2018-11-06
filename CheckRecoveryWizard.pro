@@ -39,7 +39,8 @@ SOURCES += \
     RecoveryWizard/finalpage.cpp \
     RecoveryWizard/articlepage.cpp \
     viewscriptdialog.cpp \
-    SQLHighlighter.cpp
+    SQLHighlighter.cpp \
+    lostcheckexecute.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -58,7 +59,9 @@ HEADERS += \
     RecoveryWizard/finalpage.h \
     RecoveryWizard/articlepage.h \
     viewscriptdialog.h \
-    SQLHighlighter.h
+    SQLHighlighter.h \
+    lostcheckexecute.h \
+    passconv.h
 
 FORMS += \
         mainwindow.ui \

@@ -18,7 +18,7 @@ public:
     explicit ShiftsPage(QWidget *parent = 0);
     ~ShiftsPage();
 signals:
-    void sendInfo(int, QString);
+    void sendInfo(QString, QString,bool);
     void signalSendCheckData(QString, QVariant);
 protected:
     void initializePage();

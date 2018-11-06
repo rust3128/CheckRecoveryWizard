@@ -91,16 +91,16 @@ bool ShiftsPage::validatePage()
     qInfo(logInfo()) << "Select Fuel?" << field("checkFuel").toBool();
 
     setField("shiftID",ui->lineEditShiftID->text().toInt());
-    emit sendInfo(2,ui->lineEditShiftID->text().trimmed());
+    emit sendInfo("Смена",ui->lineEditShiftID->text().trimmed(),false);
     emit signalSendCheckData("SHIFT_ID",ui->lineEditShiftID->text().toInt());
 
-    emit sendInfo(3,QString::number(possID));
+    emit sendInfo("Терминал",QString::number(possID),false);
     emit signalSendCheckData("POS_ID",possID);
 
-    emit sendInfo(4,ui->dateTimeEdit->text());
+    emit sendInfo("Дата чека",ui->dateTimeEdit->text(),false);
     emit signalSendCheckData("DAT",ui->dateTimeEdit->dateTime().toString("yyyy/MM/dd hh:mm:ss"));
 
-    emit sendInfo(5,ui->lineEditNumCheck->text());
+    emit sendInfo("Номер чека",ui->lineEditNumCheck->text(),false);
     emit signalSendCheckData("NUM_CHECK",ui->lineEditNumCheck->text().toInt());
 
     return m_shiftNumOK;

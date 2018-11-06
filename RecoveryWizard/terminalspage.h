@@ -18,7 +18,7 @@ public:
     explicit TerminalsPage(QWidget *parent = 0);
     ~TerminalsPage();
 signals:
-    void sendInfo(int, QString);
+    void sendInfo(QString, QString, bool);
     void signalSendCheckData(QString, QVariant);
 protected:
     void initializePage();

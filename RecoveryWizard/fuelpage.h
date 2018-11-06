@@ -20,7 +20,7 @@ public:
     ~FuelPage();
 
 signals:
-    void sendInfo(int, QString);
+    void sendInfo(QString, QString, bool);
     void signalSendCheckData(QString, QVariant);
 
 protected:

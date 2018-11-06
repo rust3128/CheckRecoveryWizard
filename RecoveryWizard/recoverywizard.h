@@ -22,11 +22,13 @@ signals:
     void signalHideWiz();
     void signalSendCheckInfo(QString,QString,bool);
 
+
 private slots:
     void cancelWizard();
     void slotGetPageData(QString name, QString info, bool isSpan);
     void slotSetLostCheckData(QString key, QVariant data);
     void slotViewSql();
+    void slotExecuteSql();
 public:
     explicit RecoveryWizard(QWidget *parent = 0);
     ~RecoveryWizard();

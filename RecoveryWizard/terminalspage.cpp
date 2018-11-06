@@ -49,7 +49,7 @@ bool TerminalsPage::validatePage()
         ui->labelOnlineStatus->setStyleSheet("color: rgb(0, 170, 0);font: 75 14pt 'Noto Sans'");
         ui->labelOnlineStatus->setText("АЗС на связи!");
         setField("terminalID",ui->lineEditTerminal->text().trimmed());
-        emit sendInfo(1,ui->lineEditTerminal->text().trimmed());
+        emit sendInfo("Терминал",ui->lineEditTerminal->text().trimmed(),false);
         emit signalSendCheckData("TERMINAL_ID",ui->lineEditTerminal->text().toInt());
         return true;
     } else {
