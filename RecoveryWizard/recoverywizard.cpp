@@ -11,6 +11,7 @@
 #include <QMessageBox>
 #include <QPushButton>
 #include <QThread>
+#include <QBoxLayout>
 
 
 RecoveryWizard::RecoveryWizard(QWidget *parent) :
@@ -37,7 +38,7 @@ RecoveryWizard::RecoveryWizard(QWidget *parent) :
 
 //    QPushButton butFinish = this->findChild<QPushButton>("qt_wizard_finish");
 //    QObject::connect(butFinish,SIGNAL(clicked()),this,SLOT(slotExecuteSql()));
-    connect(this->button(QWizard::FinishButton),&QAbstractButton::clicked,this,&RecoveryWizard::slotExecuteSql);
+//    connect(this->button(QWizard::FinishButton),&QAbstractButton::clicked,this,&RecoveryWizard::slotExecuteSql);
 
 
     disconnect( button( QWizard::CancelButton ), &QAbstractButton::clicked, this, &QDialog::reject );
@@ -58,6 +59,13 @@ RecoveryWizard::RecoveryWizard(QWidget *parent) :
 
 //    connect(fuelPage,&FuelPage::signalSendCheckData,this,&RecoveryWizard::slotGetPageData);
     connect(finalPage,&FinalPage::signalViewSql,this,&RecoveryWizard::slotViewSql);
+    connect(finalPage,&FinalPage::signalExecScript,this,&RecoveryWizard::slotExecuteSql);
+
+//    QBoxLayout *mainLayout = new QVBoxLayout;
+//    mainLayout->addWidget(m_lineEdit = new QLineEdit);
+//    mainLayout->addStretch(1);
+//    this->setLayout(mainLayout);
+//    this->setPixmap(QWizard::WatermarkPixmap, QPixmap(":/Icons/wizlogo.jpg"));
 
 }
 
@@ -163,7 +171,7 @@ void RecoveryWizard::slotSetLostCheckData(QString key, QVariant data)
 void RecoveryWizard::slotViewSql()
 {
     generateScript();
-    ViewScriptDialog *viewScript = new ViewScriptDialog(script);
+    ViewScriptDialog *viewScript = new ViewScriptDialog(script+endScript);
     viewScript->exec();
 }
 
@@ -217,9 +225,9 @@ void RecoveryWizard::generateScript()
     script << QString("/*BONUSCARD*/                                       '%1');").arg(lostCheckFuel.value("BONUSCARD").toString());
     script << "END ";
 
-//    script << "EXECUTE PROCEDURE TMP_LOST_CHECK;";
-//    script << "DROP PROCEDURE TMP_LOST_CHECK;";
-//    script << "COMMIT WORK;";
+    endScript << "EXECUTE PROCEDURE TMP_LOST_CHECK;";
+    endScript << "DROP PROCEDURE TMP_LOST_CHECK;";
+    endScript << "COMMIT WORK;";
 }
 
 void RecoveryWizard::slotExecuteSql()
@@ -256,8 +264,30 @@ void RecoveryWizard::slotExecuteSql()
 
     lsExec->moveToThread(thread);
     connect(thread,&QThread::started,lsExec,&LostCheckExecute::slotScriptExecute);
+    connect(lsExec,&LostCheckExecute::finished,this,&RecoveryWizard::slotFinisExecute,Qt::DirectConnection);
     connect(lsExec,&LostCheckExecute::finished,thread,&QThread::quit);
 
+    connect(lsExec,&LostCheckExecute::finished,lsExec,&LostCheckExecute::deleteLater);
+
+    connect(thread,&QThread::finished,thread,&QThread::deleteLater);
+
     thread->start();
+
+}
+
+void RecoveryWizard::slotFinisExecute(bool isValid, QString message)
+{
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("Информация");
+    msgBox.setText("Результат выполнения скрипта.");
+    msgBox.setInformativeText(message);
+    if(isValid) {
+        msgBox.setIcon(QMessageBox::Information);
+    } else {
+        msgBox.setIcon(QMessageBox::Critical);
+    }
+    msgBox.exec();
+    emit signalFinishWiz();
+
 
 }

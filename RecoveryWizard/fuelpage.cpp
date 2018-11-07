@@ -63,7 +63,7 @@ bool FuelPage::validatePage()
         signalSendCheckData("INFO_CODE",ui->lineEditClientCode->text().toInt());
         signalSendCheckData("INFO_TEXT",ui->lineEditClientInfo->text().trimmed());
     }
-    emit sendInfo("Сумма", ui->lineEditGive->text().trimmed(),false);
+    emit sendInfo("Получено", ui->lineEditGive->text().trimmed(),false);
     emit signalSendCheckData("GIVE",ui->lineEditGive->text().toDouble());
 
     emit sendInfo("Цена", ui->lineEditPrice->text().trimmed(),false);

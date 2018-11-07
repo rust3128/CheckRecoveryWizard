@@ -27,11 +27,14 @@ void MainWindow::createUI()
 {
     ui->tableWidget->insertColumn(0);
     ui->tableWidget->insertColumn(1);
-    ui->tableWidget->setHorizontalHeaderItem(0, new QTableWidgetItem("Параметр"));
-    ui->tableWidget->setHorizontalHeaderItem(1, new QTableWidgetItem("Значение"));
+//    ui->tableWidget->horizontalHeader()->setVisible(true);
+//    ui->tableWidget->horizontalHeaderItem(0)->setText("Параметр");
+//    ui->tableWidget->horizontalHeaderItem(1)->setText("Значение");
+//    ui->tableWidget->setHorizontalHeaderItem(0, new QTableWidgetItem("Параметр"));
+//    ui->tableWidget->setHorizontalHeaderItem(1, new QTableWidgetItem("Значение"));
 
 
-//    ui->tableWidget->setEnabled(false);
+
 }
 void MainWindow::slotShowWiz()
 {
@@ -44,6 +47,8 @@ void MainWindow::slotHideWiz()
 {
     ui->splitter->hide();
     ui->action->setEnabled(true);
+    ui->tableWidget->clear();
+    ui->tableWidget->setRowCount(0);
 }
 
 
@@ -66,6 +71,7 @@ void MainWindow::on_action_triggered()
     recWiz = new RecoveryWizard();
     connect(recWiz, &RecoveryWizard::signalHideWiz,this,&MainWindow::slotHideWiz);
     connect(recWiz, &RecoveryWizard::signalSendCheckInfo,this,&MainWindow::slotCheckInfoUpdate);
+    connect(recWiz, &RecoveryWizard::signalFinishWiz,this, &MainWindow::slotHideWiz);
     ui->verticalLayout->addWidget(recWiz);
     recWiz->show();
 
@@ -74,6 +80,15 @@ void MainWindow::on_action_triggered()
 }
 void MainWindow::slotCheckInfoUpdate(QString name, QString value, bool isSpan)
 {
+
+    for(int i=0; i<ui->tableWidget->rowCount();++i){
+        if(ui->tableWidget->item(i,0)->text().trimmed() == name || ui->tableWidget->item(i,0)->text().trimmed() == value ) {
+            (isSpan) ? ui->tableWidget->item(i,0)->setText(value) : ui->tableWidget->item(i,1)->setText(value);
+            return;
+        }
+    }
+
+
     int row = ui->tableWidget->rowCount();
     ui->tableWidget->insertRow(ui->tableWidget->rowCount());
 

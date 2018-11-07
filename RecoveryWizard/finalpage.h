@@ -18,6 +18,7 @@ protected:
     bool validatePage();
 signals:
     void signalViewSql();
+    void signalExecScript();
 private slots:
 
 private:

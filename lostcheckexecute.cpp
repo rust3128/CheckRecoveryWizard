@@ -28,6 +28,7 @@ void LostCheckExecute::slotScriptExecute()
                   .arg(dbAzs.lastError().text());
           qCritical(logCritical()) << errSQL;
           emit finished(false,errSQL);
+          return;
       }
       QSqlQuery *q = new QSqlQuery(dbAzs);
       QString strSQL;
@@ -42,6 +43,7 @@ void LostCheckExecute::slotScriptExecute()
                   .arg(q->lastError().text());
           qCritical(logCritical()) << errSQL;
           emit finished(false,errSQL);
+          return;
       }
       q->exec("EXECUTE PROCEDURE TMP_LOST_CHECK;");
       q->exec("DROP PROCEDURE TMP_LOST_CHECK;");

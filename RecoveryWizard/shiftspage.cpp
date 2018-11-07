@@ -94,7 +94,7 @@ bool ShiftsPage::validatePage()
     emit sendInfo("Смена",ui->lineEditShiftID->text().trimmed(),false);
     emit signalSendCheckData("SHIFT_ID",ui->lineEditShiftID->text().toInt());
 
-    emit sendInfo("Терминал",QString::number(possID),false);
+    emit sendInfo("Каса №",QString::number(possID),false);
     emit signalSendCheckData("POS_ID",possID);
 
     emit sendInfo("Дата чека",ui->dateTimeEdit->text(),false);
@@ -102,6 +102,8 @@ bool ShiftsPage::validatePage()
 
     emit sendInfo("Номер чека",ui->lineEditNumCheck->text(),false);
     emit signalSendCheckData("NUM_CHECK",ui->lineEditNumCheck->text().toInt());
+
+
 
     return m_shiftNumOK;
 }
@@ -182,6 +184,8 @@ void ShiftsPage::on_lineEditShiftID_textChanged(const QString &arg1)
                     "\nНачало смены: "+modelShifts->data(modelShifts->index(i,2)).toDateTime().toString("dd.MM.yyyy hh.mm") +
                     "\nZ-отчет № "+modelShifts->data(modelShifts->index(i,1)).toString());
             ui->dateTimeEdit->setDate(modelShifts->data(modelShifts->index(i,2)).toDate());
+            emit signalSendCheckData("ZNUMBER",modelShifts->data(modelShifts->index(i,1)).toInt());
+            emit signalSendCheckData("OPERATOR_ID",modelShifts->data(modelShifts->index(i,4)).toInt());
             m_shiftNumOK=true;
             return;
         }

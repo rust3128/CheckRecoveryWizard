@@ -24,6 +24,10 @@ void SelectTerminalDialog::createUI()
     ui->tableView->setModel(modelTerminal);
     ui->tableView->verticalHeader()->hide();
 
+    for(int i = 2; i<modelTerminal->columnCount();++i){
+        ui->tableView->hideColumn(i);
+    }
+
     ui->tableView->resizeColumnsToContents();
     ui->tableView->verticalHeader()->setDefaultSectionSize(ui->tableView->verticalHeader()->minimumSectionSize());
 }

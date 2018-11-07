@@ -9,6 +9,8 @@
 #include "articlepage.h"
 
 #include <QWizard>
+#include <QLineEdit>
+
 
 namespace Ui {
 class RecoveryWizard;
@@ -21,6 +23,8 @@ class RecoveryWizard : public QWizard
 signals:
     void signalHideWiz();
     void signalSendCheckInfo(QString,QString,bool);
+    void signalFinishWiz();
+
 
 
 private slots:
@@ -29,6 +33,7 @@ private slots:
     void slotSetLostCheckData(QString key, QVariant data);
     void slotViewSql();
     void slotExecuteSql();
+    void slotFinisExecute(bool isValid, QString message);
 public:
     explicit RecoveryWizard(QWidget *parent = 0);
     ~RecoveryWizard();
@@ -44,7 +49,8 @@ private:
 
     QHash<QString, QVariant> lostCheckFuel;
     QStringList script;
-//    QStringList endScript;
+    QStringList endScript;
+//    QLineEdit *m_lineEdit;
 
 private:
     void initLostCheckFuel();
