@@ -26,7 +26,6 @@ private slots:
     void on_actionClientsList_triggered();
     void on_action_triggered();
 
-    void on_actionTest_triggered();
 
 private:
     Ui::MainWindow *ui;

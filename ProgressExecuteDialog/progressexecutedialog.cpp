@@ -44,7 +44,7 @@ void ProgressExecuteDialog::setResultStatus(int task, bool isComplite, QString m
             ui->labelMessageConnect->setText("Подключились к базе данных АЗС.");
         } else {
             ui->labelMessageConnect->setText(mess);
-            ui->labelTitle->setStyleSheet("color: rgb(255, 0, 0);");
+            ui->labelTitle->setStyleSheet("color: rgb(0, 170, 0);");
             ui->labelTitle->setText("Ошибка!");
         }
         break;

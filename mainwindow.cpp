@@ -115,8 +115,3 @@ void MainWindow::slotCheckInfoUpdate(QString name, QString value, bool isSpan)
 }
 
 
-void MainWindow::on_actionTest_triggered()
-{
-    ProgressExecuteDialog *prExex = new ProgressExecuteDialog();
-    prExex->exec();
-}

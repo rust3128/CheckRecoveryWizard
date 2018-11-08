@@ -90,7 +90,7 @@
      <x>0</x>
      <y>0</y>
      <width>1009</width>
-     <height>23</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -106,7 +106,6 @@
      <string>Настройка</string>
     </property>
     <addaction name="actionClientsList"/>
-    <addaction name="actionTest"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
@@ -154,11 +153,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
-   </property>
-  </action>
-  <action name="actionTest">
-   <property name="text">
-    <string>Test</string>
    </property>
   </action>
  </widget>
