@@ -26,9 +26,13 @@ protected:
     bool validatePage();
     void initializePage();
 
+private slots:
+    void on_listView_clicked(const QModelIndex &idx);
+
 private:
     Ui::ConnectionsPage *ui;
     QSqlTableModel *modelConnections;
+    int connID;
 private:
     void createModel();
     void createUI();

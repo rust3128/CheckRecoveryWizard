@@ -3,6 +3,7 @@
 #include "loggingcategories.h"
 #include "ConnectionDialog/connectiondialog.h"
 #include "RecoveryWizard/terminalspage.h"
+#include "ProgressExecuteDialog/progressexecutedialog.h"
 
 
 
@@ -113,3 +114,9 @@ void MainWindow::slotCheckInfoUpdate(QString name, QString value, bool isSpan)
     ui->tableWidget->verticalHeader()->setDefaultSectionSize(ui->tableWidget->verticalHeader()->minimumSectionSize());
 }
 
+
+void MainWindow::on_actionTest_triggered()
+{
+    ProgressExecuteDialog *prExex = new ProgressExecuteDialog();
+    prExex->exec();
+}

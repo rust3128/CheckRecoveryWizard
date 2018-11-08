@@ -33,6 +33,7 @@ FinalPage::~FinalPage()
 
 bool FinalPage::validatePage()
 {
+    emit signalGenerateScript();
     if(ui->checkBoxView->isChecked())
         emit signalViewSql();
     emit signalExecScript();

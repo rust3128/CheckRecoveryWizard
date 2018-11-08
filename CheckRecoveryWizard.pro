@@ -40,7 +40,9 @@ SOURCES += \
     RecoveryWizard/articlepage.cpp \
     viewscriptdialog.cpp \
     SQLHighlighter.cpp \
-    lostcheckexecute.cpp
+    lostcheckexecute.cpp \
+    ProgressExecuteDialog/progressexecutedialog.cpp \
+    ProgressIndicator/QProgressIndicator.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -61,7 +63,10 @@ HEADERS += \
     viewscriptdialog.h \
     SQLHighlighter.h \
     lostcheckexecute.h \
-    passconv.h
+    passconv.h \
+    taskliststatus.h \
+    ProgressExecuteDialog/progressexecutedialog.h \
+    ProgressIndicator/QProgressIndicator.h
 
 FORMS += \
         mainwindow.ui \
@@ -76,7 +81,8 @@ FORMS += \
     RecoveryWizard/fuelpage.ui \
     RecoveryWizard/finalpage.ui \
     RecoveryWizard/articlepage.ui \
-    viewscriptdialog.ui
+    viewscriptdialog.ui \
+    ProgressExecuteDialog/progressexecutedialog.ui
 
 DISTFILES += \
     SQL/database.sql

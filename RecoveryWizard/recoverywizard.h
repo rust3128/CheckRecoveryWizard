@@ -7,6 +7,7 @@
 #include "fuelpage.h"
 #include "finalpage.h"
 #include "articlepage.h"
+#include "ProgressExecuteDialog/progressexecutedialog.h"
 
 #include <QWizard>
 #include <QLineEdit>
@@ -33,7 +34,9 @@ private slots:
     void slotSetLostCheckData(QString key, QVariant data);
     void slotViewSql();
     void slotExecuteSql();
-    void slotFinisExecute(bool isValid, QString message);
+    void slotStartExecute();
+    void slotFinisExecute();
+    void slotGenerateScript();
 public:
     explicit RecoveryWizard(QWidget *parent = 0);
     ~RecoveryWizard();
@@ -46,6 +49,7 @@ private:
     FuelPage *fuelPage;
     FinalPage *finalPage;
     ArticlePage *articlePage;
+    ProgressExecuteDialog *progExecDlg;
 
     QHash<QString, QVariant> lostCheckFuel;
     QStringList script;
@@ -54,7 +58,7 @@ private:
 
 private:
     void initLostCheckFuel();
-    void generateScript();
+
 };
 
 #endif // RECOVERYWIZARD_H

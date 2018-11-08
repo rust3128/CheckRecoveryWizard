@@ -27,6 +27,7 @@ TerminalsPage::~TerminalsPage()
 void TerminalsPage::initializePage()
 {
 
+    qInfo(logInfo()) << "Инициализация страницы";
     ui->labelTerminalName->clear();
     ui->labelOnlineStatus->clear();
     createModelTerminals();
@@ -63,6 +64,8 @@ bool TerminalsPage::validatePage()
 
 void TerminalsPage::createModelTerminals()
 {
+    qInfo(logInfo()) << "Создаем содель терминалов.";
+
     QSqlDatabase dbcenter = QSqlDatabase::database("central");
     modelTerminals = new QSqlQueryModel();
     modelTerminals->setQuery("SELECT t.terminal_id, TRIM(t.name) AS name, c.SERVER_NAME, c.DB_NAME, c.CON_PASSWORD FROM TERMINALS t "

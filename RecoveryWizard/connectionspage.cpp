@@ -21,7 +21,7 @@ bool ConnectionsPage::validatePage()
     QSqlQuery *q = new QSqlQuery(dblite);
 
     q->prepare("SELECT * FROM connections WHERE conn_id=:connID");
-    q->bindValue(":connID",modelConnections->data(modelConnections->index(ui->listView->currentIndex().row(),0)).toInt());
+    q->bindValue(":connID",connID);
     if(!q->exec()) qCritical(logCritical()) << "Class:"
                                            << metaObject()->className() << "Ошибка при получении параметров подключения."
                                            << q->lastError().text();
@@ -79,3 +79,8 @@ void ConnectionsPage::createUI()
     ui->listView->setModelColumn(1);
 }
 
+
+void ConnectionsPage::on_listView_clicked(const QModelIndex &idx)
+{
+    connID=modelConnections->data(modelConnections->index(idx.row(),0)).toInt();
+}

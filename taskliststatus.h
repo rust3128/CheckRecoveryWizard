@@ -1,0 +1,7 @@
+#ifndef TASKLISTSTATUS_H
+#define TASKLISTSTATUS_H
+enum {
+    CONNECT_DB_AZS,
+    EXECUTE_SQL
+};
+#endif // TASKLISTSTATUS_H

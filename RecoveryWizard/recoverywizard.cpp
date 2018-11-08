@@ -7,6 +7,7 @@
 #include "lostcheckexecute.h"
 
 
+
 #include <QAbstractButton>
 #include <QMessageBox>
 #include <QPushButton>
@@ -57,7 +58,7 @@ RecoveryWizard::RecoveryWizard(QWidget *parent) :
 
     connect(fuelPage,&FuelPage::signalSendCheckData,this,&RecoveryWizard::slotSetLostCheckData);
 
-//    connect(fuelPage,&FuelPage::signalSendCheckData,this,&RecoveryWizard::slotGetPageData);
+    connect(finalPage,&FinalPage::signalGenerateScript,this,&RecoveryWizard::slotGenerateScript);
     connect(finalPage,&FinalPage::signalViewSql,this,&RecoveryWizard::slotViewSql);
     connect(finalPage,&FinalPage::signalExecScript,this,&RecoveryWizard::slotExecuteSql);
 
@@ -65,6 +66,7 @@ RecoveryWizard::RecoveryWizard(QWidget *parent) :
 //    mainLayout->addWidget(m_lineEdit = new QLineEdit);
 //    mainLayout->addStretch(1);
 //    this->setLayout(mainLayout);
+//    m_lineEdit->hide();
 //    this->setPixmap(QWizard::WatermarkPixmap, QPixmap(":/Icons/wizlogo.jpg"));
 
 }
@@ -170,14 +172,14 @@ void RecoveryWizard::slotSetLostCheckData(QString key, QVariant data)
 
 void RecoveryWizard::slotViewSql()
 {
-    generateScript();
+
     ViewScriptDialog *viewScript = new ViewScriptDialog(script+endScript);
     viewScript->exec();
 }
 
 
 
-void RecoveryWizard::generateScript()
+void RecoveryWizard::slotGenerateScript()
 {
     script.clear();
 //    endScript.clear();
@@ -257,6 +259,7 @@ void RecoveryWizard::slotExecuteSql()
 
     LostCheckExecute *lsExec = new LostCheckExecute();
     QThread *thread = new QThread(this);
+    progExecDlg = new ProgressExecuteDialog();
     lsExec->setScript(script);
     lsExec->setTerminalID(lostCheckFuel.value("TERMINAL_ID").toInt());
     lsExec->setConnData(connAzs);
@@ -264,30 +267,41 @@ void RecoveryWizard::slotExecuteSql()
 
     lsExec->moveToThread(thread);
     connect(thread,&QThread::started,lsExec,&LostCheckExecute::slotScriptExecute);
+    connect(thread,&QThread::started,this,&RecoveryWizard::slotStartExecute);
+
+    connect(lsExec,&LostCheckExecute::signalCurrentTask,progExecDlg,&ProgressExecuteDialog::setCurrentStatus);
+    connect(lsExec,&LostCheckExecute::signalTaskStatus,progExecDlg,&ProgressExecuteDialog::setResultStatus);
+
+
     connect(lsExec,&LostCheckExecute::finished,this,&RecoveryWizard::slotFinisExecute,Qt::DirectConnection);
     connect(lsExec,&LostCheckExecute::finished,thread,&QThread::quit);
-
     connect(lsExec,&LostCheckExecute::finished,lsExec,&LostCheckExecute::deleteLater);
-
     connect(thread,&QThread::finished,thread,&QThread::deleteLater);
 
     thread->start();
 
 }
 
-void RecoveryWizard::slotFinisExecute(bool isValid, QString message)
+void RecoveryWizard::slotStartExecute()
 {
-    QMessageBox msgBox;
-    msgBox.setWindowTitle("Информация");
-    msgBox.setText("Результат выполнения скрипта.");
-    msgBox.setInformativeText(message);
-    if(isValid) {
-        msgBox.setIcon(QMessageBox::Information);
-    } else {
-        msgBox.setIcon(QMessageBox::Critical);
-    }
-    msgBox.exec();
     emit signalFinishWiz();
+    progExecDlg->exec();
+
+}
+
+void RecoveryWizard::slotFinisExecute()
+{
+//    QMessageBox msgBox;
+//    msgBox.setWindowTitle("Информация");
+//    msgBox.setText("Результат выполнения скрипта.");
+//    msgBox.setInformativeText(message);
+//    if(isValid) {
+//        msgBox.setIcon(QMessageBox::Information);
+//    } else {
+//        msgBox.setIcon(QMessageBox::Critical);
+//    }
+//    msgBox.exec();
+////    emit signalFinishWiz();
 
 
 }

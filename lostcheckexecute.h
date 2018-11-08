@@ -22,7 +22,9 @@ public:
         conn = hash;
     }
 signals:
-    void finished(bool,QString);
+    void signalCurrentTask(int);
+    void signalTaskStatus(int, bool, QString mess = nullptr);
+    void finished();
 
 public slots:
    void slotScriptExecute();
