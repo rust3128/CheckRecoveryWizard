@@ -42,7 +42,8 @@ SOURCES += \
     SQLHighlighter.cpp \
     lostcheckexecute.cpp \
     ProgressExecuteDialog/progressexecutedialog.cpp \
-    ProgressIndicator/QProgressIndicator.cpp
+    ProgressIndicator/QProgressIndicator.cpp \
+    articles.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -66,7 +67,8 @@ HEADERS += \
     passconv.h \
     taskliststatus.h \
     ProgressExecuteDialog/progressexecutedialog.h \
-    ProgressIndicator/QProgressIndicator.h
+    ProgressIndicator/QProgressIndicator.h \
+    articles.h
 
 FORMS += \
         mainwindow.ui \

@@ -72,8 +72,20 @@ bool FuelPage::validatePage()
     emit sendInfo("Сумма",ui->lineEditSum->text().trimmed(),false);
     emit signalSendCheckData("SUMMA",ui->lineEditSum->text().toDouble());
 
-    emit sendInfo("Скидка",ui->lineEditDiscount->text().trimmed(),false);
-    emit signalSendCheckData("DISCOUNTSUMMA",ui->lineEditDiscount->text().toDouble());
+    if(ui->lineEditDiscount->text().isEmpty()){
+        emit sendInfo("Скидка",ui->lineEditDiscount->text().trimmed(),false);
+        emit signalSendCheckData("DISCOUNTSUMMA",ui->lineEditDiscount->text().toDouble());
+    }
+
+    if(ui->lineEditClientCode->isVisible()){
+        if(ui->lineEditClientCode->text().isEmpty() || ui->lineEditClientInfo->text().isEmpty()){
+            return false;
+        } else {
+            emit sendInfo("Клиент", ui->lineEditClientCode->text()+", "+ui->lineEditClientInfo->text(),false);
+            emit signalSendCheckData("INFO_CODE",ui->lineEditClientCode->text().toInt());
+            emit signalSendCheckData("INFO_TEXT",ui->lineEditClientInfo->text().trimmed());
+        }
+    }
 
     return true;
 }
