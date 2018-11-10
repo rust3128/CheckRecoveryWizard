@@ -43,7 +43,8 @@ SOURCES += \
     lostcheckexecute.cpp \
     ProgressExecuteDialog/progressexecutedialog.cpp \
     ProgressIndicator/QProgressIndicator.cpp \
-    articles.cpp
+    articles.cpp \
+    listarticles.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -68,7 +69,8 @@ HEADERS += \
     taskliststatus.h \
     ProgressExecuteDialog/progressexecutedialog.h \
     ProgressIndicator/QProgressIndicator.h \
-    articles.h
+    articles.h \
+    listarticles.h
 
 FORMS += \
         mainwindow.ui \

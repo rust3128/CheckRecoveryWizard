@@ -13,6 +13,11 @@ public:
     void setShortName(QString _shortName);
     void setAmount(float _amount);
     void setPrice(float _price);
+    int getID();
+    QString getName();
+    QString getShortName();
+    float getAmount();
+    float getPrice();
 private:
     int m_artileID;
     QString m_name;

@@ -128,23 +128,6 @@ void RecoveryWizard::cancelWizard()
 
 }
 
-//void RecoveryWizard::on_RecoveryWizard_currentIdChanged(int id)
-//{
-
-//    switch (id) {
-//    case CONNECTIONS_PAGE:
-////        qInfo(logInfo()) << Q_FUNC_INFO << "case CONNECTIONS_PAGE:" << "Current ID changed:ROW" << infoRow << "Text" << infoText;
-//        break;
-//    case TERMINALS_PAGE:
-////        qInfo(logInfo()) << Q_FUNC_INFO << "case TERMINALS_PAGE:" << "Current ID changed:ROW" << infoRow << "Text" << infoText;
-////        emit signalSendCheckInfo(infoRow,infoText);
-//        break;
-//    default:
-//        break;
-//    }
-
-
-//}
 
 void RecoveryWizard::slotGetPageData(QString name, QString info, bool isSpan)
 {

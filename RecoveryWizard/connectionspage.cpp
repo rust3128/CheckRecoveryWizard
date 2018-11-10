@@ -44,11 +44,10 @@ bool ConnectionsPage::validatePage()
         return false;
     } else {
 
-    ui->labelInfo->clear();
-
-//    this->setField("connName", modelConnections->data(modelConnections->index(ui->listView->currentIndex().row(),1)).toString());
-    emit sendInfo("Организация", modelConnections->data(modelConnections->index(ui->listView->currentIndex().row(),1)).toString(),false);
-    return true;
+        QSqlDatabase::cloneDatabase(dbcentr,"connThread");
+        ui->labelInfo->clear();
+        emit sendInfo("Организация", modelConnections->data(modelConnections->index(ui->listView->currentIndex().row(),1)).toString(),false);
+        return true;
     }
 }
 
