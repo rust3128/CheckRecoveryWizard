@@ -6,8 +6,8 @@
 class Articles
 {
 public:
+//    Articles(int _articleID, QString _name, QString _shortName, float _amount, float _price );
     Articles();
-
     void setID(int _articleID);
     void setName(QString _name);
     void setShortName(QString _shortName);

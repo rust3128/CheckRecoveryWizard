@@ -52,6 +52,9 @@ void ArticlePage::slotGetArticlesList(QVector<Articles> ls)
 {
     goods = ls;
     QVectorIterator<Articles> a(goods);
+
+
+
     while(a.hasNext()){
         ar = a.next();
         qDebug() << ar.getID() << ar.getName() << ar.getShortName() << ar.getAmount() << ar.getPrice();
@@ -69,6 +72,9 @@ void ArticlePage::slotFinishArticlesList()
     qInfo(logInfo()) << "Закончили получать список товаров" << QTime::currentTime().toString("hh:mm:ss.zzz");
     ui->frameProgress->hide();
     ui->tableView->show();
+
+    modelArticles = new VektorModel(goods);
+    ui->tableView->setModel(modelArticles);
 }
 
 void ArticlePage::slotGetConnRecord(QSqlRecord rec)

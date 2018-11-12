@@ -1,13 +1,14 @@
 #ifndef ARTICLEPAGE_H
 #define ARTICLEPAGE_H
-
+#include "articles.h"
+#include "vektormodel.h"
 #include <QWizardPage>
 #include <QSqlQueryModel>
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QDialog>
 #include <QSqlRecord>
-#include "articles.h"
+
 
 namespace Ui {
 class ArticlePage;
@@ -40,6 +41,7 @@ private:
     Articles ar;
     QVector<Articles> goods;
     QSqlRecord recrodConn;
+    VektorModel *modelArticles;
 };
 
 #endif // ARTICLEPAGE_H
