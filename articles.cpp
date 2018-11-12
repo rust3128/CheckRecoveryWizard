@@ -1,12 +1,8 @@
 #include "articles.h"
 
-Articles::Articles(int articleID, QString name, QString shortname, float amount, float price)
+Articles::Articles()
 {
-    m_artileID = articleID;
-    m_name = name;
-    m_shortname = shortname;
-    m_amount = amount;
-    m_price = price;
+
 }
 
 void Articles::setID(int _articleID)
@@ -57,3 +53,4 @@ float Articles::getPrice()
 {
     return m_price;
 }
+

@@ -2,11 +2,15 @@
 #include "ui_connectionspage.h"
 #include "loggingcategories.h"
 
+
 ConnectionsPage::ConnectionsPage(QWidget *parent) :
     QWizardPage(parent),
     ui(new Ui::ConnectionsPage)
 {
+
     ui->setupUi(this);
+
+    registerField("connId",ui->listView,"currenIdex");
 
 }
 
@@ -26,6 +30,8 @@ bool ConnectionsPage::validatePage()
                                            << metaObject()->className() << "Ошибка при получении параметров подключения."
                                            << q->lastError().text();
     q->next();
+    recConn = q->record();
+
 
 
 /// Создание подключения к центральной базе
@@ -44,9 +50,9 @@ bool ConnectionsPage::validatePage()
         return false;
     } else {
 
-        QSqlDatabase::cloneDatabase(dbcentr,"connThread");
         ui->labelInfo->clear();
         emit sendInfo("Организация", modelConnections->data(modelConnections->index(ui->listView->currentIndex().row(),1)).toString(),false);
+        emit signalConnRecord(recConn);
         return true;
     }
 }

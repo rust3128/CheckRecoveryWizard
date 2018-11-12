@@ -7,24 +7,28 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QVector>
+#include <QSqlRecord>
 
 
 class ListArticles : public QObject
 {
     Q_OBJECT
 public:
-    explicit ListArticles(int terminal_D, int shift, QObject *parent = nullptr);
+    explicit ListArticles(QSqlRecord rec, int terminal_D, int shift, QObject *parent = nullptr);
 
 signals:
+    void signalSendArticlesList(QVector<Articles>);
+    void finish();
 
 public slots:
-
-private:
     void createListGoods();
+private:
+
 private:
     int m_terminalID;
     int m_shiftID;
     QVector<Articles> goods;
+    QSqlRecord connRec;
 
 };
 

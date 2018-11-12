@@ -1,5 +1,10 @@
 #include "articlepage.h"
 #include "ui_articlepage.h"
+#include "listarticles.h"
+#include "loggingcategories.h"
+#include <QThread>
+#include <QTime>
+#include <QDebug>
 
 ArticlePage::ArticlePage(QWidget *parent) :
     QWizardPage(parent),
@@ -14,29 +19,61 @@ ArticlePage::~ArticlePage()
     delete ui;
 }
 
+
 void ArticlePage::initializePage()
 {
+//    qInfo(logInfo()) << Q_FUNC_INFO << recrodConn;
 
-//    QSqlDatabase dbcenter = QSqlDatabase::database("central");
-//    modelArticles = new QSqlQueryModel();
-//    QString strSQL = QString("SELECT SL.TERMINAL_ID, A.GARTICLE_ID, GA.NAME, GA_SHORTNAME, SL.AMOUNT, "
-//                             "(SELECT FIRST 1 NEWPRICE FROM HISTORY_PRICES HP "
-//                              "WHERE HP.TERMINAL_ID = SL.TERMINAL_ID "
-//                              "AND HP.GARTICLE_ID = A.GARTICLE_ID "
-//                              "AND HP.DATEOP < SH.DATCLOSE "
-//                              "ORDER BY HP.DATEOP DESC) AS PRICE "
-//                           "FROM GET_ASALDOS (%1, %2, NULL, 0) AS SL "
-//                           "INNER JOIN ARTICLES A ON A.TERMINAL_ID = SL.TERMINAL_ID AND A.ARTICLE_ID = SL.ARTICLE_ID "
-//                           "LEFT JOIN SHIFTS SH ON SH.TERMINAL_ID = SL.TERMINAL_ID AND SH.SHIFT_ID = SL.SHIFT_ID "
-//                           "LEFT JOIN GARTICLES GA ON GA.GARTICLE_ID = A.GARTICLE_ID "
-//                           "WHERE SL.AMOUNT > 0")
-//            .arg(field("terminalID").toInt())
-//            .arg(field("shiftID").toInt());
+    ListArticles *lsArticles = new ListArticles(recrodConn, field("terminalID").toInt(),field("shiftID").toInt());
+    QThread *thread = new QThread();
+    lsArticles->moveToThread(thread);
 
-//    modelArticles->setQuery(strSQL,dbcenter);
-//    ui->tableView->setModel(modelArticles);
+    connect(thread,&QThread::started,this,&ArticlePage::slotStartArticlesList);
+    connect(thread,&QThread::started,lsArticles,&ListArticles::createListGoods);
 
 
+    connect(lsArticles,&ListArticles::signalSendArticlesList,this,&ArticlePage::slotGetArticlesList,Qt::DirectConnection);
+
+
+
+
+
+    connect(lsArticles,&ListArticles::finish,thread,&QThread::quit);
+
+    connect(lsArticles,&ListArticles::finish,lsArticles,&ListArticles::deleteLater);
+    connect(lsArticles,&ListArticles::finish,this,&ArticlePage::slotFinishArticlesList);
+
+    connect(thread,&QThread::finished,thread,&QThread::deleteLater);
+
+    thread->start();
+}
+
+void ArticlePage::slotGetArticlesList(QVector<Articles> ls)
+{
+    goods = ls;
+    QVectorIterator<Articles> a(goods);
+    while(a.hasNext()){
+        ar = a.next();
+        qDebug() << ar.getID() << ar.getName() << ar.getShortName() << ar.getAmount() << ar.getPrice();
+    }
+}
+
+void ArticlePage::slotStartArticlesList()
+{
+    qInfo(logInfo()) << "Начали получать список товаров" << QTime::currentTime().toString("hh:mm:ss.zzz");
+    ui->tableView->hide();
+}
+
+void ArticlePage::slotFinishArticlesList()
+{
+    qInfo(logInfo()) << "Закончили получать список товаров" << QTime::currentTime().toString("hh:mm:ss.zzz");
+    ui->frameProgress->hide();
+    ui->tableView->show();
+}
+
+void ArticlePage::slotGetConnRecord(QSqlRecord rec)
+{
+    recrodConn = rec;
 }
 
 bool ArticlePage::validatePage()

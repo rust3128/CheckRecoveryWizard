@@ -47,6 +47,7 @@ RecoveryWizard::RecoveryWizard(QWidget *parent) :
 
 
     connect(connPage,&ConnectionsPage::sendInfo,this,&RecoveryWizard::slotGetPageData);
+    connect(connPage,&ConnectionsPage::signalConnRecord,this,&RecoveryWizard::slotGetConnRecord);
 
     connect(termPage,&TerminalsPage::sendInfo,this,&RecoveryWizard::slotGetPageData);
     connect(termPage,&TerminalsPage::signalSendCheckData,this,&RecoveryWizard::slotSetLostCheckData);
@@ -62,6 +63,14 @@ RecoveryWizard::RecoveryWizard(QWidget *parent) :
     connect(finalPage,&FinalPage::signalViewSql,this,&RecoveryWizard::slotViewSql);
     connect(finalPage,&FinalPage::signalExecScript,this,&RecoveryWizard::slotExecuteSql);
 
+    connect(this,&RecoveryWizard::signalSendConnRec,articlePage,&ArticlePage::slotGetConnRecord);
+
+
+
+
+
+
+
 //    QBoxLayout *mainLayout = new QVBoxLayout;
 //    mainLayout->addWidget(m_lineEdit = new QLineEdit);
 //    mainLayout->addStretch(1);
@@ -74,6 +83,11 @@ RecoveryWizard::RecoveryWizard(QWidget *parent) :
 RecoveryWizard::~RecoveryWizard()
 {
     delete ui;
+}
+
+void RecoveryWizard::slotGetConnRecord(QSqlRecord rec)
+{
+    emit signalSendConnRec(rec);
 }
 
 void RecoveryWizard::initLostCheckFuel()
@@ -144,7 +158,7 @@ void RecoveryWizard::slotSetLostCheckData(QString key, QVariant data)
                                      .arg(Q_FUNC_INFO);
     }
 
-    qInfo(logInfo()) << "LostChek set: " << lostCheckFuel[key];
+//    qInfo(logInfo()) << "LostChek set: " << lostCheckFuel[key];
 //    QHashIterator<QString, QVariant> i(lostCheckFuel);
 //    while (i.hasNext()) {
 //        i.next();
@@ -288,3 +302,5 @@ void RecoveryWizard::slotFinisExecute()
 
 
 }
+
+

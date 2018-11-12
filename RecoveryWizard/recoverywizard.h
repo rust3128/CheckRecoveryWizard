@@ -10,7 +10,7 @@
 #include "ProgressExecuteDialog/progressexecutedialog.h"
 
 #include <QWizard>
-#include <QLineEdit>
+#include <QSqlRecord>
 
 
 namespace Ui {
@@ -25,6 +25,7 @@ signals:
     void signalHideWiz();
     void signalSendCheckInfo(QString,QString,bool);
     void signalFinishWiz();
+    void signalSendConnRec(QSqlRecord);
 
 
 
@@ -37,6 +38,9 @@ private slots:
     void slotStartExecute();
     void slotFinisExecute();
     void slotGenerateScript();
+    void slotGetConnRecord(QSqlRecord rec);
+
+
 public:
     explicit RecoveryWizard(QWidget *parent = 0);
     ~RecoveryWizard();
@@ -54,7 +58,7 @@ private:
     QHash<QString, QVariant> lostCheckFuel;
     QStringList script;
     QStringList endScript;
-//    QLineEdit *m_lineEdit;
+    QSqlRecord recConnect;
 
 private:
     void initLostCheckFuel();

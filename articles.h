@@ -6,7 +6,7 @@
 class Articles
 {
 public:
-    Articles(int articleID, QString name, QString shortname, float amount, float price);
+    Articles();
 
     void setID(int _articleID);
     void setName(QString _name);

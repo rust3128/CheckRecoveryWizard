@@ -77,9 +77,9 @@ bool ShiftsPage::validatePage()
     }
 
     if(ui->radioButtonFuelArticles->isChecked()){
-        this->setField("chekFuelArticles",true);
+        this->setField("checkFuelArticles",true);
     } else {
-        this->setField("chekFuelArticles",false);
+        this->setField("checkFuelArticles",false);
     }
 
     if(ui->radioButtonArticles->isChecked()){
@@ -88,7 +88,7 @@ bool ShiftsPage::validatePage()
         this->setField("checkArticles",false);
     }
 
-    qInfo(logInfo()) << "Select Fuel?" << field("checkFuel").toBool();
+//    qInfo(logInfo()) << "Select Fuel?" << field("checkFuel").toBool();
 
     setField("shiftID",ui->lineEditShiftID->text().toInt());
     emit sendInfo("Смена",ui->lineEditShiftID->text().trimmed(),false);
@@ -166,7 +166,7 @@ void ShiftsPage::createModelPoss()
                                              .arg(Q_FUNC_INFO);
 
     }
-    qInfo(logInfo()) << "Индекс при создали моделей касс "<< ui->comboBoxPoss->currentIndex();
+//    qInfo(logInfo()) << "Индекс при создали моделей касс "<< ui->comboBoxPoss->currentIndex();
 }
 
 

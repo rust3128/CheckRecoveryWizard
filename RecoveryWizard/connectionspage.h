@@ -5,6 +5,8 @@
 #include <QSqlTableModel>
 #include <QSqlError>
 #include <QSqlQuery>
+#include <QSqlRecord>
+
 
 namespace Ui {
 class ConnectionsPage;
@@ -22,6 +24,7 @@ public:
 
 signals:
     void sendInfo(QString, QString, bool);
+    void signalConnRecord(QSqlRecord);
 protected:
     bool validatePage();
     void initializePage();
@@ -33,9 +36,11 @@ private:
     Ui::ConnectionsPage *ui;
     QSqlTableModel *modelConnections;
     int connID;
+    QSqlRecord recConn;
 private:
     void createModel();
     void createUI();
+
 
 };
 

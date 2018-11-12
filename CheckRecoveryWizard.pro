@@ -44,7 +44,8 @@ SOURCES += \
     ProgressExecuteDialog/progressexecutedialog.cpp \
     ProgressIndicator/QProgressIndicator.cpp \
     articles.cpp \
-    listarticles.cpp
+    listarticles.cpp \
+    vektormodel.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -70,7 +71,8 @@ HEADERS += \
     ProgressExecuteDialog/progressexecutedialog.h \
     ProgressIndicator/QProgressIndicator.h \
     articles.h \
-    listarticles.h
+    listarticles.h \
+    vektormodel.h
 
 FORMS += \
         mainwindow.ui \
