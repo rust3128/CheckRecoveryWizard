@@ -16,6 +16,9 @@ MainWindow::MainWindow(QWidget *parent) :
     createUI();
     slotHideWiz();
 
+    ui->splitter->setStretchFactor(0,1);
+    ui->splitter->setStretchFactor(1,0);
+
 
 }
 

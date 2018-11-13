@@ -31,7 +31,7 @@ void ListArticles::createListGoods()
 
     QSqlQuery q = QSqlQuery(dbth);
 
-    QString strSQL = QString("SELECT A.GARTICLE_ID, GA.NAME, GA.SHORTNAME, SL.AMOUNT, "
+    QString strSQL = QString("SELECT A.GARTICLE_ID, GA.SHORTNAME, SL.AMOUNT, "
                                  "(SELECT FIRST 1 NEWPRICE FROM HISTORY_PRICES HP "
                                   "WHERE HP.TERMINAL_ID = SL.TERMINAL_ID "
                                   "AND HP.GARTICLE_ID = A.GARTICLE_ID "
@@ -51,7 +51,7 @@ void ListArticles::createListGoods()
     }
     while (q.next()){
         ar.setID(q.value("GARTICLE_ID").toInt());
-        ar.setName(q.value("NAME").toString().trimmed());
+//        ar.setName(q.value("NAME").toString().trimmed());
         ar.setShortName(q.value("SHORTNAME").toString().trimmed());
         ar.setAmount(q.value("AMOUNT").toFloat());
         ar.setPrice(q.value("PRICE").toFloat());

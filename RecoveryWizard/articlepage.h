@@ -31,6 +31,10 @@ private slots:
     void slotStartArticlesList();
     void slotFinishArticlesList();
 
+    void on_pushButtonAdd_clicked();
+
+    void on_tableView_doubleClicked(const QModelIndex &idx);
+
 protected:
     void initializePage();
     bool validatePage();
@@ -42,6 +46,8 @@ private:
     QVector<Articles> goods;
     QSqlRecord recrodConn;
     VektorModel *modelArticles;
+private:
+    void createUI();
 };
 
 #endif // ARTICLEPAGE_H

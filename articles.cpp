@@ -10,55 +10,65 @@
 //}
 Articles::Articles()
 {
+    setColParam(4);
+}
 
+void Articles::setColParam(int _colParam)
+{
+    colParam = _colParam;
+}
+
+int Articles::getColParam()
+{
+    return colParam;
 }
 
 void Articles::setID(int _articleID)
 {
-    m_artileID = _articleID;
+    artileID = _articleID;
 }
 
-void Articles::setName(QString _name)
-{
-    m_name = _name;
-}
+//void Articles::setName(QString _name)
+//{
+//    m_name = _name;
+//}
 
 void Articles::setShortName(QString _shortName)
 {
-    m_shortname = _shortName;
+    shortname = _shortName;
 }
 
 void Articles::setAmount(float _amount)
 {
-    m_amount = _amount;
+    amount = _amount;
 }
 
 void Articles::setPrice(float _price)
 {
-    m_price = _price;
+    price = _price;
 }
 
 int Articles::getID()
 {
-    return m_artileID;
+    return artileID;
 }
 
-QString Articles::getName()
-{
-    return m_name;
-}
+//QString Articles::getName()
+//{
+//    return m_name;
+//}
 
 QString Articles::getShortName()
 {
-    return m_shortname;
+    return shortname;
 }
 
 float Articles::getAmount()
 {
-    return m_amount;
+    return amount;
 }
 float Articles::getPrice()
 {
-    return m_price;
+    return price;
 }
 

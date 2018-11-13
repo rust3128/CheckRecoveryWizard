@@ -45,7 +45,8 @@ SOURCES += \
     ProgressIndicator/QProgressIndicator.cpp \
     articles.cpp \
     listarticles.cpp \
-    vektormodel.cpp
+    vektormodel.cpp \
+    addarticledialog.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -72,7 +73,8 @@ HEADERS += \
     ProgressIndicator/QProgressIndicator.h \
     articles.h \
     listarticles.h \
-    vektormodel.h
+    vektormodel.h \
+    addarticledialog.h
 
 FORMS += \
         mainwindow.ui \
@@ -88,7 +90,8 @@ FORMS += \
     RecoveryWizard/finalpage.ui \
     RecoveryWizard/articlepage.ui \
     viewscriptdialog.ui \
-    ProgressExecuteDialog/progressexecutedialog.ui
+    ProgressExecuteDialog/progressexecutedialog.ui \
+    addarticledialog.ui
 
 DISTFILES += \
     SQL/database.sql
