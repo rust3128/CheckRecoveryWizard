@@ -128,5 +128,6 @@ void ArticlePage::on_tableView_doubleClicked(const QModelIndex &idx)
         ui->tableWidget->setItem(row,2, new QTableWidgetItem(dlgData.at(0)));
         ui->tableWidget->setItem(row,3, new QTableWidgetItem(dlgData.at(1)));
         ui->tableWidget->setItem(row,4, new QTableWidgetItem(dlgData.at(2)));
+        ui->tableWidget->resizeColumnsToContents();
     }
 }
