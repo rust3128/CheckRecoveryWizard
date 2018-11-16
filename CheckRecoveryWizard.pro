@@ -46,7 +46,8 @@ SOURCES += \
     articles.cpp \
     listarticles.cpp \
     vektormodel.cpp \
-    addarticledialog.cpp
+    addarticledialog.cpp \
+    articleinfo.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -74,7 +75,8 @@ HEADERS += \
     articles.h \
     listarticles.h \
     vektormodel.h \
-    addarticledialog.h
+    addarticledialog.h \
+    articleinfo.h
 
 FORMS += \
         mainwindow.ui \

@@ -22,6 +22,8 @@ RecoveryWizard::RecoveryWizard(QWidget *parent) :
     ui->setupUi(this);
 
     initLostCheckFuel();
+    initLostCheckArticles();
+    initMposCheck();
 
     connPage = new ConnectionsPage();
     termPage = new TerminalsPage();
@@ -67,16 +69,6 @@ RecoveryWizard::RecoveryWizard(QWidget *parent) :
 
 
 
-
-
-
-
-//    QBoxLayout *mainLayout = new QVBoxLayout;
-//    mainLayout->addWidget(m_lineEdit = new QLineEdit);
-//    mainLayout->addStretch(1);
-//    this->setLayout(mainLayout);
-//    m_lineEdit->hide();
-//    this->setPixmap(QWizard::WatermarkPixmap, QPixmap(":/Icons/wizlogo.jpg"));
 
 }
 
@@ -127,6 +119,62 @@ void RecoveryWizard::initLostCheckFuel()
     lostCheckFuel.insert("DAT",0);
     lostCheckFuel.insert("GOV_NUMBER","");
     lostCheckFuel.insert("BONUSCARD","");
+}
+
+void RecoveryWizard::initLostCheckArticles()
+{
+    lostCheckArticle.insert("TERMINAL_ID", 0);
+    lostCheckArticle.insert("ASALE_ID", "GEN_ID(GEN_ASALES, 1)");
+    lostCheckArticle.insert("SHIFT_ID", 0);
+    lostCheckArticle.insert("ARTICLE_ID", 0);
+    lostCheckArticle.insert("GARTICLE_ID", 0);
+    lostCheckArticle.insert("CODE", 0);
+    lostCheckArticle.insert("DATEOP", 0);
+    lostCheckArticle.insert("PRICE", 0.00);
+    lostCheckArticle.insert("AMOUNT", 0.00);
+    lostCheckArticle.insert("SUMMA", 0.00);
+    lostCheckArticle.insert("DISCOUNT_SUMMA", 0.00);
+    lostCheckArticle.insert("DISCOUNT_PROC", 0.00);
+    lostCheckArticle.insert("CHECKNUMBER", 0);
+    lostCheckArticle.insert("PAYTYPE_ID", 0);
+    lostCheckArticle.insert("INFO_CODE", 0);
+    lostCheckArticle.insert("INFO_TEXT", "");
+    lostCheckArticle.insert("POS_ID", 0);
+    lostCheckArticle.insert("ZNUMBER", 0);
+    lostCheckArticle.insert("OPERATOR_ID", 0);
+    lostCheckArticle.insert("DEPT_ID", 0);
+    lostCheckArticle.insert("NUM_CHECK_RETURN", "NULL");
+    lostCheckArticle.insert("DISCOUNT_TYPE", 0);
+    lostCheckArticle.insert("POSTRANSACTION_ID", 0);
+    lostCheckArticle.insert("SHARE_ID", 0);
+    lostCheckArticle.insert("BARCODE", "");
+    lostCheckArticle.insert("MPOSCHECK_ID", ":CHECK_ID");
+    lostCheckArticle.insert("PAYTYPE_ID2", 0);
+    lostCheckArticle.insert("SUMMA2", 0.00);
+    lostCheckArticle.insert("DISCOUNT_SUMMA2", 0.00);
+    lostCheckArticle.insert("MPOSCHECK_ID_RETURN", 0);
+    lostCheckArticle.insert("BONUSCARD", "");
+
+}
+
+void RecoveryWizard::initMposCheck()
+{
+    mposCheck.insert("TERMINAL_ID", 0);
+    mposCheck.insert("MPOSCHECK_ID", ":CHECK_ID");
+    mposCheck.insert("POS_ID", 0);
+    mposCheck.insert("SHIFT_ID", 0);
+    mposCheck.insert("ZNUMBER", 0);
+    mposCheck.insert("DAT", 0);
+    mposCheck.insert("OPERATOR_ID", 0);
+    mposCheck.insert("PAYTYPE_ID", 0);
+    mposCheck.insert("PAYTYPE_ID2", 0);
+    mposCheck.insert("SALE_TYPE", 1);
+    mposCheck.insert("NUMBERCHECK", 0);
+    mposCheck.insert("NUM_CHECK_RETURN", 0);
+    mposCheck.insert("MPOSCHECK_ID_RETURN", 0);
+    mposCheck.insert("COMBINE_TYPE", 0);
+    mposCheck.insert("PREORDER_TRN_ID", 0);
+
 }
 
 

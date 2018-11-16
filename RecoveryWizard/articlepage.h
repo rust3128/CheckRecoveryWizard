@@ -1,6 +1,7 @@
 #ifndef ARTICLEPAGE_H
 #define ARTICLEPAGE_H
 #include "articles.h"
+#include "articleinfo.h"
 #include "vektormodel.h"
 #include <QWizardPage>
 #include <QSqlQueryModel>
@@ -35,9 +36,9 @@ private slots:
 
     void on_tableView_doubleClicked(const QModelIndex &idx);
 
-protected:
-    void initializePage();
-    bool validatePage();
+    void on_pushButtonDelete_clicked();
+
+
 
 //    int nextId() const;
 private:
@@ -45,9 +46,18 @@ private:
     Articles ar;
     QVector<Articles> goods;
     QSqlRecord recrodConn;
+    ArticleInfo arInfo;
     VektorModel *modelArticles;
+    float summArticles=0;
+    float discountArticles=0;
 private:
     void createUI();
+
+    // QWizardPage interface
+public:
+    int nextId() const;
+    void initializePage();
+    bool validatePage();
 };
 
 #endif // ARTICLEPAGE_H

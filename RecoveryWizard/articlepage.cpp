@@ -1,6 +1,7 @@
 #include "articlepage.h"
 #include "ui_articlepage.h"
 #include "listarticles.h"
+#include "pagelist.h"
 #include "loggingcategories.h"
 #include "addarticledialog.h"
 #include <QThread>
@@ -34,11 +35,6 @@ void ArticlePage::initializePage()
 
 
     connect(lsArticles,&ListArticles::signalSendArticlesList,this,&ArticlePage::slotGetArticlesList,Qt::DirectConnection);
-
-
-
-
-
     connect(lsArticles,&ListArticles::finish,thread,&QThread::quit);
 
     connect(lsArticles,&ListArticles::finish,lsArticles,&ListArticles::deleteLater);
@@ -94,6 +90,19 @@ bool ArticlePage::validatePage()
 
 void ArticlePage::createUI()
 {
+    ui->labelSumm->setText(QString("<table width=100% border=1 cellpadding=4>"
+                                   "<tr align=left valign=top>"
+                                   "<td align=right width=33%>Итого: %1 грн.</td>"
+                                   "<td align=right width=33%>Скидка: %2 грн.</td>"
+                                   "<td align=right>Итого со скидкой: %3 грн.</td>"
+                                   "</tr>"
+                                   "</table>")
+                           .arg(QString::number(summArticles,'f',2))
+                           .arg(QString::number(discountArticles,'f',2))
+                           .arg(QString::number(summArticles - discountArticles,'f',2)));
+
+
+
     ui->groupBoxArticles->hide();
     ui->groupBoxAdd->hide();
     ui->tableWidget->setHorizontalHeaderItem(0, new QTableWidgetItem("Гл.код"));
@@ -119,15 +128,58 @@ void ArticlePage::on_tableView_doubleClicked(const QModelIndex &idx)
 
 
     if(dlgCode == QDialog::Accepted) {
-        QStringList dlgData = addArtDlg->getGoodsData();
+        arInfo = addArtDlg->getGoodsData();
         int row = ui->tableWidget->rowCount();
         ui->tableWidget->insertRow(row);
         Articles ar = goods.at(idx.row());
+
+        qInfo(logInfo()) << arInfo.getAmount() << arInfo.getPrice() << arInfo.getSumm() << arInfo.getDiscount();
+
         ui->tableWidget->setItem(row,0, new QTableWidgetItem(QString::number(ar.getID())));
         ui->tableWidget->setItem(row,1, new QTableWidgetItem(ar.getShortName()));
-        ui->tableWidget->setItem(row,2, new QTableWidgetItem(dlgData.at(0)));
-        ui->tableWidget->setItem(row,3, new QTableWidgetItem(dlgData.at(1)));
-        ui->tableWidget->setItem(row,4, new QTableWidgetItem(dlgData.at(2)));
+        ui->tableWidget->setItem(row,2, new QTableWidgetItem(QString::number(arInfo.getAmount(),'f',2)));
+        ui->tableWidget->setItem(row,3, new QTableWidgetItem(QString::number(arInfo.getPrice(),'f',2)));
+        ui->tableWidget->setItem(row,4, new QTableWidgetItem(QString::number(arInfo.getSumm(),'f',2)));
+        ui->tableWidget->setItem(row,5, new QTableWidgetItem(QString::number(arInfo.getDiscount(),'f',2)));
         ui->tableWidget->resizeColumnsToContents();
+        summArticles += arInfo.getSumm();
+        discountArticles += arInfo.getDiscount();
+        ui->labelSumm->setText(QString("<table width=100% border=1 cellpadding=4>"
+                                       "<tr align=left valign=top>"
+                                       "<td align=right width=33%>Итого: %1 грн.</td>"
+                                       "<td align=right width=33%>Скидка: %2 грн.</td>"
+                                       "<td align=right>Итого со скидкой: %3 грн.</td>"
+                                       "</tr>"
+                                       "</table>")
+                               .arg(QString::number(summArticles,'f',2))
+                               .arg(QString::number(discountArticles,'f',2))
+                               .arg(QString::number(summArticles - discountArticles,'f',2)));
+        ui->groupBoxArticles->hide();
     }
+}
+
+void ArticlePage::on_pushButtonDelete_clicked()
+{
+    int selectedRow = ui->tableWidget->selectionModel()->selectedRows().first().row();
+    qInfo(logInfo()) << "Current row" << selectedRow;
+    summArticles -= ui->tableWidget->item(selectedRow,4)->text().toFloat();
+    discountArticles -= ui->tableWidget->item(selectedRow,5)->text().toFloat();
+    ui->tableWidget->removeRow(selectedRow);
+    ui->labelSumm->setText(QString("<table width=100% border=1 cellpadding=4>"
+                                   "<tr align=left valign=top>"
+                                   "<td align=right width=33%>Итого: %1 грн.</td>"
+                                   "<td align=right width=33%>Скидка: %2 грн.</td>"
+                                   "<td align=right>Итого со скидкой: %3 грн.</td>"
+                                   "</tr>"
+                                   "</table>")
+                           .arg(QString::number(summArticles,'f',2))
+                           .arg(QString::number(discountArticles,'f',2))
+                           .arg(QString::number(summArticles - discountArticles,'f',2)));
+    ui->groupBoxArticles->hide();
+}
+
+
+int ArticlePage::nextId() const
+{
+    return FINAL_PAGE;
 }

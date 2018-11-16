@@ -56,12 +56,16 @@ private:
     ProgressExecuteDialog *progExecDlg;
 
     QHash<QString, QVariant> lostCheckFuel;
+    QHash<QString, QVariant> lostCheckArticle;
+    QHash<QString, QVariant> mposCheck;
     QStringList script;
     QStringList endScript;
     QSqlRecord recConnect;
 
 private:
     void initLostCheckFuel();
+    void initLostCheckArticles();
+    void initMposCheck();
 
 };
 

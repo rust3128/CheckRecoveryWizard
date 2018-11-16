@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>644</width>
-    <height>599</height>
+    <width>945</width>
+    <height>753</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
   <property name="subTitle">
    <string>Укажите список товаров в востанавливаемом чеке.</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_5">
+  <layout class="QGridLayout" name="gridLayout_5" rowstretch="0,0,1">
    <item row="0" column="0">
     <widget class="QFrame" name="frameProgress">
      <property name="frameShape">
@@ -29,18 +29,6 @@
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label">
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Получение справчника товаров. Подождите пожалуйса.....</string>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="0">
        <widget class="QProgressBar" name="progressBar">
         <property name="maximum">
@@ -54,6 +42,18 @@
         </property>
         <property name="format">
          <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Получение справчника товаров. Подождите пожалуйса.....</string>
         </property>
        </widget>
       </item>
@@ -71,12 +71,18 @@
         <property name="text">
          <string>Удалить</string>
         </property>
+        <property name="shortcut">
+         <string>Del</string>
+        </property>
        </widget>
       </item>
       <item row="2" column="1">
        <widget class="QPushButton" name="pushButtonAdd">
         <property name="text">
          <string>Добавать</string>
+        </property>
+        <property name="shortcut">
+         <string>Ins</string>
         </property>
        </widget>
       </item>
@@ -96,10 +102,16 @@
       <item row="0" column="0" colspan="3">
        <widget class="QTableWidget" name="tableWidget">
         <property name="editTriggers">
-         <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed</set>
+         <set>QAbstractItemView::NoEditTriggers</set>
         </property>
         <property name="alternatingRowColors">
          <bool>true</bool>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::SingleSelection</enum>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectRows</enum>
         </property>
         <property name="columnCount">
          <number>6</number>
@@ -110,6 +122,24 @@
         <column/>
         <column/>
         <column/>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="3">
+       <widget class="QLabel" name="labelSumm">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(0, 0, 255);</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
        </widget>
       </item>
      </layout>
