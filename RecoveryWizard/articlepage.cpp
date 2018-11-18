@@ -85,11 +85,27 @@ void ArticlePage::slotGetConnRecord(QSqlRecord rec)
 
 bool ArticlePage::validatePage()
 {
-    return false;
+    if(ui->tableWidget->rowCount()== 0){
+        ui->labelError->setText("Не указан товар для добаления в чек.");
+        return false;
+    }
+
+    if(summArticles <= 0){
+        ui->labelError->setText("Не верная сумма товаров в чеке.");
+        return false;
+    }
+
+
+    emit signalSetCommonData();
+
+    return true;
 }
 
 void ArticlePage::createUI()
 {
+    ui->labelError->clear();
+
+
     ui->labelSumm->setText(QString("<table width=100% border=1 cellpadding=4>"
                                    "<tr align=left valign=top>"
                                    "<td align=right width=33%>Итого: %1 грн.</td>"
@@ -128,6 +144,7 @@ void ArticlePage::on_tableView_doubleClicked(const QModelIndex &idx)
 
 
     if(dlgCode == QDialog::Accepted) {
+        ui->labelError->clear();
         arInfo = addArtDlg->getGoodsData();
         int row = ui->tableWidget->rowCount();
         ui->tableWidget->insertRow(row);

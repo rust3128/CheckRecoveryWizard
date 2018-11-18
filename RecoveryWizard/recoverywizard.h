@@ -39,6 +39,7 @@ private slots:
     void slotFinisExecute();
     void slotGenerateScript();
     void slotGetConnRecord(QSqlRecord rec);
+    void slotSetCommonData();               //Заполняем повторяющиеся данные
 
 
 public:

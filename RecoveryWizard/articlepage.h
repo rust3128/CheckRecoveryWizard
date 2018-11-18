@@ -23,7 +23,7 @@ public:
     explicit ArticlePage(QWidget *parent = 0);
     ~ArticlePage();
 signals:
-
+    void signalSetCommonData();
 public slots:
     void slotGetConnRecord(QSqlRecord rec);
 

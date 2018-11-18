@@ -36,7 +36,8 @@ bool FinalPage::validatePage()
     emit signalGenerateScript();
     if(ui->checkBoxView->isChecked())
         emit signalViewSql();
-    emit signalExecScript();
+    if(ui->radioButtonExecute->isChecked())
+        emit signalExecScript();
     return true;
 }
 

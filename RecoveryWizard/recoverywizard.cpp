@@ -67,6 +67,7 @@ RecoveryWizard::RecoveryWizard(QWidget *parent) :
 
     connect(this,&RecoveryWizard::signalSendConnRec,articlePage,&ArticlePage::slotGetConnRecord);
 
+    connect(articlePage,&ArticlePage::signalSetCommonData,this,&RecoveryWizard::slotSetCommonData);
 
 
 
@@ -80,6 +81,20 @@ RecoveryWizard::~RecoveryWizard()
 void RecoveryWizard::slotGetConnRecord(QSqlRecord rec)
 {
     emit signalSendConnRec(rec);
+}
+
+void RecoveryWizard::slotSetCommonData()
+{
+    QHashIterator<QString, QVariant> i(lostCheckFuel);
+    while (i.hasNext()) {
+        i.next();
+        if(lostCheckArticle.contains(i.key()))
+            lostCheckArticle[i.key()] = i.value();
+        if(mposCheck.contains(i.key()))
+            mposCheck[i.key()] = i.value();
+    }
+    lostCheckArticle["CHECKNUMBER"] = lostCheckFuel["NUM_CHECK"];
+    mposCheck["NUMBERCHECK"] = lostCheckFuel["NUM_CHECK"];
 }
 
 void RecoveryWizard::initLostCheckFuel()
