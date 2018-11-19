@@ -302,7 +302,6 @@ void RecoveryWizard::slotGenerateScript()
         script << QString("/*ARTICLE_ID -  код в базе*/                         %1,").arg(append_ASale[i].value("ARTICLE_ID").toString());
         script << QString("/*GARTICLE_ID -  код в общем кодификаторе*/          %1,").arg(append_ASale[i].value("GARTICLE_ID").toString());
         script << QString("/*CODE - код в кассе - брать из ARTICLES*/           %1,").arg(append_ASale[i].value("CODE").toString());
-        script << QString("/*CODE - код в кассе - брать из ARTICLES*/           %1,").arg(append_ASale[i].value("CODE").toString());
         script << QString("/*DAT - дата/времz продажи*/                        '%1',").arg(append_ASale[i].value("DAT").toString());
         script << QString("/*PRICE - цена*/                                     %1,").arg(append_ASale[i].value("PRICE").toString());
         script << QString("/*AMOUNT - количество*/                              %1,").arg(append_ASale[i].value("AMOUNT").toString());
@@ -325,8 +324,8 @@ void RecoveryWizard::slotGenerateScript()
         script << QString("/*MPOSCHECK_ID*/                                     %1,").arg(append_ASale[i].value("MPOSCHECK_ID").toString());
         script << QString("/*PAYTYPE_ID2 - вид оплаты*/                         %1,").arg(append_ASale[i].value("PAYTYPE_ID2").toString());
         script << QString("/*SUMMA2 - сумма*/                                   %1,").arg(append_ASale[i].value("SUMMA2").toString());
-        script << QString("/*DISCOUNT_SUMMA2 - сумма скидки со знаком +*/       %1,").arg(append_ASale[i].value("DISCOUNT_SUMMA2").toString());
-        script << ");";
+        script << QString("/*DISCOUNT_SUMMA2 - сумма скидки со знаком +*/       %1").arg(append_ASale[i].value("DISCOUNT_SUMMA2").toString());
+        script << ")";
     }
 
     if(!append_ASale.isEmpty()) {
@@ -344,8 +343,9 @@ void RecoveryWizard::slotGenerateScript()
         script << QString("/*NUM_CHECK - номер чека */                          %1,").arg(mposCheck.value("NUM_CHECK").toString());
         script << QString("/*NUM_CHECK_RETURN - номер чека возврата*/           %1,").arg(mposCheck.value("NUM_CHECK_RETURN").toString());
         script << QString("/*MPOSCHECK_ID_RETURN*/                              %1,").arg(mposCheck.value("MPOSCHECK_ID_RETURN").toString());
-        script << QString("/*COMBYNE_TYPE - совместный*/                                %1,").arg(mposCheck.value("COMBYNE_TYPE").toString());
-        script << ");";
+        script << QString("/*COMBYNE_TYPE - совместный*/                        %1,").arg(mposCheck.value("COMBYNE_TYPE").toString());
+        script << QString("/*PREORDER_TRN_ID - совместный*/                     %1").arg(mposCheck.value("PREORDER_TRN_ID").toString());
+        script << ")";
 
     }
 
