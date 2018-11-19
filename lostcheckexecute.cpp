@@ -43,6 +43,8 @@ void LostCheckExecute::slotScriptExecute()
       if(!q->exec(strSQL)) {
           QString errSQL = QString("Не удалось выполнить процедуру восстановления чека.\nПричина: %2")
                   .arg(q->lastError().text());
+          qInfo(logInfo()) << "Executed query" << q->executedQuery();
+          qInfo(logInfo()) << "Last query" << q->lastQuery();
           qCritical(logCritical()) << errSQL;
           emit signalTaskStatus(EXECUTE_SQL,false,errSQL);
           emit finished();

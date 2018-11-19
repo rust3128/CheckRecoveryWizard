@@ -7,6 +7,7 @@
 #include <QThread>
 #include <QTime>
 #include <QDebug>
+#include <QTableWidgetItem>
 
 ArticlePage::ArticlePage(QWidget *parent) :
     QWizardPage(parent),
@@ -98,6 +99,20 @@ bool ArticlePage::validatePage()
 
     emit signalSetCommonData();
 
+    typedef ArticleInfo arIn;
+    qRegisterMetaType<arIn>("articleAmount");
+
+    ArticleInfo ai;
+
+
+    for(int i=0;i<ui->tableWidget->rowCount();++i){
+        ai.setArticleID(ui->tableWidget->item(i,0)->data(Qt::DisplayRole).toFloat());
+        ai.setAmount(ui->tableWidget->item(i,2)->data(Qt::DisplayRole).toFloat());
+        ai.setPrice(ui->tableWidget->item(i,3)->data(Qt::DisplayRole).toFloat());
+        ai.setDiscount(ui->tableWidget->item(i,5)->data(Qt::DisplayRole).toFloat());
+        emit signalSendArticlesData(ai);
+    }
+
     return true;
 }
 
@@ -150,9 +165,7 @@ void ArticlePage::on_tableView_doubleClicked(const QModelIndex &idx)
         ui->tableWidget->insertRow(row);
         Articles ar = goods.at(idx.row());
 
-        qInfo(logInfo()) << arInfo.getAmount() << arInfo.getPrice() << arInfo.getSumm() << arInfo.getDiscount();
-
-        ui->tableWidget->setItem(row,0, new QTableWidgetItem(QString::number(ar.getID())));
+        ui->tableWidget->setItem(row,0, new QTableWidgetItem(QString::number(arInfo.getArticleID())));
         ui->tableWidget->setItem(row,1, new QTableWidgetItem(ar.getShortName()));
         ui->tableWidget->setItem(row,2, new QTableWidgetItem(QString::number(arInfo.getAmount(),'f',2)));
         ui->tableWidget->setItem(row,3, new QTableWidgetItem(QString::number(arInfo.getPrice(),'f',2)));
@@ -178,7 +191,7 @@ void ArticlePage::on_tableView_doubleClicked(const QModelIndex &idx)
 void ArticlePage::on_pushButtonDelete_clicked()
 {
     int selectedRow = ui->tableWidget->selectionModel()->selectedRows().first().row();
-    qInfo(logInfo()) << "Current row" << selectedRow;
+//    qInfo(logInfo()) << "Current row" << selectedRow;
     summArticles -= ui->tableWidget->item(selectedRow,4)->text().toFloat();
     discountArticles -= ui->tableWidget->item(selectedRow,5)->text().toFloat();
     ui->tableWidget->removeRow(selectedRow);

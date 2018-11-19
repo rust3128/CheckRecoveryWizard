@@ -40,6 +40,7 @@ private slots:
     void slotGenerateScript();
     void slotGetConnRecord(QSqlRecord rec);
     void slotSetCommonData();               //Заполняем повторяющиеся данные
+    void slotGetArticlesData(ArticleInfo info);
 
 
 public:
@@ -60,7 +61,12 @@ private:
     QHash<QString, QVariant> lostCheckArticle;
     QHash<QString, QVariant> mposCheck;
     QStringList script;
+
+    QVector<QHash<QString,QVariant>> append_ASale;
+
+
     QStringList endScript;
+    QStringList beginScript;
     QSqlRecord recConnect;
 
 private:

@@ -49,6 +49,7 @@ void AddArticleDialog::on_buttonBox_clicked(QAbstractButton *button)
         arInfo.setAmount(ui->spinBoxAmount->value());
         arInfo.setPrice(ui->lineEditPrice->text().toFloat());
         arInfo.setDiscount(ui->lineEditDiscount->text().toFloat());
+        arInfo.setArticleID(m_articles.getID());
         this->accept();
         break;
     case QDialogButtonBox::Close:

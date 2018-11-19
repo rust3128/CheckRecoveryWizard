@@ -24,6 +24,7 @@ public:
     ~ArticlePage();
 signals:
     void signalSetCommonData();
+    void signalSendArticlesData(ArticleInfo);
 public slots:
     void slotGetConnRecord(QSqlRecord rec);
 
@@ -47,6 +48,7 @@ private:
     QVector<Articles> goods;
     QSqlRecord recrodConn;
     ArticleInfo arInfo;
+
     VektorModel *modelArticles;
     float summArticles=0;
     float discountArticles=0;
