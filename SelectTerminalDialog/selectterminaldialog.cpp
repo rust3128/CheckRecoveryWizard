@@ -52,3 +52,4 @@ void SelectTerminalDialog::on_pushButtonCancel_clicked()
 {
     this->reject();
 }
+

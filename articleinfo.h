@@ -5,11 +5,11 @@
 class ArticleInfo
 {
 private:
-    int m_articleID;
-    float m_amount;
-    float m_price;
-    float m_summ;
-    float m_discount;
+    int m_articleID;        //Код товара
+    float m_amount;         //Количество
+    float m_price;          //Цена
+    float m_summ;           //Сумма
+    float m_discount;       //Скидка
 
 public:
     ArticleInfo();

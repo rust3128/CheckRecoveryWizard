@@ -22,39 +22,43 @@ ArticlePage::~ArticlePage()
     delete ui;
 }
 
-
+//Выбор данных происходит при переходе на определенную странцу QWizardPage
 void ArticlePage::initializePage()
 {
-//    qInfo(logInfo()) << Q_FUNC_INFO << recrodConn;
-
+    //Создаем объект класса и передаем ему параметры
     ListArticles *lsArticles = new ListArticles(recrodConn, field("terminalID").toInt(),field("shiftID").toInt());
+    //Создаем поток в которм будут производиться наша выборка
     QThread *thread = new QThread();
+    //Перемещаем объект класса в поток
     lsArticles->moveToThread(thread);
 
+    ////Сигналы и слоты для взаимидействия с потоком
+
+    //при старте потока выполняем некоторые действия в текущем потоке.
+    //В моем случае на просто засекаю начало выбоки данных
     connect(thread,&QThread::started,this,&ArticlePage::slotStartArticlesList);
+    //При старте потока начинаем выборку данных
     connect(thread,&QThread::started,lsArticles,&ListArticles::createListGoods);
 
-
+    //Передача результирующего объекта QVertor из дочернего потока в основной
     connect(lsArticles,&ListArticles::signalSendArticlesList,this,&ArticlePage::slotGetArticlesList,Qt::DirectConnection);
+    //Окончание работы потока по завершению выбрки данных
     connect(lsArticles,&ListArticles::finish,thread,&QThread::quit);
-
+    //Удаляем объект в потоке
     connect(lsArticles,&ListArticles::finish,lsArticles,&ListArticles::deleteLater);
+    //Вы полняем действия по в основном потоке после завершения дочернего
     connect(lsArticles,&ListArticles::finish,this,&ArticlePage::slotFinishArticlesList);
-
+    //Прощаемся с дочерним потоком
     connect(thread,&QThread::finished,thread,&QThread::deleteLater);
 
+    //Запускаем поток
     thread->start();
 }
 
 void ArticlePage::slotGetArticlesList(QVector<Articles> ls)
 {
+    //Получаем вектор с результами из потока
     goods = ls;
-//    QVectorIterator<Articles> a(goods);
-//    while(a.hasNext()){
-//        ar = a.next();
-//        qDebug() << ar.getID() << ar.getShortName() << ar.getAmount() << ar.getPrice();
-//    }
-
 }
 
 void ArticlePage::slotStartArticlesList()
@@ -65,6 +69,8 @@ void ArticlePage::slotStartArticlesList()
 
 void ArticlePage::slotFinishArticlesList()
 {
+    //на основании полученного вектора с данными создаем модель данных типа VectorModel и выводим ее в QTableView
+
     qInfo(logInfo()) << "Закончили получать список товаров" << QTime::currentTime().toString("hh:mm:ss.zzz");
     ui->frameProgress->hide();
     ui->groupBoxAdd->show();
@@ -75,6 +81,7 @@ void ArticlePage::slotFinishArticlesList()
     ui->tableView->verticalHeader()->hide();
     ui->tableView->setAlternatingRowColors(true);
     ui->tableView->resizeColumnsToContents();
+    //Минимальная высота строк в QTableView
     ui->tableView->verticalHeader()->setDefaultSectionSize(ui->tableView->verticalHeader()->minimumSectionSize());
 
 }

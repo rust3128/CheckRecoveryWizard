@@ -37,10 +37,11 @@ private slots:
     void slotExecuteSql();
     void slotStartExecute();
     void slotFinisExecute();
-    void slotGenerateScript();
+    void slotGenerateScript(int checkType);
     void slotGetConnRecord(QSqlRecord rec);
     void slotSetCommonData();               //Заполняем повторяющиеся данные
     void slotGetArticlesData(ArticleInfo info);
+    void slotSaveScript();
 
 
 public:

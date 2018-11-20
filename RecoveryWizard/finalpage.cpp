@@ -1,6 +1,7 @@
 #include "finalpage.h"
 #include "ui_finalpage.h"
 #include <QRadioButton>
+#include <checktype.h>
 
 FinalPage::FinalPage(QWidget *parent) :
     QWizardPage(parent),
@@ -33,11 +34,20 @@ FinalPage::~FinalPage()
 
 bool FinalPage::validatePage()
 {
-    emit signalGenerateScript();
+    int checkType;
+
+    if(field("checkFuel").toBool()) checkType = FUEL_CHECK;
+    if(field("checkFuelArticles").toBool()) checkType = COMBAIN_CHECK;
+    if(field("checkArticles").toBool()) checkType = ARTICLE_CHECK;
+
+    emit signalGenerateScript(checkType);
+
     if(ui->checkBoxView->isChecked())
         emit signalViewSql();
     if(ui->radioButtonExecute->isChecked())
         emit signalExecScript();
+    if(ui->radioButtonSave->isChecked())
+        emit signalSaveScript();
     return true;
 }
 

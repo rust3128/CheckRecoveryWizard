@@ -76,7 +76,8 @@ HEADERS += \
     listarticles.h \
     vektormodel.h \
     addarticledialog.h \
-    articleinfo.h
+    articleinfo.h \
+    checktype.h
 
 FORMS += \
         mainwindow.ui \

@@ -3,6 +3,7 @@
 
 ListArticles::ListArticles(QSqlRecord rec, int terminal_D, int shift, QObject *parent) : QObject(parent)
 {
+    //Получаем входные данные
     m_terminalID = terminal_D;
     m_shiftID = shift;
     connRec =rec;
@@ -10,10 +11,16 @@ ListArticles::ListArticles(QSqlRecord rec, int terminal_D, int shift, QObject *p
 
 void ListArticles::createListGoods()
 {
+    //Создаем объект для хранения одной записи
     Articles ar;
 
+    //регистрируем тип для передачи его через механизм сигнал слот.
     typedef QVector<Articles> vek;
     qRegisterMetaType<vek>("vektor");
+
+    //Из Асистента
+    //"Соединение может использоваться только внутри создавшего его потока. Перемещение соединений между потоками и создание запросов в другой поток не поддерживается.
+    //Поэтому создаем новое соединение
 
     QSqlDatabase dbth = QSqlDatabase::addDatabase("QIBASE","thcentr");
 
@@ -28,8 +35,11 @@ void ListArticles::createListGoods()
                                  << endl << dbth.lastError().text();
         return;
     }
-
+    //Привязыем запрос к соединению
     QSqlQuery q = QSqlQuery(dbth);
+
+    //Формируем строку с запросом.
+    //Такого типа запросы предпочитаю создавать ввиде строки и тестировать их в непосредственно в менеджере базы данных
 
     QString strSQL = QString("SELECT A.GARTICLE_ID, GA.SHORTNAME, SL.AMOUNT, "
                                  "(SELECT FIRST 1 NEWPRICE FROM HISTORY_PRICES HP "
@@ -45,19 +55,21 @@ void ListArticles::createListGoods()
                                "ORDER BY A.GARTICLE_ID" )
                 .arg(m_terminalID)
                 .arg(m_shiftID);
+    //Выполняем запрос
     if(!q.exec(strSQL)) {
         qInfo(logInfo()) << "Errog goodlist" << q.lastError().text();
         emit finish();
     }
+    //Цикл получения записей, и добавления их в вектор
     while (q.next()){
         ar.setID(q.value("GARTICLE_ID").toInt());
-//        ar.setName(q.value("NAME").toString().trimmed());
         ar.setShortName(q.value("SHORTNAME").toString().trimmed());
         ar.setAmount(q.value("AMOUNT").toFloat());
         ar.setPrice(q.value("PRICE").toFloat());
         goods.append(ar);
-//        qDebug() << ar.getID() << ar.getName() << ar.getShortName() << ar.getAmount() << ar.getPrice();
     }
+    //Передаем результат в основной поток
     emit signalSendArticlesList(goods);
+    //Поток закончил работу
     emit finish();
 }

@@ -1,13 +1,5 @@
 #include "articles.h"
 
-//Articles::Articles(int _articleID =0, QString _name = "", QString _shortName ="", float _amount=0, float _price=0)
-//{
-//    m_artileID = _articleID;
-//    m_name = _name;
-//    m_shortname = _shortName;
-//    m_amount = _amount;
-//    m_price = _price;
-//}
 Articles::Articles()
 {
     setColParam(4);
@@ -28,11 +20,6 @@ void Articles::setID(int _articleID)
     artileID = _articleID;
 }
 
-//void Articles::setName(QString _name)
-//{
-//    m_name = _name;
-//}
-
 void Articles::setShortName(QString _shortName)
 {
     shortname = _shortName;
@@ -52,11 +39,6 @@ int Articles::getID()
 {
     return artileID;
 }
-
-//QString Articles::getName()
-//{
-//    return m_name;
-//}
 
 QString Articles::getShortName()
 {

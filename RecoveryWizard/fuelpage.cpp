@@ -72,7 +72,7 @@ bool FuelPage::validatePage()
     emit sendInfo("Сумма",ui->lineEditSum->text().trimmed(),false);
     emit signalSendCheckData("SUMMA",ui->lineEditSum->text().toDouble());
 
-    if(ui->lineEditDiscount->text().isEmpty()){
+    if(!ui->lineEditDiscount->text().isEmpty()){
         emit sendInfo("Скидка",ui->lineEditDiscount->text().trimmed(),false);
         emit signalSendCheckData("DISCOUNTSUMMA",ui->lineEditDiscount->text().toDouble());
     }

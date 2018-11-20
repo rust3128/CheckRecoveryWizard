@@ -19,7 +19,8 @@ protected:
 signals:
     void signalViewSql();
     void signalExecScript();
-    void signalGenerateScript();
+    void signalGenerateScript(int);
+    void signalSaveScript();
 private slots:
 
 private:
