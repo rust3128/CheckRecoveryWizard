@@ -26,8 +26,6 @@ RecoveryWizard::RecoveryWizard(QWidget *parent) :
     ui->setupUi(this);
 
     initLostCheckFuel();
-    initLostCheckArticles();
-    initMposCheck();
     append_ASale.clear();
 
     connPage = new ConnectionsPage();
@@ -52,6 +50,7 @@ RecoveryWizard::RecoveryWizard(QWidget *parent) :
     disconnect( button( QWizard::CancelButton ), &QAbstractButton::clicked, this, &QDialog::reject );
     connect(button(QWizard::CancelButton),&QAbstractButton::clicked,this,&RecoveryWizard::cancelWizard);
 
+    connect(button(QWizard::BackButton),&QAbstractButton::clicked,this,&RecoveryWizard::signalCheckDublicateArticles);
 
     connect(connPage,&ConnectionsPage::sendInfo,this,&RecoveryWizard::slotGetPageData);
     connect(connPage,&ConnectionsPage::signalConnRecord,this,&RecoveryWizard::slotGetConnRecord);
@@ -75,6 +74,11 @@ RecoveryWizard::RecoveryWizard(QWidget *parent) :
 
     connect(articlePage,&ArticlePage::signalSetCommonData,this,&RecoveryWizard::slotSetCommonData);
     connect(articlePage,&ArticlePage::signalSendArticlesData,this,&RecoveryWizard::slotGetArticlesData);
+    connect(articlePage,&ArticlePage::signalSendPaytypeArticles,this,&RecoveryWizard::slotGetPaytypeArticles);
+    connect(articlePage,&ArticlePage::sendInfo,this,&RecoveryWizard::slotGetPageData);
+//    connect(articlePage,&ArticlePage::signalCheckArticles,this,&RecoveryWizard::slotCheckArticles);
+
+
 
 
 }
@@ -91,6 +95,10 @@ void RecoveryWizard::slotGetConnRecord(QSqlRecord rec)
 
 void RecoveryWizard::slotSetCommonData()
 {
+    initLostCheckArticles();
+    initMposCheck();
+    append_ASale.clear();
+
     QHashIterator<QString, QVariant> i(lostCheckFuel);
     while (i.hasNext()) {
         i.next();
@@ -514,4 +522,15 @@ void RecoveryWizard::slotSaveScript()
     }
 
     file.close();
+    emit signalFinishWiz();
+}
+
+void RecoveryWizard::slotGetPaytypeArticles(int payTypeID)
+{
+    mposCheck["PAYTYPE_ID"] = lostCheckArticle["PAYTYPE_ID"] = payTypeID;
+}
+
+void RecoveryWizard::slotCheckArticles()
+{
+    emit signalCheckDublicateArticles();
 }

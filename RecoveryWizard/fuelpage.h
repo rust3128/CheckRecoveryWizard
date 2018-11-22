@@ -29,13 +29,9 @@ protected:
     int nextId() const;
 private slots:
     void on_comboBoxFuels_activated(int idx);
-
     void on_comboBoxTRK_activated(int idx);
-
     void on_comboBoxPaytype_activated(int idx);
-
     void on_lineEditGive_textChanged(const QString &arg1);
-
     void on_lineEditPrice_textChanged(const QString &arg1);
 
 private:

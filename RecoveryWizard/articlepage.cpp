@@ -2,12 +2,15 @@
 #include "ui_articlepage.h"
 #include "listarticles.h"
 #include "pagelist.h"
+#include "checktype.h"
 #include "loggingcategories.h"
 #include "addarticledialog.h"
 #include <QThread>
 #include <QTime>
 #include <QDebug>
 #include <QTableWidgetItem>
+#include <QRegExp>
+
 
 ArticlePage::ArticlePage(QWidget *parent) :
     QWizardPage(parent),
@@ -15,6 +18,7 @@ ArticlePage::ArticlePage(QWidget *parent) :
 {
     ui->setupUi(this);
     createUI();
+
 }
 
 ArticlePage::~ArticlePage()
@@ -25,6 +29,8 @@ ArticlePage::~ArticlePage()
 //Выбор данных происходит при переходе на определенную странцу QWizardPage
 void ArticlePage::initializePage()
 {
+//    emit signalCheckArticles();
+
     //Создаем объект класса и передаем ему параметры
     ListArticles *lsArticles = new ListArticles(recrodConn, field("terminalID").toInt(),field("shiftID").toInt());
     //Создаем поток в которм будут производиться наша выборка
@@ -76,6 +82,8 @@ void ArticlePage::slotFinishArticlesList()
     ui->groupBoxAdd->show();
 
     modelArticles = new VektorModel(goods);
+    proxyModel = new QSortFilterProxyModel();
+    proxyModel->setSourceModel(modelArticles);
 
     ui->tableView->setModel(modelArticles);
     ui->tableView->verticalHeader()->hide();
@@ -84,6 +92,12 @@ void ArticlePage::slotFinishArticlesList()
     //Минимальная высота строк в QTableView
     ui->tableView->verticalHeader()->setDefaultSectionSize(ui->tableView->verticalHeader()->minimumSectionSize());
 
+    if(field("checkArticles").toBool()) {
+        ui->groupBoxPaytype->show();
+        this->registerField("paytypeArtileID*", ui->comboBoxPaytype, "currentIndex", SIGNAL(activated(int)));
+        createModelPaytypes();
+    }
+    emit sendInfo("","Товары",true);
 }
 
 void ArticlePage::slotGetConnRecord(QSqlRecord rec)
@@ -103,14 +117,15 @@ bool ArticlePage::validatePage()
         return false;
     }
 
-
     emit signalSetCommonData();
+    if(ui->comboBoxPaytype->isVisible()){
+        emit signalSendPaytypeArticles(modelPaytypes->data(modelPaytypes->index(field("paytypeArtileID").toInt(),0)).toInt());
+    }
 
     typedef ArticleInfo arIn;
     qRegisterMetaType<arIn>("articleAmount");
 
     ArticleInfo ai;
-
 
     for(int i=0;i<ui->tableWidget->rowCount();++i){
         ai.setArticleID(ui->tableWidget->item(i,0)->data(Qt::DisplayRole).toFloat());
@@ -118,6 +133,12 @@ bool ArticlePage::validatePage()
         ai.setPrice(ui->tableWidget->item(i,3)->data(Qt::DisplayRole).toFloat());
         ai.setDiscount(ui->tableWidget->item(i,5)->data(Qt::DisplayRole).toFloat());
         emit signalSendArticlesData(ai);
+        emit sendInfo("","Товар № "+QString::number(i+1),true);
+        emit sendInfo("Код",QString::number(ai.getArticleID()),false);
+        emit sendInfo("Наименов.",ui->tableWidget->item(i,1)->data(Qt::DisplayRole).toString(),false);
+        emit sendInfo("Цена",QString::number(ai.getAmount(),'f',2),false);
+        emit sendInfo("Сумма",QString::number(ai.getSumm(),'f',2),false);
+        emit sendInfo("Скидка",QString::number(ai.getDiscount(),'f',2),false);
     }
 
     return true;
@@ -126,7 +147,7 @@ bool ArticlePage::validatePage()
 void ArticlePage::createUI()
 {
     ui->labelError->clear();
-
+    ui->groupBoxPaytype->hide();
 
     ui->labelSumm->setText(QString("<table width=100% border=1 cellpadding=4>"
                                    "<tr align=left valign=top>"
@@ -138,7 +159,6 @@ void ArticlePage::createUI()
                            .arg(QString::number(summArticles,'f',2))
                            .arg(QString::number(discountArticles,'f',2))
                            .arg(QString::number(summArticles - discountArticles,'f',2)));
-
 
 
     ui->groupBoxArticles->hide();
@@ -153,6 +173,16 @@ void ArticlePage::createUI()
     ui->tableWidget->verticalHeader()->setDefaultSectionSize(ui->tableWidget->verticalHeader()->minimumSectionSize());
 }
 
+void ArticlePage::createModelPaytypes()
+{
+    QSqlDatabase dbcenter = QSqlDatabase::database("central");
+    modelPaytypes = new QSqlQueryModel();
+    modelPaytypes->setQuery("SELECT p.PAYTYPE_ID, p.NAME, p.DLLNAME FROM PAYTYPES p WHERE p.ARTICLETYPE>0 and p.ISACTIVE='T'",dbcenter);
+    ui->comboBoxPaytype->setModel(modelPaytypes);
+    ui->comboBoxPaytype->setModelColumn(1);
+    ui->comboBoxPaytype->setCurrentIndex(-1);
+}
+
 void ArticlePage::on_pushButtonAdd_clicked()
 {
     ui->groupBoxArticles->show();
@@ -161,6 +191,9 @@ void ArticlePage::on_pushButtonAdd_clicked()
 void ArticlePage::on_tableView_doubleClicked(const QModelIndex &idx)
 {
 
+//    AddArticleDialog *addArtDlg = new AddArticleDialog(goods.at(idx.row()));
+
+    qInfo(logInfo()) << "Model Index row" << idx.row();
     AddArticleDialog *addArtDlg = new AddArticleDialog(goods.at(idx.row()));
     int dlgCode = addArtDlg->exec();
 
@@ -192,6 +225,7 @@ void ArticlePage::on_tableView_doubleClicked(const QModelIndex &idx)
                                .arg(QString::number(discountArticles,'f',2))
                                .arg(QString::number(summArticles - discountArticles,'f',2)));
         ui->groupBoxArticles->hide();
+
     }
 }
 
@@ -214,9 +248,18 @@ void ArticlePage::on_pushButtonDelete_clicked()
                            .arg(QString::number(summArticles - discountArticles,'f',2)));
     ui->groupBoxArticles->hide();
 }
-
-
 int ArticlePage::nextId() const
 {
     return FINAL_PAGE;
+}
+
+void ArticlePage::on_lineEditFind_textChanged()
+{
+    ui->tableView->setModel(proxyModel);
+    QRegExp::PatternSyntax syntax = QRegExp::PatternSyntax(QRegExp::FixedString);
+    QRegExp regExp(ui->lineEditFind->text(),Qt::CaseInsensitive,syntax);
+    proxyModel->setFilterKeyColumn(1);
+    proxyModel->setFilterRegExp(regExp);
+
+
 }

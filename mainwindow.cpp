@@ -76,6 +76,7 @@ void MainWindow::on_action_triggered()
     connect(recWiz, &RecoveryWizard::signalHideWiz,this,&MainWindow::slotHideWiz);
     connect(recWiz, &RecoveryWizard::signalSendCheckInfo,this,&MainWindow::slotCheckInfoUpdate);
     connect(recWiz, &RecoveryWizard::signalFinishWiz,this, &MainWindow::slotHideWiz);
+    connect(recWiz,&RecoveryWizard::signalCheckDublicateArticles,this,&MainWindow::slotCheckDublicateArticles);
     ui->verticalLayout->addWidget(recWiz);
     recWiz->show();
 
@@ -85,12 +86,16 @@ void MainWindow::on_action_triggered()
 void MainWindow::slotCheckInfoUpdate(QString name, QString value, bool isSpan)
 {
 
-    for(int i=0; i<ui->tableWidget->rowCount();++i){
-        if(ui->tableWidget->item(i,0)->text().trimmed() == name || ui->tableWidget->item(i,0)->text().trimmed() == value ) {
-            (isSpan) ? ui->tableWidget->item(i,0)->setText(value) : ui->tableWidget->item(i,1)->setText(value);
-            return;
+    if(!(name == "Код" || name == "Наименов." || name == "Цена" || name == "Сумма" || name == "Скидка"))
+    {
+        for(int i=0; i<ui->tableWidget->rowCount();++i){
+            if(ui->tableWidget->item(i,0)->text().trimmed() == name || ui->tableWidget->item(i,0)->text().trimmed() == value ) {
+                (isSpan) ? ui->tableWidget->item(i,0)->setText(value) : ui->tableWidget->item(i,1)->setText(value);
+                return;
+            }
         }
     }
+
 
 
     int row = ui->tableWidget->rowCount();
@@ -115,6 +120,22 @@ void MainWindow::slotCheckInfoUpdate(QString name, QString value, bool isSpan)
     ui->tableWidget->resizeColumnsToContents();
     ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
     ui->tableWidget->verticalHeader()->setDefaultSectionSize(ui->tableWidget->verticalHeader()->minimumSectionSize());
+}
+
+void MainWindow::slotCheckDublicateArticles()
+{
+    QString it;
+    int rowCount = ui->tableWidget->rowCount();
+    for(int i=0; i<rowCount;++i){
+        it = ui->tableWidget->item(i,0)->text().trimmed();
+        if(it == "Товары"){
+            for(int j = rowCount-1; i<j ;--j){
+                ui->tableWidget->removeRow(j);
+            }
+            break;
+        }
+    }
+
 }
 
 

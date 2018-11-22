@@ -26,7 +26,7 @@ signals:
     void signalSendCheckInfo(QString,QString,bool);
     void signalFinishWiz();
     void signalSendConnRec(QSqlRecord);
-
+    void signalCheckDublicateArticles();
 
 
 private slots:
@@ -42,6 +42,8 @@ private slots:
     void slotSetCommonData();               //Заполняем повторяющиеся данные
     void slotGetArticlesData(ArticleInfo info);
     void slotSaveScript();
+    void slotGetPaytypeArticles(int payTypeID); //Вид оплаты только товарного чека
+    void slotCheckArticles();
 
 
 public:

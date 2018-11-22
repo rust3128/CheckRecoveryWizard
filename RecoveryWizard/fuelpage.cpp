@@ -24,7 +24,7 @@ FuelPage::~FuelPage()
 
 void FuelPage::initializePage()
 {
-    emit sendInfo("","Параметры топливного чека",true);
+    emit sendInfo("","Топливо",true);
 
     createModelFuels();
     createModelPaytypes();
@@ -47,7 +47,7 @@ int FuelPage::nextId() const
 bool FuelPage::validatePage()
 {
 
-    emit sendInfo("Топливо",modelFuels->data(modelFuels->index(field("fuelID").toInt(),2)).toString(),false);
+    emit sendInfo("Вид топлива",modelFuels->data(modelFuels->index(field("fuelID").toInt(),2)).toString(),false);
     emit signalSendCheckData("FUEL_ID",modelFuels->data(modelFuels->index(field("fuelID").toInt(),1)).toInt());
     emit signalSendCheckData("TANK_ID",modelFuels->data(modelFuels->index(field("fuelID").toInt(),0)).toInt());
 
