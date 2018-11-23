@@ -44,6 +44,8 @@ private slots:
     void slotSaveScript();
     void slotGetPaytypeArticles(int payTypeID); //Вид оплаты только товарного чека
     void slotCheckArticles();
+    void slotInsetLogs();
+    void slotClearFuelSumm();
 
 
 public:

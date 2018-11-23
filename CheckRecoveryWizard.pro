@@ -47,7 +47,8 @@ SOURCES += \
     listarticles.cpp \
     vektormodel.cpp \
     addarticledialog.cpp \
-    articleinfo.cpp
+    articleinfo.cpp \
+    LogsDialog/logsdialog.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -77,7 +78,8 @@ HEADERS += \
     vektormodel.h \
     addarticledialog.h \
     articleinfo.h \
-    checktype.h
+    checktype.h \
+    LogsDialog/logsdialog.h
 
 FORMS += \
         mainwindow.ui \
@@ -94,7 +96,8 @@ FORMS += \
     RecoveryWizard/articlepage.ui \
     viewscriptdialog.ui \
     ProgressExecuteDialog/progressexecutedialog.ui \
-    addarticledialog.ui
+    addarticledialog.ui \
+    LogsDialog/logsdialog.ui
 
 DISTFILES += \
     SQL/database.sql

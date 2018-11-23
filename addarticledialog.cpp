@@ -14,7 +14,7 @@ AddArticleDialog::AddArticleDialog(Articles ar, QWidget *parent) :
     ui->lineEditPrice->setText(QString::number(m_articles.getPrice(),'f',2));
     ui->lineEditSumm->setText(QString::number(ui->spinBoxAmount->value() * ui->lineEditPrice->text().toFloat(),'f',2));
 
-    // Валидатор чисел с плавающей запятой от 5 до 15 с 2 знаками после запятой
+// Валидатор чисел с плавающей запятой с 2 знаками после запятой
 //    QDoubleValidator* validator =  new QDoubleValidator( 0.00, 99999999.0, 2 );
 //    validator->setNotation( QDoubleValidator::StandardNotation );
 //    ui->lineEditDiscount->setValidator(validator);

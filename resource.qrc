@@ -13,5 +13,7 @@
         <file>Icons/unchecked-checkbox.png</file>
         <file>Icons/checked-checkbox.png</file>
         <file>Icons/wizlogo.jpg</file>
+        <file>Icons/if_editpaste_699.png</file>
+        <file>Icons/if_filesave_18652.png</file>
     </qresource>
 </RCC>

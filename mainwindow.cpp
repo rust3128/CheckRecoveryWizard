@@ -4,6 +4,7 @@
 #include "ConnectionDialog/connectiondialog.h"
 #include "RecoveryWizard/terminalspage.h"
 #include "ProgressExecuteDialog/progressexecutedialog.h"
+#include "LogsDialog/logsdialog.h"
 
 
 
@@ -75,6 +76,7 @@ void MainWindow::on_action_triggered()
     recWiz = new RecoveryWizard();
     connect(recWiz, &RecoveryWizard::signalHideWiz,this,&MainWindow::slotHideWiz);
     connect(recWiz, &RecoveryWizard::signalSendCheckInfo,this,&MainWindow::slotCheckInfoUpdate);
+    connect(recWiz, &RecoveryWizard::signalFinishWiz,recWiz, &RecoveryWizard::deleteLater);
     connect(recWiz, &RecoveryWizard::signalFinishWiz,this, &MainWindow::slotHideWiz);
     connect(recWiz,&RecoveryWizard::signalCheckDublicateArticles,this,&MainWindow::slotCheckDublicateArticles);
     ui->verticalLayout->addWidget(recWiz);
@@ -139,3 +141,10 @@ void MainWindow::slotCheckDublicateArticles()
 }
 
 
+
+void MainWindow::on_actionLogs_triggered()
+{
+    LogsDialog *logsDlg = new LogsDialog();
+    this->setCentralWidget(logsDlg);
+    logsDlg->exec();
+}

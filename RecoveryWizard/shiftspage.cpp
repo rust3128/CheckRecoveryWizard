@@ -38,15 +38,17 @@ bool ShiftsPage::validatePage()
     QSqlQuery *q = new QSqlQuery(dbcenter);
     if(ui->radioButtonFuel->isChecked() || ui->radioButtonFuelArticles->isChecked()){
         strSQL=QString("SELECT COUNT(*) FROM saleorders s "
-                       "WHERE s.terminal_id=%1 AND s.shift_id=%2 AND s.num_check=%3")
+                       "WHERE s.terminal_id=%1 AND s.shift_id=%2 and s.pos_id=%3 AND s.num_check=%4")
                 .arg(field("terminalID").toInt())
                 .arg(field("shiftID").toInt())
+                .arg(possID)
                 .arg(field("numCheck").toInt());
     } else {
         strSQL=QString("SELECT COUNT(*) FROM asales s "
-                       "WHERE s.terminal_id=%1 AND s.shift_id=%2 AND s.numbercheck=%3")
+                       "WHERE s.terminal_id=%1 AND s.shift_id=%2 and s.pos_id=%3 AND s.numbercheck=%4")
                 .arg(field("terminalID").toInt())
                 .arg(field("shiftID").toInt())
+                .arg(possID)
                 .arg(field("numCheck").toInt());
     }
 

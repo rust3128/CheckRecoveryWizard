@@ -28,6 +28,8 @@ private slots:
     void on_action_triggered();
 
 
+    void on_actionLogs_triggered();
+
 private:
     Ui::MainWindow *ui;
     RecoveryWizard *recWiz;

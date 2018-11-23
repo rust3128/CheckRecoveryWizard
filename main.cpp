@@ -6,6 +6,7 @@
 #include <QLibraryInfo>
 #include <QTranslator>
 
+
 // Умный указатель на файл логирования
 QScopedPointer<QFile>   m_logFile;
 
@@ -16,6 +17,7 @@ void messageHandler(QtMsgType type, const QMessageLogContext &context, const QSt
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
     // Устанавливаем файл логирования,
     // внимательно сверьтесь с тем, какой используете путь для файла
     m_logFile.reset(new QFile("CheckRecovery.log"));

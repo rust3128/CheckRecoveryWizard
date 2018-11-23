@@ -190,11 +190,12 @@ void ArticlePage::on_pushButtonAdd_clicked()
 
 void ArticlePage::on_tableView_doubleClicked(const QModelIndex &idx)
 {
-
+    QModelIndex sourceIdx = idx;
 //    AddArticleDialog *addArtDlg = new AddArticleDialog(goods.at(idx.row()));
-
-    qInfo(logInfo()) << "Model Index row" << idx.row();
-    AddArticleDialog *addArtDlg = new AddArticleDialog(goods.at(idx.row()));
+    if(!ui->lineEditFind->text().isEmpty()){
+        sourceIdx = proxyModel->mapToSource(idx);
+    }
+    AddArticleDialog *addArtDlg = new AddArticleDialog(goods.at(sourceIdx.row()));
     int dlgCode = addArtDlg->exec();
 
 
@@ -203,7 +204,7 @@ void ArticlePage::on_tableView_doubleClicked(const QModelIndex &idx)
         arInfo = addArtDlg->getGoodsData();
         int row = ui->tableWidget->rowCount();
         ui->tableWidget->insertRow(row);
-        Articles ar = goods.at(idx.row());
+        Articles ar = goods.at(sourceIdx.row());
 
         ui->tableWidget->setItem(row,0, new QTableWidgetItem(QString::number(arInfo.getArticleID())));
         ui->tableWidget->setItem(row,1, new QTableWidgetItem(ar.getShortName()));
@@ -255,10 +256,14 @@ int ArticlePage::nextId() const
 
 void ArticlePage::on_lineEditFind_textChanged()
 {
+    int columFind;
     ui->tableView->setModel(proxyModel);
     QRegExp::PatternSyntax syntax = QRegExp::PatternSyntax(QRegExp::FixedString);
     QRegExp regExp(ui->lineEditFind->text(),Qt::CaseInsensitive,syntax);
-    proxyModel->setFilterKeyColumn(1);
+    if(ui->radioButtonName->isChecked()) columFind = 1;
+    if(ui->radioButtonArticles->isChecked()) columFind =0;
+    if(ui->radioButtonPrice->isChecked()) columFind = 3;
+    proxyModel->setFilterKeyColumn(columFind);
     proxyModel->setFilterRegExp(regExp);
 
 

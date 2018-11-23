@@ -15,6 +15,7 @@ FuelPage::FuelPage(QWidget *parent) :
     this->registerField("trkID*", ui->comboBoxTRK, "currentIndex", SIGNAL(activated(int)));
     this->registerField("paytypeID*", ui->comboBoxPaytype, "currentIndex", SIGNAL(activated(int)));
 
+
 }
 
 FuelPage::~FuelPage()
@@ -47,6 +48,9 @@ int FuelPage::nextId() const
 bool FuelPage::validatePage()
 {
 
+    if(ui->lineEditSum->text().toFloat()<=0)
+        return false;
+
     emit sendInfo("Вид топлива",modelFuels->data(modelFuels->index(field("fuelID").toInt(),2)).toString(),false);
     emit signalSendCheckData("FUEL_ID",modelFuels->data(modelFuels->index(field("fuelID").toInt(),1)).toInt());
     emit signalSendCheckData("TANK_ID",modelFuels->data(modelFuels->index(field("fuelID").toInt(),0)).toInt());
@@ -58,6 +62,7 @@ bool FuelPage::validatePage()
 
     emit sendInfo("Вид оплаты",modelPaytypes->data(modelPaytypes->index(field("paytypeID").toInt(),1)).toString(),false);
     emit signalSendCheckData("PAYTYPE_ID",modelPaytypes->data(modelPaytypes->index(field("paytypeID").toInt(),0)).toInt());
+
 
     if(showClients) {
         signalSendCheckData("INFO_CODE",ui->lineEditClientCode->text().toInt());

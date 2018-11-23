@@ -40,6 +40,7 @@ private:
     QSqlQueryModel *modelTrk;
     QSqlQueryModel *modelPaytypes;
     bool showClients;
+
 private:
     void createUI();
     void createModelFuels();

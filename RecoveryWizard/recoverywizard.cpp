@@ -17,6 +17,7 @@
 #include <QFile>
 #include <QDir>
 #include <QFileDialog>
+#include <QDateTime>
 
 
 RecoveryWizard::RecoveryWizard(QWidget *parent) :
@@ -49,8 +50,9 @@ RecoveryWizard::RecoveryWizard(QWidget *parent) :
 
     disconnect( button( QWizard::CancelButton ), &QAbstractButton::clicked, this, &QDialog::reject );
     connect(button(QWizard::CancelButton),&QAbstractButton::clicked,this,&RecoveryWizard::cancelWizard);
-
     connect(button(QWizard::BackButton),&QAbstractButton::clicked,this,&RecoveryWizard::signalCheckDublicateArticles);
+    connect(button(QWizard::BackButton),&QAbstractButton::clicked,this,&RecoveryWizard::slotClearFuelSumm);
+    connect(this,&RecoveryWizard::signalFinishWiz,this,&RecoveryWizard::slotInsetLogs);
 
     connect(connPage,&ConnectionsPage::sendInfo,this,&RecoveryWizard::slotGetPageData);
     connect(connPage,&ConnectionsPage::signalConnRecord,this,&RecoveryWizard::slotGetConnRecord);
@@ -90,6 +92,7 @@ RecoveryWizard::~RecoveryWizard()
 
 void RecoveryWizard::slotGetConnRecord(QSqlRecord rec)
 {
+    recConnect = rec;
     emit signalSendConnRec(rec);
 }
 
@@ -484,7 +487,7 @@ void RecoveryWizard::slotFinisExecute()
 //        msgBox.setIcon(QMessageBox::Critical);
 //    }
 //    msgBox.exec();
-////    emit signalFinishWiz();
+//    emit signalFinishWiz();
 
 
 }
@@ -533,4 +536,62 @@ void RecoveryWizard::slotGetPaytypeArticles(int payTypeID)
 void RecoveryWizard::slotCheckArticles()
 {
     emit signalCheckDublicateArticles();
+}
+
+void RecoveryWizard::slotInsetLogs()
+{
+    float summ = lostCheckFuel["SUMMA"].toFloat() - lostCheckFuel["DISCOUNTSUMMA"].toFloat();
+    for(int i=0; i<append_ASale.size();++i){
+        summ = summ + append_ASale[i].value("SUMMA").toFloat() - append_ASale[i].value("DISCOUNT_SUMMA").toFloat();
+    }
+
+    QString strToLog;
+    QTextStream in(&strToLog, QIODevice::WriteOnly | QIODevice::Text);
+    QListIterator<QString> i(script);
+    while (i.hasNext()) {
+        in << i.next() << endl;
+    }
+    QListIterator<QString> e(endScript);
+    while (e.hasNext()) {
+        in << e.next() << endl;
+    }
+
+
+    int paytypeID = lostCheckFuel["PAYTYPE_ID"].toInt();
+    if(paytypeID<1)
+        paytypeID = mposCheck["PAYTYPE_ID"].toInt();
+
+    QSqlDatabase dblite = QSqlDatabase::database("options");
+    QSqlDatabase dbcenter = QSqlDatabase::database("central");
+    QSqlQuery q = QSqlQuery(dblite);
+    QSqlQuery qc = QSqlQuery(dbcenter);
+    qc.prepare("SELECT name FROM paytypes WHERE paytype_id = :paytypeID");
+    qc.bindValue(":paytypeID", paytypeID);
+    qc.exec();
+    qc.next();
+
+
+
+    q.prepare("INSERT INTO `logs`(`date`,`connName`,`terminalID`,`shiftID`,`posID`,`numcheck`,`paytype`,`summ`,`script`) "
+                         "VALUES (:date, :connName, :terminalID, :shiftID, :posID, :numcheck, :paytype, :summ, :script)");
+    q.bindValue(":date",QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+    q.bindValue(":connName",recConnect.value("conn_name").toString());
+    q.bindValue(":terminalID", lostCheckFuel["TERMINAL_ID"].toInt());
+    q.bindValue(":shiftID",lostCheckFuel["SHIFT_ID"].toInt());
+    q.bindValue(":posID",lostCheckFuel["POS_ID"].toInt());
+    q.bindValue(":numcheck",lostCheckFuel["NUM_CHECK"].toInt());
+    q.bindValue(":paytype",qc.value(0).toString());
+    q.bindValue(":summ",summ);
+    q.bindValue(":script",strToLog);
+
+    if(!q.exec()) qInfo(logInfo()) << "NO LOGGING" << q.lastError().text();
+
+//    qInfo(logInfo()) << "типа сохраняли..." << q.lastQuery() << endl << q.executedQuery();
+
+}
+
+void RecoveryWizard::slotClearFuelSumm()
+{
+    lostCheckFuel["SUMMA"]=0;
+    lostCheckFuel["DISCOUNTSUMMA"]=0;
 }

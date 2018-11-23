@@ -113,7 +113,14 @@
     </property>
     <addaction name="actionClientsList"/>
    </widget>
+   <widget class="QMenu" name="menuReports">
+    <property name="title">
+     <string>Отчеты</string>
+    </property>
+    <addaction name="actionLogs"/>
+   </widget>
    <addaction name="menu"/>
+   <addaction name="menuReports"/>
    <addaction name="menu_2"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
@@ -159,6 +166,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actionLogs">
+   <property name="text">
+    <string>Восстановленные чеки</string>
    </property>
   </action>
  </widget>
