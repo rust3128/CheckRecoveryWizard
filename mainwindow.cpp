@@ -44,14 +44,14 @@ void MainWindow::createUI()
 void MainWindow::slotShowWiz()
 {
     ui->splitter->show();
-    ui->action->setEnabled(false);
+//    ui->action->setEnabled(false);
 
 }
 
 void MainWindow::slotHideWiz()
 {
     ui->splitter->hide();
-    ui->action->setEnabled(true);
+//    ui->action->setEnabled(true);
     ui->tableWidget->clear();
     ui->tableWidget->setRowCount(0);
 }
@@ -79,6 +79,8 @@ void MainWindow::on_action_triggered()
     connect(recWiz, &RecoveryWizard::signalFinishWiz,recWiz, &RecoveryWizard::deleteLater);
     connect(recWiz, &RecoveryWizard::signalFinishWiz,this, &MainWindow::slotHideWiz);
     connect(recWiz,&RecoveryWizard::signalCheckDublicateArticles,this,&MainWindow::slotCheckDublicateArticles);
+    connect(recWiz, &RecoveryWizard::accepted,recWiz,&RecoveryWizard::deleteLater);
+    connect(recWiz, &RecoveryWizard::rejected,recWiz,&RecoveryWizard::deleteLater);
     ui->verticalLayout->addWidget(recWiz);
     recWiz->show();
 
@@ -145,6 +147,6 @@ void MainWindow::slotCheckDublicateArticles()
 void MainWindow::on_actionLogs_triggered()
 {
     LogsDialog *logsDlg = new LogsDialog();
-    this->setCentralWidget(logsDlg);
+//    this->setCentralWidget(logsDlg);
     logsDlg->exec();
 }
