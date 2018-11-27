@@ -31,6 +31,13 @@ void ArticlePage::initializePage()
 {
 //    emit signalCheckArticles();
 
+
+    if(field("checkArticles").toBool()) {
+        ui->groupBoxPaytype->show();
+       this->registerField("paytypeArtileID*", ui->comboBoxPaytype, "currentIndex", SIGNAL(activated(int)));
+        createModelPaytypes();
+    }
+
     //Создаем объект класса и передаем ему параметры
     ListArticles *lsArticles = new ListArticles(recrodConn, field("terminalID").toInt(),field("shiftID").toInt());
     //Создаем поток в которм будут производиться наша выборка
@@ -93,11 +100,6 @@ void ArticlePage::slotFinishArticlesList()
     //Минимальная высота строк в QTableView
     ui->tableView->verticalHeader()->setDefaultSectionSize(ui->tableView->verticalHeader()->minimumSectionSize());
 
-    if(field("checkArticles").toBool()) {
-        ui->groupBoxPaytype->show();
-        this->registerField("paytypeArtileID*", ui->comboBoxPaytype, "currentIndex", SIGNAL(activated(int)));
-        createModelPaytypes();
-    }
     emit sendInfo("","Товары",true);
 }
 
