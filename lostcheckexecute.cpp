@@ -15,7 +15,7 @@ void LostCheckExecute::slotScriptExecute()
 {
 
 
-       qInfo(logInfo()) << "Мы в потоке!";
+
       QSqlDatabase dbAzs = QSqlDatabase::addDatabase("QIBASE",QString("azs"+QString::number(terminalID)));
 
       dbAzs.setHostName(conn.value("SERVER_NAME"));
@@ -33,28 +33,28 @@ void LostCheckExecute::slotScriptExecute()
       }
       emit signalTaskStatus(CONNECT_DB_AZS,true);
       emit signalCurrentTask(EXECUTE_SQL);
-      QSqlQuery q = QSqlQuery(dbAzs);
+      QSqlQuery *q = new QSqlQuery(dbAzs);
       QString strSQL;
       strSQL.clear();
       QListIterator<QString> i(script);
       while(i.hasNext()){
           strSQL += i.next();
       }
-//      qInfo(logInfo()) << strSQL;
-      if(!q.exec(strSQL)) {
+      if(!q->exec(strSQL)) {
           QString errSQL = QString("Не удалось выполнить процедуру восстановления чека.\nПричина: %2")
-                  .arg(q.lastError().text());
+                  .arg(q->lastError().text());
+//          qInfo(logInfo()) << "Executed query" << q->executedQuery();
+//          qInfo(logInfo()) << "Last query" << q->lastQuery();
           qCritical(logCritical()) << errSQL;
           emit signalTaskStatus(EXECUTE_SQL,false,errSQL);
-//          emit finished();
+          emit finished();
           return;
-      } else {
-          q.exec("EXECUTE PROCEDURE TMP_LOST_CHECK;");
-          q.exec("DROP PROCEDURE TMP_LOST_CHECK;");
-          q.exec("COMMIT WORK;");
-          emit signalTaskStatus(EXECUTE_SQL,true);
-//          emit finished();
       }
-    emit finished();
+      q->exec("EXECUTE PROCEDURE TMP_LOST_CHECK;");
+      q->exec("DROP PROCEDURE TMP_LOST_CHECK;");
+      q->exec("COMMIT WORK;");
+      emit signalTaskStatus(EXECUTE_SQL,true);
+      emit finished();
+
 }
 

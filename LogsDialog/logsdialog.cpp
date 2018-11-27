@@ -16,10 +16,9 @@ LogsDialog::LogsDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     createUI();
-//#if defined(Q_OS_LINUX)
-//    ui->sqlEdit->setFont(QFont("Source Code Pro"));
-//#endif
-    ui->sqlEdit->setFont(QFont("Courier"));
+#if defined(Q_OS_LINUX)
+    ui->sqlEdit->setFont(QFont("Source Code Pro"));
+#endif
 }
 
 LogsDialog::~LogsDialog()

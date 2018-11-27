@@ -33,7 +33,10 @@
       <property name="childrenCollapsible">
        <bool>true</bool>
       </property>
-      <widget class="QWidget" name="verticalWidget" native="true">
+      <widget class="QFrame" name="verticalFrame">
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
        <layout class="QVBoxLayout" name="verticalLayout"/>
       </widget>
       <widget class="QGroupBox" name="groupBox">
@@ -93,7 +96,7 @@
      <x>0</x>
      <y>0</y>
      <width>1024</width>
-     <height>21</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">

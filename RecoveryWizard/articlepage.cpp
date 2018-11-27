@@ -18,7 +18,6 @@ ArticlePage::ArticlePage(QWidget *parent) :
 {
     ui->setupUi(this);
     createUI();
-    ui->frameProgress->hide();
 
 }
 
@@ -31,7 +30,6 @@ ArticlePage::~ArticlePage()
 void ArticlePage::initializePage()
 {
 //    emit signalCheckArticles();
-
 
     //Создаем объект класса и передаем ему параметры
     ListArticles *lsArticles = new ListArticles(recrodConn, field("terminalID").toInt(),field("shiftID").toInt());
@@ -61,11 +59,6 @@ void ArticlePage::initializePage()
 
     //Запускаем поток
     thread->start();
-    if(field("checkArticles").toBool()) {
-//        ui->groupBoxPaytype->show();
-        this->registerField("paytypeArtileID*", ui->comboBoxPaytype, "currentIndex", SIGNAL(activated(int)));
-        createModelPaytypes();
-    }
 }
 
 void ArticlePage::slotGetArticlesList(QVector<Articles> ls)
@@ -77,12 +70,11 @@ void ArticlePage::slotGetArticlesList(QVector<Articles> ls)
 void ArticlePage::slotStartArticlesList()
 {
     qInfo(logInfo()) << "Начали получать список товаров" << QTime::currentTime().toString("hh:mm:ss.zzz");
-    ui->frameProgress->show();
+
 }
 
 void ArticlePage::slotFinishArticlesList()
 {
-
     //на основании полученного вектора с данными создаем модель данных типа VectorModel и выводим ее в QTableView
 
     qInfo(logInfo()) << "Закончили получать список товаров" << QTime::currentTime().toString("hh:mm:ss.zzz");
@@ -100,9 +92,11 @@ void ArticlePage::slotFinishArticlesList()
     //Минимальная высота строк в QTableView
     ui->tableView->verticalHeader()->setDefaultSectionSize(ui->tableView->verticalHeader()->minimumSectionSize());
 
-    if(field("checkArticles").toBool())
+    if(field("checkArticles").toBool()) {
         ui->groupBoxPaytype->show();
-
+        this->registerField("paytypeArtileID*", ui->comboBoxPaytype, "currentIndex", SIGNAL(activated(int)));
+        createModelPaytypes();
+    }
     emit sendInfo("","Товары",true);
 }
 

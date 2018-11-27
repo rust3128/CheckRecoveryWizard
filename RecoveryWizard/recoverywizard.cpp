@@ -452,17 +452,17 @@ void RecoveryWizard::slotExecuteSql()
 
 
     lsExec->moveToThread(thread);
-    connect(thread,&QThread::started,lsExec,&LostCheckExecute::slotScriptExecute,Qt::DirectConnection);
-    connect(thread,&QThread::started,this,&RecoveryWizard::slotStartExecute,Qt::DirectConnection);
+    connect(thread,&QThread::started,lsExec,&LostCheckExecute::slotScriptExecute);
+    connect(thread,&QThread::started,this,&RecoveryWizard::slotStartExecute);
 
-    connect(lsExec,&LostCheckExecute::signalCurrentTask,progExecDlg,&ProgressExecuteDialog::setCurrentStatus,Qt::QueuedConnection);
-    connect(lsExec,&LostCheckExecute::signalTaskStatus,progExecDlg,&ProgressExecuteDialog::setResultStatus,Qt::QueuedConnection);
+    connect(lsExec,&LostCheckExecute::signalCurrentTask,progExecDlg,&ProgressExecuteDialog::setCurrentStatus);
+    connect(lsExec,&LostCheckExecute::signalTaskStatus,progExecDlg,&ProgressExecuteDialog::setResultStatus);
 
 
     connect(lsExec,&LostCheckExecute::finished,this,&RecoveryWizard::slotFinisExecute,Qt::DirectConnection);
-    connect(lsExec,&LostCheckExecute::finished,thread,&QThread::quit,Qt::DirectConnection);
-    connect(lsExec,&LostCheckExecute::finished,lsExec,&LostCheckExecute::deleteLater,Qt::DirectConnection);
-    connect(thread,&QThread::finished,thread,&QThread::deleteLater,Qt::DirectConnection);
+    connect(lsExec,&LostCheckExecute::finished,thread,&QThread::quit);
+    connect(lsExec,&LostCheckExecute::finished,lsExec,&LostCheckExecute::deleteLater);
+    connect(thread,&QThread::finished,thread,&QThread::deleteLater);
 
     thread->start();
 

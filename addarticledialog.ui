@@ -55,14 +55,8 @@
        <property name="wrapping">
         <bool>false</bool>
        </property>
-       <property name="frame">
-        <bool>true</bool>
-       </property>
        <property name="buttonSymbols">
-        <enum>QAbstractSpinBox::UpDownArrows</enum>
-       </property>
-       <property name="accelerated">
-        <bool>true</bool>
+        <enum>QAbstractSpinBox::PlusMinus</enum>
        </property>
        <property name="maximum">
         <double>99999.990000000005239</double>
