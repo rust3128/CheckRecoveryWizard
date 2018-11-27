@@ -27,7 +27,7 @@ TerminalsPage::~TerminalsPage()
 void TerminalsPage::initializePage()
 {
 
-    qInfo(logInfo()) << "Инициализация страницы";
+
     ui->labelTerminalName->clear();
     ui->labelOnlineStatus->clear();
     createModelTerminals();
@@ -64,7 +64,7 @@ bool TerminalsPage::validatePage()
 
 void TerminalsPage::createModelTerminals()
 {
-    qInfo(logInfo()) << "Создаем содель терминалов.";
+
 
     QSqlDatabase dbcenter = QSqlDatabase::database("central");
     modelTerminals = new QSqlQueryModel();
@@ -73,10 +73,6 @@ void TerminalsPage::createModelTerminals()
                              "WHERE t.TERMINALTYPE=3 and t.ISACTIVE='T' and c.CONNECT_ID=2 "
                              "ORDER BY t.TERMINAL_ID",dbcenter);
 }
-
-
-
-
 
 
 void TerminalsPage::on_lineEditTerminal_textChanged(const QString &term)
