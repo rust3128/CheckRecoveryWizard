@@ -87,6 +87,7 @@ void ArticlePage::slotFinishArticlesList()
 
     ui->tableView->setModel(modelArticles);
     ui->tableView->verticalHeader()->hide();
+    ui->tableView->hideColumn(2);
     ui->tableView->setAlternatingRowColors(true);
     ui->tableView->resizeColumnsToContents();
     //Минимальная высота строк в QTableView

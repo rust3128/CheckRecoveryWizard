@@ -10,6 +10,7 @@
 #include <QSqlRecord>
 
 
+
 class ListArticles : public QObject
 {
     Q_OBJECT
@@ -31,6 +32,7 @@ private:
     int m_shiftID;                  //Номер смены, параметр для запроса
     QVector<Articles> goods;        //Вектор в котором будем хранить результаты запроса и передадим в основной поток
     QSqlRecord connRec;             //Запись выбранная из другой модели содержащщая параметры подключения к базе данных
+
 
 };
 

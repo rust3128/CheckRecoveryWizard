@@ -41,6 +41,11 @@ void ListArticles::createListGoods()
     //Формируем строку с запросом.
     //Такого типа запросы предпочитаю создавать ввиде строки и тестировать их в непосредственно в менеджере базы данных
 
+//    QString strSQL = QString("select a.GARTICLE_ID, ga.SHORTNAME, 0 as AMOUNT, a.PRICE from GARTICLES ga "
+//                             "INNER JOIN ARTICLES a ON a.GARTICLE_ID=ga.GARTICLE_ID "
+//                             "where a.TERMINAL_ID = %1")
+//            .arg(m_terminalID);
+
     QString strSQL = QString("SELECT A.GARTICLE_ID, GA.SHORTNAME, SL.AMOUNT, "
                                  "(SELECT FIRST 1 NEWPRICE FROM HISTORY_PRICES HP "
                                   "WHERE HP.TERMINAL_ID = SL.TERMINAL_ID "
@@ -62,12 +67,13 @@ void ListArticles::createListGoods()
     }
     //Цикл получения записей, и добавления их в вектор
     while (q.next()){
-        ar.setID(q.value("GARTICLE_ID").toInt());
-        ar.setShortName(q.value("SHORTNAME").toString().trimmed());
-        ar.setAmount(q.value("AMOUNT").toFloat());
-        ar.setPrice(q.value("PRICE").toFloat());
-        goods.append(ar);
+        ar.setID(q.value(0).toInt());
+        ar.setShortName(q.value(1).toString().trimmed());
+        ar.setAmount(q.value(2).toFloat());
+        ar.setPrice(q.value(3).toFloat());
+        goods << ar;
     }
+
     //Передаем результат в основной поток
     emit signalSendArticlesList(goods);
     //Поток закончил работу
