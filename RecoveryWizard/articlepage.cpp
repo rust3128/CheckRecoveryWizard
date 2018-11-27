@@ -33,7 +33,6 @@ void ArticlePage::initializePage()
 
 
     if(field("checkArticles").toBool()) {
-        ui->groupBoxPaytype->show();
        this->registerField("paytypeArtileID*", ui->comboBoxPaytype, "currentIndex", SIGNAL(activated(int)));
         createModelPaytypes();
     }
@@ -100,6 +99,9 @@ void ArticlePage::slotFinishArticlesList()
     //Минимальная высота строк в QTableView
     ui->tableView->verticalHeader()->setDefaultSectionSize(ui->tableView->verticalHeader()->minimumSectionSize());
 
+    if(field("checkArticles").toBool()) {
+        ui->groupBoxPaytype->show();
+    }
     emit sendInfo("","Товары",true);
 }
 
@@ -150,6 +152,7 @@ bool ArticlePage::validatePage()
 void ArticlePage::createUI()
 {
     ui->labelError->clear();
+
     ui->groupBoxPaytype->hide();
 
     ui->labelSumm->setText(QString("<table width=100% border=1 cellpadding=4>"
