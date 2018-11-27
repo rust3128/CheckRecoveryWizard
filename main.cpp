@@ -26,15 +26,19 @@ int main(int argc, char *argv[])
     // Устанавливаем обработчик
     qInstallMessageHandler(messageHandler);
 
-#ifndef QT_NO_TRANSLATION
-    QString translatorFileName = QLatin1String("qt_");
-    translatorFileName += QLocale::system().name();
-    QTranslator *translator = new QTranslator(&a);
-    if (translator->load(translatorFileName, QLibraryInfo::location(QLibraryInfo::TranslationsPath)))
-        a.installTranslator(translator);
-    else
-        qWarning(logWarning()) << "Не удалось загрузить языковый файл.";
-#endif
+    QTranslator *qt_translator = new QTranslator();
+    if(qt_translator->load(":/translate/qtbase_ru.qm"))
+        a.installTranslator(qt_translator);
+
+//#ifndef QT_NO_TRANSLATION
+//    QString translatorFileName = QLatin1String("qt_");
+//    translatorFileName += QLocale::system().name();
+//    QTranslator *translator = new QTranslator(&a);
+//    if (translator->load(translatorFileName, QLibraryInfo::location(QLibraryInfo::TranslationsPath)))
+//        a.installTranslator(translator);
+//    else
+//        qWarning(logWarning()) << "Не удалось загрузить языковый файл.";
+//#endif
 
 
     if(!connectOptions()){

@@ -15,5 +15,6 @@
         <file>Icons/wizlogo.jpg</file>
         <file>Icons/if_editpaste_699.png</file>
         <file>Icons/if_filesave_18652.png</file>
+        <file>translate/qtbase_ru.qm</file>
     </qresource>
 </RCC>
